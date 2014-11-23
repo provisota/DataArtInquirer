@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:security="http://www.springframework.org/schema/security"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                        http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+                        http://www.springframework.org/schema/security
+                        http://www.springframework.org/schema/security/spring-security-3.2.xsd
+                        http://www.springframework.org/schema/context
+                        http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <bean id="customAuthListener"
+          class="com.dataart.inquirer.server.auth.CustomAuthListener"/>
+
+    <context:component-scan base-package="com.dataart.inquirer.server.services"/>
+
+    <security:http auto-config="true" use-expressions="false">
+        <!--For run app in GWT devmode uncomment next line and comment ALL other 'intercept-url' tags-->
+        <security:intercept-url pattern="/**" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
+        <!--<security:intercept-url pattern="/login.jsp*" access="IS_AUTHENTICATED_ANONYMOUSLY"/>-->
+        <!--<security:intercept-url pattern="/dataartinquirer/**" access="ROLE_USER"/>-->
+        <!--<security:intercept-url pattern="/DataArtInquirer.html" access="ROLE_USER"/>-->
+        <!--<security:intercept-url pattern="/**" access="ROLE_USER"/>-->
+        <security:form-login login-processing-url="/static/j_spring_security_check"
+                    login-page="/login.jsp"
+                    authentication-failure-url="/login.jsp?login_error=t"/>
+        <security:logout logout-success-url="/login.jsp"/>
+    </security:http>
+
+    <security:global-method-security secured-annotations="enabled" />
+
+    <bean id="customAuthenticationProvider"
+          class="com.dataart.inquirer.server.auth.CustomAuthenticationProvider"/>
+
+    <security:authentication-manager alias="authenticationManager">
+        <security:authentication-provider ref="customAuthenticationProvider"/>
+    </security:authentication-manager>
+
+</beans>
