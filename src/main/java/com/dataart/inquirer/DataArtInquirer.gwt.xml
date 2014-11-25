@@ -15,6 +15,9 @@
     <inherits name="org.gwtbootstrap3.GwtBootstrap3"/>
     <inherits name="com.github.gwtbootstrap.Bootstrap"/>
 
+    <!-- Super Dev Mode Config: -->
+    <add-linker name="xsiframe" />
+
     <public path="resources">
         <include name='css/*.css'/>
     </public>

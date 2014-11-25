@@ -17,12 +17,13 @@
     <context:component-scan base-package="com.dataart.inquirer.server.services"/>
 
     <security:http auto-config="true" use-expressions="false">
-        <!--For run app in GWT devmode uncomment next line and comment ALL other 'intercept-url' tags-->
-        <!--<security:intercept-url pattern="/**" access="IS_AUTHENTICATED_ANONYMOUSLY"/>-->
-        <security:intercept-url pattern="/login.jsp*" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
-        <security:intercept-url pattern="/dataartinquirer/**" access="ROLE_USER"/>
-        <security:intercept-url pattern="/DataArtInquirer.html" access="ROLE_USER"/>
-        <security:intercept-url pattern="/**" access="ROLE_USER"/>
+        <!--WARNING!!! For run app in GWT DevMode or GWT SuperDevMode uncomment
+        next line and comment ALL other 'intercept-url' tags-->
+        <security:intercept-url pattern="/**" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
+        <!--<security:intercept-url pattern="/login.jsp*" access="IS_AUTHENTICATED_ANONYMOUSLY"/>-->
+        <!--<security:intercept-url pattern="/dataartinquirer/**" access="ROLE_USER"/>-->
+        <!--<security:intercept-url pattern="/DataArtInquirer.html" access="ROLE_USER"/>-->
+        <!--<security:intercept-url pattern="/**" access="ROLE_USER"/>-->
         <security:form-login login-processing-url="/static/j_spring_security_check"
                     login-page="/login.jsp"
                     authentication-failure-url="/login.jsp?login_error=t"/>

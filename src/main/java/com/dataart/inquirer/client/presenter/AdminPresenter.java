@@ -6,13 +6,26 @@ import com.google.gwt.user.client.ui.Widget;
 /**
  * @author Alterovych Ilya
  */
-public class AdminPresenter {
-    private final AdminView view = AdminView.getInstance(this);
+public class AdminPresenter implements IPresenter {
+    private AdminView view;
 
     public AdminPresenter() {
     }
 
+    @Override
     public Widget getView() {
         return view.asWidget();
+    }
+
+    @Override
+    public void initUpdateView() {
+        if (view == null) {
+            //create and init view
+            view = new AdminView(this);
+            view.init();
+        } else {
+            //update view
+            view.refresh();
+        }
     }
 }

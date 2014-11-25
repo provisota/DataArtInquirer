@@ -3,42 +3,31 @@ package com.dataart.inquirer.client.view;
 import com.dataart.inquirer.client.presenter.StatisticPresenter;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
+import com.google.gwt.uibinder.client.UiConstructor;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 /**
  * @author Alterovych Ilya
  */
-public class StatisticView extends Composite {
+public class StatisticView extends Composite implements IView{
 
-    interface StatisticViewUiBinder extends UiBinder<VerticalPanel, StatisticView> {}
-    private static StatisticViewUiBinder ourUiBinder = GWT.create(StatisticViewUiBinder.class);
+    interface statisticViewUiBinder extends UiBinder<VerticalPanel, StatisticView> {}
+    private static statisticViewUiBinder ourUiBinder = GWT.create(statisticViewUiBinder.class);
+    private final StatisticPresenter presenter;
 
-    private static StatisticView instance = new StatisticView();
-    private StatisticPresenter presenter;
+    @UiConstructor
+    public StatisticView(StatisticPresenter presenter) {
+        this.presenter = presenter;
+    }
 
-    private StatisticView() {
+    @Override
+    public void init() {
         initWidget(ourUiBinder.createAndBindUi(this));
     }
 
-    public static StatisticView getInstance(StatisticPresenter presenter) {
-        if (presenter == null) {
-            throw new RuntimeException("StatisticView initialization failed: presenter is null");
-        }
-        if (instance.getPresenter() == null) {
-            instance.setPresenter(presenter);
-            return instance;
-        } else {
-            instance.setPresenter(presenter);
-            return instance;
-        }
-    }
+    @Override
+    public void refresh() {
 
-    public StatisticPresenter getPresenter() {
-        return presenter;
-    }
-
-    public void setPresenter(StatisticPresenter presenter) {
-        this.presenter = presenter;
     }
 }

@@ -2,45 +2,35 @@ package com.dataart.inquirer.client.presenter;
 
 import com.dataart.inquirer.client.view.WidgetHolder;
 
+import java.util.Map;
+
 /**
  * @author Alterovych Ilya
  */
 public class WidgetHolderPresenter {
-    private final LoginPresenter loginPresenter;
-    private final UserPresenter userPresenter;
-    private final AdminPresenter adminPresenter;
-    private final StatisticPresenter statisticPresenter;
-
     private WidgetHolder holder;
+    private Map<Class<? extends IPresenter>, IPresenter> presenterMap;
 
-    public WidgetHolderPresenter(LoginPresenter loginPresenter,
-                                 UserPresenter userPresenter,
-                                 AdminPresenter adminPresenter,
-                                 StatisticPresenter statisticPresenter) {
-        this.loginPresenter = loginPresenter;
-        this.userPresenter = userPresenter;
-        this.adminPresenter = adminPresenter;
-        this.statisticPresenter = statisticPresenter;
+    public WidgetHolderPresenter(Map<Class<? extends IPresenter>, IPresenter> presenterMap) {
+        this.presenterMap = presenterMap;
     }
 
     public void loadProject() {
-        holder = new WidgetHolder(this);
-        holder.onFirstLoad();
+        if (holder == null) {
+            initViews();
+
+            holder = new WidgetHolder(this);
+            holder.onFirstLoad();
+        }
     }
 
-    public LoginPresenter getLoginPresenter() {
-        return loginPresenter;
+    private void initViews() {
+        for (Class<? extends IPresenter> presenterClass : presenterMap.keySet()){
+            presenterMap.get(presenterClass).initUpdateView();
+        }
     }
 
-    public UserPresenter getUserPresenter() {
-        return userPresenter;
-    }
-
-    public AdminPresenter getAdminPresenter() {
-        return adminPresenter;
-    }
-
-    public StatisticPresenter getStatisticPresenter() {
-        return statisticPresenter;
+    public Map<Class<? extends IPresenter>, IPresenter> getPresenterMap() {
+        return presenterMap;
     }
 }

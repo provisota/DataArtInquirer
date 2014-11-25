@@ -5,18 +5,19 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Window;
 import org.gwtbootstrap3.client.ui.Button;
+import org.gwtbootstrap3.client.ui.Tooltip;
 import org.gwtbootstrap3.client.ui.constants.ButtonType;
 import com.google.gwt.user.client.ui.*;
+import org.gwtbootstrap3.client.ui.constants.Placement;
+
+import java.util.Map;
 
 /**
  * @author Alterovych Ilya
  */
 public class WidgetHolder extends DockPanel {
 
-    private LoginPresenter loginPresenter;
-    private UserPresenter userPresenter;
-    private AdminPresenter adminPresenter;
-    private StatisticPresenter statisticPresenter;
+    private Map<Class<? extends IPresenter>, IPresenter> presenterMap;
 
     private Button userButton;
     private Button adminButton;
@@ -28,16 +29,13 @@ public class WidgetHolder extends DockPanel {
     private VerticalPanel centerHolder = new VerticalPanel();
 
     public WidgetHolder(WidgetHolderPresenter widgetHolderPresenter) {
-        loginPresenter = widgetHolderPresenter.getLoginPresenter();
-        userPresenter = widgetHolderPresenter.getUserPresenter();
-        adminPresenter = widgetHolderPresenter.getAdminPresenter();
-        statisticPresenter = widgetHolderPresenter.getStatisticPresenter();
+        this.presenterMap = widgetHolderPresenter.getPresenterMap();
 
         HorizontalPanel horizontalPanel = new HorizontalPanel();
         horizontalPanel.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
         horizontalPanel.setHeight("100%");
         horizontalPanel.add(initMenuBar());
-        horizontalPanel.add(initCenterHolder(loginPresenter.getView()));
+        horizontalPanel.add(initCenterHolder(presenterMap.get(StartPagePresenter.class).getView()));
         RootPanel.get().add(this);
         setSize("100%", "100%");
         add(new HTML("<p></p>"), DockPanel.NORTH);
@@ -48,7 +46,7 @@ public class WidgetHolder extends DockPanel {
     }
 
     public void onFirstLoad() {
-        initCenterHolder(loginPresenter.getView());
+        initCenterHolder(presenterMap.get(StartPagePresenter.class).getView());
     }
 
     private Widget initMenuBar() {
@@ -59,6 +57,7 @@ public class WidgetHolder extends DockPanel {
         userButton = new Button("Заполнить опросник");
         userButton.setType(ButtonType.PRIMARY);
         userButton.setWidth("180px");
+
 
         adminButton = new Button("Добавить опросник");
         adminButton.setType(ButtonType.PRIMARY);
@@ -72,6 +71,8 @@ public class WidgetHolder extends DockPanel {
         logoutButton.setType(ButtonType.PRIMARY);
         logoutButton.setWidth("180px");
 
+        addTooltips();
+
         mainButtonsPanel.add(new HTML("<p></p>"));
         mainButtonsPanel.add(userButton);
         mainButtonsPanel.add(new HTML("<p></p>"));
@@ -84,29 +85,41 @@ public class WidgetHolder extends DockPanel {
         return mainButtonsPanel;
     }
 
+    private void addTooltips() {
+        Tooltip adminTooltip = new Tooltip();
+        adminTooltip.setText("только для админов");
+        adminTooltip.setPlacement(Placement.RIGHT);
+        adminTooltip.add(adminButton);
+
+        Tooltip logoutTooltip = new Tooltip();
+        logoutTooltip.setText("завершить сеанс");
+        logoutTooltip.setPlacement(Placement.BOTTOM);
+        logoutTooltip.add(logoutButton);
+    }
+
     private void setUpHandlers() {
         userButton.addClickHandler(new ClickHandler() {
             @Override
             public void onClick(ClickEvent event) {
-                initCenterHolder(userPresenter.getView());
+                initCenterHolder(presenterMap.get(UserPresenter.class).getView());
             }
         });
         adminButton.addClickHandler(new ClickHandler() {
             @Override
             public void onClick(ClickEvent event) {
-                initCenterHolder(adminPresenter.getView());
+                initCenterHolder(presenterMap.get(AdminPresenter.class).getView());
             }
         });
         statisticButton.addClickHandler(new ClickHandler() {
             @Override
             public void onClick(ClickEvent event) {
-                initCenterHolder(statisticPresenter.getView());
+                initCenterHolder(presenterMap.get(StatisticPresenter.class).getView());
             }
         });
         logoutButton.addClickHandler(new ClickHandler() {
             @Override
             public void onClick(ClickEvent event) {
-                Window.Location.assign("../j_spring_security_logout");
+                Window.Location.assign("j_spring_security_logout");
             }
         });
     }

@@ -30,8 +30,6 @@
 
     </ui:style>
 
-    <!--<security:authentication property="principal.username" var="loginId"/>-->
-
     <b:Form height="54" type="HORIZONTAL" width="800px">
         <b:Fieldset styleName="{style.field-set-style}" ui:field="controlFieldSet">
             <b:Legend>Enter Login and Password</b:Legend>

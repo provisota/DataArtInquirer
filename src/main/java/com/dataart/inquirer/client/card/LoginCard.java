@@ -1,8 +1,6 @@
 package com.dataart.inquirer.client.card;
 
-import com.dataart.inquirer.client.presenter.LoginPresenter;
-import com.dataart.inquirer.client.services.AuthService;
-import com.dataart.inquirer.client.services.AuthServiceAsync;
+import com.dataart.inquirer.client.presenter.StartPagePresenter;
 import com.dataart.inquirer.shared.utils.RegExpPatterns;
 import com.github.gwtbootstrap.client.ui.*;
 import com.github.gwtbootstrap.client.ui.constants.ControlGroupType;
@@ -12,7 +10,6 @@ import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Composite;
 
 @SuppressWarnings("all")
@@ -20,29 +17,15 @@ public class LoginCard extends Composite {
 
     protected interface LoginCardUiBinder extends UiBinder<Form, LoginCard> {}
     private static LoginCardUiBinder ourUiBinder = GWT.create(LoginCardUiBinder.class);
-    private static AuthServiceAsync authServiceAsync = GWT.create(AuthService.class);
 
     private static LoginCard instance = new LoginCard();
-    private LoginPresenter presenter;
+    private StartPagePresenter presenter;
 
     private LoginCard() {
         initWidget(ourUiBinder.createAndBindUi(this));
-        initService();
     }
 
-    private void initService() {
-        authServiceAsync.retrieveUsername( new AsyncCallback<String>() {
-            public void onFailure(Throwable caught) {
-                username.setText("Remote Procedure Call - Failure");
-            }
-
-            public void onSuccess(String result) {
-                username.setText("Hello " + result + "! ;)");
-            }
-        });
-    }
-
-    public static LoginCard getInstance(LoginPresenter presenter) {
+    public static LoginCard getInstance(StartPagePresenter presenter) {
         if (presenter == null) {
             throw new RuntimeException("LoginCard initialization failed: presenter is null");
         }
@@ -78,13 +61,12 @@ public class LoginCard extends Composite {
 
     @UiHandler("logoutButton")
     public void onLogoutClicked(ClickEvent event) {
-        Window.Location.assign("../j_spring_security_logout");
+        Window.Location.assign("j_spring_security_logout");
     }
 
     @UiHandler("username")
     public void onUsernameFocused(FocusEvent event) {
         usernameGroup.setType(ControlGroupType.NONE);
-//        username.setText("Hello " + (String) authentication.getPrincipal() + " ! ;)");
     }
 
     @UiHandler("username")
@@ -118,24 +100,19 @@ public class LoginCard extends Composite {
         passwordGroup.setType(ControlGroupType.ERROR);
     }
 
-    public LoginPresenter getPresenter() {
+    public StartPagePresenter getPresenter() {
         return presenter;
     }
 
-    public void setPresenter(LoginPresenter presenter) {
+    public void setPresenter(StartPagePresenter presenter) {
         this.presenter = presenter;
-//        presenter.getAuthServiceAsync().retrieveUsername( new AsyncCallback<String>() {
-//            public void onFailure(Throwable caught) {
-//                username.setText("Remote Procedure Call - Failure");
-//            }
-//
-//            public void onSuccess(String result) {
-//                username.setText(result);
-//            }
-//        });
     }
 
     public void clearState() {
         //nothing to do, couse login page don't have widgets state after submit;
+    }
+
+    public void setUsernameTextBoxValue(String username) {
+        this.username.setText(username);
     }
 }

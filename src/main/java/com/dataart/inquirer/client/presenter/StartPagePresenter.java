@@ -1,16 +1,14 @@
 package com.dataart.inquirer.client.presenter;
 
-import com.dataart.inquirer.client.card.LoginCard;
 import com.dataart.inquirer.client.services.AuthServiceAsync;
+import com.dataart.inquirer.client.view.StartPageView;
 import com.google.gwt.user.client.ui.Widget;
 
-public class LoginPresenter {
-
-    private final LoginCard view = LoginCard.getInstance(this);
+public class StartPagePresenter implements IPresenter {
+    private StartPageView view;
     private final AuthServiceAsync authServiceAsync;
-//    private final ISecurityProvider securityProvider = new StubSecurityProvider();
 
-    public LoginPresenter(AuthServiceAsync authServiceAsync) {
+    public StartPagePresenter(AuthServiceAsync authServiceAsync) {
         this.authServiceAsync = authServiceAsync;
     }
 
@@ -22,8 +20,21 @@ public class LoginPresenter {
         //TODO обработка результатов ввода (логина и пароля)
     }
 
+    @Override
     public Widget getView() {
         return view.asWidget();
+    }
+
+    @Override
+    public void initUpdateView() {
+        if (view == null) {
+            //create and init view
+            view = new StartPageView(this);
+            view.init();
+        } else {
+            //update view
+            view.refresh();
+        }
     }
 
     public AuthServiceAsync getAuthServiceAsync() {
