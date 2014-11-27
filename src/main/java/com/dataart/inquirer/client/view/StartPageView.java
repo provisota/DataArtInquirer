@@ -47,6 +47,18 @@ public class StartPageView extends Composite implements IView{
                 loginCard.setUsernameTextBoxValue(result);
             }
         });
+
+        presenter.getAuthServiceAsync().retrieveRequestHeader("User-Agent", new AsyncCallback<String>() {
+            @Override
+            public void onFailure(Throwable throwable) {
+                userName.setText(userName.getText() + "Remote Procedure Call - Failure");
+            }
+
+            @Override
+            public void onSuccess(String result) {
+                userName.setText(userName.getText() + "\nlooks like you are using " + result);
+            }
+        });
     }
 
     @Override

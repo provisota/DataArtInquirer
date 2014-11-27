@@ -6,7 +6,7 @@ import com.google.gwt.user.client.ui.Widget;
 /**
  * @author Alterovych Ilya
  */
-public class AdminPresenter implements IPresenter {
+public final class AdminPresenter implements IPresenter {
     private AdminView view;
 
     public AdminPresenter() {

@@ -6,7 +6,7 @@ import com.google.gwt.user.client.ui.Widget;
 /**
  * @author Alterovych Ilya
  */
-public class StatisticPresenter implements IPresenter {
+public final class StatisticPresenter implements IPresenter {
     private StatisticView view;
 
     public StatisticPresenter() {

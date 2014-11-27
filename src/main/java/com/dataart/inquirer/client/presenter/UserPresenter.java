@@ -6,7 +6,7 @@ import com.google.gwt.user.client.ui.Widget;
 /**
  * @author Alterovych Ilya
  */
-public class UserPresenter implements IPresenter {
+public final class UserPresenter implements IPresenter {
     private UserView view;
 
     public UserPresenter() {

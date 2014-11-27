@@ -12,7 +12,7 @@
     </ui:style>
     <g:VerticalPanel>
         <b:HTMLPanel styleName="{style.main-panel}">
-            <p><g:Label ui:field="userName"/></p>
+            <pre><g:Label ui:field="userName"/></pre>
             <my:LoginCard ui:field="loginCard"/>
         </b:HTMLPanel>
     </g:VerticalPanel>

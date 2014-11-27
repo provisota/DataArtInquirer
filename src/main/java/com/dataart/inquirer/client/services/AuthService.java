@@ -9,4 +9,5 @@ import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 @RemoteServiceRelativePath("springGwtServices/auth")
 public interface AuthService extends RemoteService {
 	String retrieveUsername();
+	String retrieveRequestHeader(String headerName);
 }

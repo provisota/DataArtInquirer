@@ -4,7 +4,7 @@ import com.dataart.inquirer.client.services.AuthServiceAsync;
 import com.dataart.inquirer.client.view.StartPageView;
 import com.google.gwt.user.client.ui.Widget;
 
-public class StartPagePresenter implements IPresenter {
+public final class StartPagePresenter implements IPresenter {
     private StartPageView view;
     private final AuthServiceAsync authServiceAsync;
 

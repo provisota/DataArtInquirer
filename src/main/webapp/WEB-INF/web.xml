@@ -20,6 +20,15 @@
       <url-pattern>/*</url-pattern>
     </filter-mapping>
 
+    <filter>
+        <filter-name>springRequestFilter</filter-name>
+        <filter-class>org.springframework.web.filter.RequestContextFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>springRequestFilter</filter-name>
+        <url-pattern>/dataartinquirer/springGwtServices/*</url-pattern>
+    </filter-mapping>
+
     <listener>
         <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
     </listener>

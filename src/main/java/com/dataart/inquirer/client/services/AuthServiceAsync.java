@@ -7,4 +7,5 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
  */
 public interface AuthServiceAsync {
 	void retrieveUsername(AsyncCallback<String> callback);
+	void retrieveRequestHeader(String headerName, AsyncCallback<String> async);
 }
