@@ -4,10 +4,10 @@ import com.dataart.inquirer.client.presenter.*;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.ui.*;
 import org.gwtbootstrap3.client.ui.Button;
 import org.gwtbootstrap3.client.ui.Tooltip;
 import org.gwtbootstrap3.client.ui.constants.ButtonType;
-import com.google.gwt.user.client.ui.*;
 import org.gwtbootstrap3.client.ui.constants.Placement;
 
 import java.util.Map;

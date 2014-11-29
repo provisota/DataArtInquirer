@@ -23,6 +23,8 @@ public class StartPageView extends Composite implements IView{
     Label userName;
     @UiField
     LoginCard loginCard;
+    @UiField
+    Label userAgent;
 
     @UiConstructor
     public StartPageView(StartPagePresenter presenter) {
@@ -37,11 +39,12 @@ public class StartPageView extends Composite implements IView{
 
     private void setUpService() {
         presenter.getAuthServiceAsync().retrieveUsername(new AsyncCallback<String>() {
+            @Override
             public void onFailure(Throwable caught) {
                 userName.setText("Remote Procedure Call - Failure");
                 loginCard.setUsernameTextBoxValue("Remote Procedure Call - Failure");
             }
-
+            @Override
             public void onSuccess(String result) {
                 userName.setText("Hello " + result + "! ;)");
                 loginCard.setUsernameTextBoxValue(result);
@@ -51,12 +54,11 @@ public class StartPageView extends Composite implements IView{
         presenter.getAuthServiceAsync().retrieveRequestHeader("User-Agent", new AsyncCallback<String>() {
             @Override
             public void onFailure(Throwable throwable) {
-                userName.setText(userName.getText() + "Remote Procedure Call - Failure");
+                userAgent.setText("Remote Procedure Call - Failure");
             }
-
             @Override
             public void onSuccess(String result) {
-                userName.setText(userName.getText() + "\nlooks like you are using " + result);
+                userAgent.setText("It looks like you are using " + result);
             }
         });
     }

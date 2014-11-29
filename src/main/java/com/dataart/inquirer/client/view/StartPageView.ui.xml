@@ -9,11 +9,29 @@
             text-align: center !important;
             font-weight: bold;
         }
+
+        .display-none{
+              display: none;
+        }
+
+        p#p1 {
+            font-size: 15px;
+            font-weight: normal;
+            word-break: normal;
+            background-color: #f5f5f5;
+            border: 1px solid #ccc;
+            -webkit-border-radius: 4px;
+            -moz-border-radius: 4px;
+            border-radius: 4px;
+        }
     </ui:style>
     <g:VerticalPanel>
         <b:HTMLPanel styleName="{style.main-panel}">
-            <pre><g:Label ui:field="userName"/></pre>
-            <my:LoginCard ui:field="loginCard"/>
+            <p id="p1">
+                <g:Label ui:field="userName"/>
+                <g:Label ui:field="userAgent"/>
+            </p>
+            <my:LoginCard styleName="{style.display-none}" ui:field="loginCard"/>
         </b:HTMLPanel>
     </g:VerticalPanel>
 </ui:UiBinder>

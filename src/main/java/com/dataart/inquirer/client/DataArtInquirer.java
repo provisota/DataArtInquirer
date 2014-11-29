@@ -1,8 +1,8 @@
 package com.dataart.inquirer.client;
 
 import com.dataart.inquirer.client.presenter.*;
-import com.dataart.inquirer.client.services.AuthService;
-import com.dataart.inquirer.client.services.AuthServiceAsync;
+import com.dataart.inquirer.client.services.AuthoritiesService;
+import com.dataart.inquirer.client.services.AuthoritiesServiceAsync;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
 
@@ -18,7 +18,7 @@ public class DataArtInquirer implements EntryPoint {
      * This is the entry point method.
      */
     public void onModuleLoad() {
-        AuthServiceAsync authServiceAsync = GWT.create(AuthService.class);
+        AuthoritiesServiceAsync authServiceAsync = GWT.create(AuthoritiesService.class);
 
         /*кладём все презентеры в словарь, в котором ключь - класс унаследованный от
         IPresenter, а значение объект соответствующей реализации интерфейса IPresenter
@@ -27,7 +27,7 @@ public class DataArtInquirer implements EntryPoint {
         Map<Class<? extends IPresenter>, IPresenter> presenterMap = new HashMap<>();
         presenterMap.put(StartPagePresenter.class, new StartPagePresenter(authServiceAsync));
         presenterMap.put(UserPresenter.class, new UserPresenter());
-        presenterMap.put(AdminPresenter.class, new AdminPresenter());
+        presenterMap.put(AdminPresenter.class, new AdminPresenter(authServiceAsync));
         presenterMap.put(StatisticPresenter.class, new StatisticPresenter());
 
         WidgetHolderPresenter widgetHolderPresenter =

@@ -3,11 +3,14 @@ package com.dataart.inquirer.client.services;
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 
+import java.util.Set;
+
 /**
- * The client side stub for the RPC service.
+ * @author Alterovych Ilya
  */
 @RemoteServiceRelativePath("springGwtServices/auth")
-public interface AuthService extends RemoteService {
-	String retrieveUsername();
-	String retrieveRequestHeader(String headerName);
+public interface AuthoritiesService extends RemoteService {
+    Set<String> getAuthorities();
+    String retrieveUsername();
+    String retrieveRequestHeader(String headerName);
 }

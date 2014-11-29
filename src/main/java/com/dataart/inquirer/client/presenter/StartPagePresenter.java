@@ -1,14 +1,14 @@
 package com.dataart.inquirer.client.presenter;
 
-import com.dataart.inquirer.client.services.AuthServiceAsync;
+import com.dataart.inquirer.client.services.AuthoritiesServiceAsync;
 import com.dataart.inquirer.client.view.StartPageView;
 import com.google.gwt.user.client.ui.Widget;
 
 public final class StartPagePresenter implements IPresenter {
     private StartPageView view;
-    private final AuthServiceAsync authServiceAsync;
+    private final AuthoritiesServiceAsync authServiceAsync;
 
-    public StartPagePresenter(AuthServiceAsync authServiceAsync) {
+    public StartPagePresenter(AuthoritiesServiceAsync authServiceAsync) {
         this.authServiceAsync = authServiceAsync;
     }
 
@@ -37,7 +37,7 @@ public final class StartPagePresenter implements IPresenter {
         }
     }
 
-    public AuthServiceAsync getAuthServiceAsync() {
+    public AuthoritiesServiceAsync getAuthServiceAsync() {
         return authServiceAsync;
     }
 }
