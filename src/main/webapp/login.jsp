@@ -5,7 +5,7 @@
   Time: 12:36
   To change this template use File | Settings | File Templates.
 --%>
-<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <style>
     form {
         width: 500px;
@@ -16,7 +16,7 @@
     <h2>Sign in to DataArtInquier</h2>
     <p></p>
     <!-- Путь к фильтру аутентификации -->
-    <spring:url var="authUrl" value="/static/j_spring_security_check" />
+    <c:url var="authUrl" value="/static/j_spring_security_check" />
     <form method="post" class="signin" action="${authUrl}">
         <fieldset>
             <table cellspacing="0">

@@ -4,12 +4,18 @@
        xmlns:security="http://www.springframework.org/schema/security"
        xmlns:context="http://www.springframework.org/schema/context"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:jpa="http://www.springframework.org/schema/data/jpa"
+       xmlns:tx="http://www.springframework.org/schema/tx"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
                         http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
                         http://www.springframework.org/schema/security
                         http://www.springframework.org/schema/security/spring-security-3.2.xsd
                         http://www.springframework.org/schema/context
-                        http://www.springframework.org/schema/context/spring-context.xsd">
+                        http://www.springframework.org/schema/context/spring-context.xsd
+                        http://www.springframework.org/schema/data/jpa
+                        http://www.springframework.org/schema/data/jpa/spring-jpa.xsd
+                        http://www.springframework.org/schema/tx
+                        http://www.springframework.org/schema/tx/spring-tx.xsd">
 
     <bean id="customAuthListener"
           class="com.dataart.inquirer.server.auth.CustomAuthListener"/>
@@ -21,17 +27,20 @@
         <!--TODO WARNING!!! For run app in GWT DevMode or GWT SuperDevMode
         uncomment next line and comment ALL other 'intercept-url' tags-->
         <security:intercept-url pattern="/**" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
-        <!--<security:intercept-url pattern="/login.jsp*" access="IS_AUTHENTICATED_ANONYMOUSLY"/>-->
-        <!--<security:intercept-url pattern="/dataartinquirer/**" access="ROLE_USER, ROLE_ADMIN"/>-->
-        <!--<security:intercept-url pattern="/DataArtInquirer.html" access="ROLE_USER, ROLE_ADMIN"/>-->
+        <!--<security:intercept-url pattern="/login.jsp*"-->
+                                <!--access="IS_AUTHENTICATED_ANONYMOUSLY"/>-->
+        <!--<security:intercept-url pattern="/dataartinquirer/**"-->
+                                <!--access="ROLE_USER, ROLE_ADMIN"/>-->
+        <!--<security:intercept-url pattern="/DataArtInquirer.html"-->
+                                <!--access="ROLE_USER, ROLE_ADMIN"/>-->
         <!--<security:intercept-url pattern="/**" access="ROLE_USER, ROLE_ADMIN"/>-->
         <security:form-login login-processing-url="/static/j_spring_security_check"
-                    login-page="/login.jsp"
-                    authentication-failure-url="/login.jsp?login_error=t"/>
+                             login-page="/login.jsp"
+                             authentication-failure-url="/login.jsp?login_error=t"/>
         <security:logout logout-success-url="/login.jsp"/>
     </security:http>
 
-    <security:global-method-security secured-annotations="enabled" />
+    <security:global-method-security secured-annotations="enabled"/>
     <!--<security:global-method-security pre-post-annotations="enabled" />-->
 
     <bean id="customAuthenticationProvider"

@@ -37,12 +37,6 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
 		if (!storedPass.equals(password))
 			throw new BadCredentialsException("Invalid password");
 		String userRole = userRoles.get(username);
-		 /*
-           TODO для тестирования в deploy mode (развертывание на TomCat) следующюю строку заменить на
-		   Authentication customAuthentication = new CustomUserAuthentication(userRole, authentication);
-		   для тестирования в GWTSuperDevMode (и доступа к функциям админа) следующюю строку заменить на
-		   Authentication customAuthentication = new CustomUserAuthentication("ROLE_ADMIN", authentication);
-		 */
 		Authentication customAuthentication = new CustomUserAuthentication(userRole, authentication);
 		customAuthentication.setAuthenticated(true);
 
@@ -51,7 +45,7 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
 	}
 
 	@Override
-	public boolean supports(Class<? extends Object> authentication) {
+	public boolean supports(Class<?> authentication) {
 		return UsernamePasswordAuthenticationToken.class.isAssignableFrom(authentication);
 	}
 

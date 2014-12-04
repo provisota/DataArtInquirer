@@ -15,9 +15,10 @@ public final class StartPagePresenter implements IPresenter {
     public void onInput(String... params) {
         //2 for username and password
         if (params == null || params.length != 2) {
+            //noinspection UnnecessaryReturnStatement
             return;
         }
-        //TODO обработка результатов ввода (логина и пароля)
+        //обработка результатов ввода (логина и пароля)
     }
 
     @Override

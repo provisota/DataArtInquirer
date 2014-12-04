@@ -10,10 +10,21 @@
     <packaging>war</packaging>
 
     <properties>
-        <spring.mvc>4.0.0.RELEASE</spring.mvc>
         <javax.servlet>3.0.1</javax.servlet>
         <jstl.version>1.2</jstl.version>
+
+        <!-- Spring -->
+        <spring.version>4.0.2.RELEASE</spring.version>
+        <spring-data-jpa.version>1.5.1.RELEASE</spring-data-jpa.version>
         <spring.securiry>3.2.0.RELEASE</spring.securiry>
+
+        <!-- Hibernate and MySql -->
+        <mysql-connector.version>5.1.25</mysql-connector.version>
+        <hibernate.version>4.2.6.Final</hibernate.version>
+
+        <!-- Bean validation -->
+        <hibernate-validator.version>5.1.0.Final</hibernate-validator.version>
+
         <!-- GWT dependencies -->
         <gwt.version>2.6.1</gwt.version>
         <gwt-bootstrap3.version>0.6</gwt-bootstrap3.version>
@@ -23,29 +34,44 @@
         <maven-resources-plugin.version>2.6</maven-resources-plugin.version>
         <maven.compiler.source>1.7</maven.compiler.source>
         <maven.compiler.target>1.7</maven.compiler.target>
+
         <!-- Tomcat7 plugin -->
         <tomcat7-maven-plugin.version>2.2</tomcat7-maven-plugin.version>
+
         <!-- Logging -->
         <log4j.version>1.2.17</log4j.version>
     </properties>
 
-    <repositories>
-        <repository>
-            <id>spring4gwt</id>
-            <url>http://gwtrepo.googlecode.com/svn/repo/</url>
-        </repository>
-    </repositories>
-    <dependencies>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-webmvc</artifactId>
-            <version>${spring.mvc}</version>
-        </dependency>
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-framework-bom</artifactId>
+                <version>${spring.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
+    <dependencies>
+        <!-- SPRING -->
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-web</artifactId>
-            <version>${spring.mvc}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context-support</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-orm</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.data</groupId>
+            <artifactId>spring-data-jpa</artifactId>
+            <version>${spring-data-jpa.version}</version>
         </dependency>
 
         <dependency>
@@ -53,6 +79,18 @@
             <artifactId>javax.servlet-api</artifactId>
             <version>${javax.servlet}</version>
             <scope>provided</scope>
+        </dependency>
+
+        <!-- Hibernate -->
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-entitymanager</artifactId>
+            <version>${hibernate.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-validator</artifactId>
+            <version>${hibernate-validator.version}</version>
         </dependency>
 
         <dependency>
@@ -110,12 +148,7 @@
             <artifactId>gwt-bootstrap</artifactId>
             <version>${gwt-bootstrap2.version}</version>
         </dependency>
-        <!-- spring4gwt -->
-        <dependency>
-            <groupId>org.spring4gwt</groupId>
-            <artifactId>spring4gwt</artifactId>
-            <version>0.0.1</version>
-        </dependency>
+        <!-- log4j -->
         <dependency>
             <groupId>log4j</groupId>
             <artifactId>log4j</artifactId>
