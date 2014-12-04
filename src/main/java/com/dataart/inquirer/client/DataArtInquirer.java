@@ -20,7 +20,7 @@ public class DataArtInquirer implements EntryPoint {
     public void onModuleLoad() {
         AuthoritiesServiceAsync authServiceAsync = GWT.create(AuthoritiesService.class);
 
-        /*кладём все презентеры в словарь, в котором ключь - класс унаследованный от
+        /*кладём все презентеры в словарь, в котором ключь - класс реализующий интерфейс
         IPresenter, а значение объект соответствующей реализации интерфейса IPresenter
          */
 
