@@ -36,9 +36,11 @@ public final class AdminPresenter implements IPresenter {
 //                Window.confirm("authoritiesSet: " + result);
             }
         });
-        //TODO для получения доступа к функциям админа в GWTSuperDevMode
-        //раскоментировать следующую строку
-//        authoritiesSet.add("ROLE_ADMIN");
+        /*TODO для получения доступа к функциям админа в GWTSuperDevMode
+        раскоментировать следующую строку, при тестировании в деплой моде на
+        томкате нужно её соответственно закоментить, иначе не будет работать
+        авторизация Spring Security*/
+        authoritiesSet.add("ROLE_ADMIN");
     }
 
     @Override

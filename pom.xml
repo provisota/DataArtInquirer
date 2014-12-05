@@ -19,7 +19,7 @@
         <spring.securiry>3.2.0.RELEASE</spring.securiry>
 
         <!-- Hibernate and MySql -->
-        <mysql-connector.version>5.1.25</mysql-connector.version>
+        <mysql-connector.version>5.1.30</mysql-connector.version>
         <hibernate.version>4.2.6.Final</hibernate.version>
 
         <!-- Bean validation -->
@@ -79,6 +79,13 @@
             <artifactId>javax.servlet-api</artifactId>
             <version>${javax.servlet}</version>
             <scope>provided</scope>
+        </dependency>
+
+        <!-- MySql -->
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>${mysql-connector.version}</version>
         </dependency>
 
         <!-- Hibernate -->

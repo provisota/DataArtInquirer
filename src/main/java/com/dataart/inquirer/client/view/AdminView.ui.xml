@@ -6,12 +6,24 @@
             height: 300px !important;
             width: 800px !important;
             text-align: center !important;
-            font-weight: bold;
+            /*font-weight: bold;*/
+        }
+
+        button {
+            width: 160px;
+            /*margin-right: 4px;*/
         }
     </ui:style>
     <g:VerticalPanel>
         <b:HTMLPanel styleName="{style.main-panel}">
-            <p>Admin view not implemented yet.</p>
+            <!--<p>Admin view not implemented yet.</p>-->
+            <b:FlowPanel>
+                <b:ButtonGroup>
+                    <b:Button ui:field="users" type="PRIMARY">Пользователи</b:Button>
+                    <b:Button ui:field="addInquirer" type="PRIMARY">Добавить опросник
+                    </b:Button>
+                </b:ButtonGroup>
+            </b:FlowPanel>
         </b:HTMLPanel>
     </g:VerticalPanel>
 </ui:UiBinder>
