@@ -1,5 +1,6 @@
 package com.dataart.inquirer.shared.entity;
 
+import com.dataart.inquirer.shared.dto.UserDTO;
 import com.dataart.inquirer.shared.enums.Role;
 
 import javax.persistence.*;
@@ -24,7 +25,7 @@ public class UserEntity implements Serializable{
     @Column(name = "email", nullable = false, unique = true)
     private String email;
 
-    @Column(name = "password", nullable = false, unique = true)
+    @Column(name = "password", nullable = false)
     private String password;
 
     @Column(name = "role", nullable = false)
@@ -39,6 +40,14 @@ public class UserEntity implements Serializable{
         this.email = email;
         this.password = password;
         this.role = role;
+    }
+
+    public UserEntity(UserDTO userDTO) {
+        this.id = userDTO.getId();
+        this.username = userDTO.getUsername();
+        this.email = userDTO.getEmail();
+        this.password = userDTO.getPassword();
+        this.role = userDTO.getRole();
     }
 
     @Override

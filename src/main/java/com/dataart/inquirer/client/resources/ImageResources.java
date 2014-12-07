@@ -17,6 +17,8 @@ public interface ImageResources extends ClientBundle {
 
     @Source("icons/access_denied.jpg")
     ImageResource accessDenied();
+    @Source("icons/no-data.png")
+    ImageResource noData();
 
     public static ImageResources resources = GWT.create(ImageResources.class);
 

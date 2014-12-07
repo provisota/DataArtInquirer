@@ -54,7 +54,7 @@
         <security:authentication-provider ref="customAuthenticationProvider"/>
     </security:authentication-manager>
 
-    <!--Data Base connection configs-->
+    <!-- EntityManagerFactory config -->
     <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
         <property name="dataSource" ref="dataSource" />
         <property name="packagesToScan" value="com.dataart.inquirer.shared.entity" />

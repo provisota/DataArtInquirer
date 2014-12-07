@@ -5,6 +5,13 @@ body {
     padding-top: 10px !important;
 }
 
+.main-panel {
+    height: 300px !important;
+    width: 800px !important;
+    text-align: center !important;
+    /*font-weight: bold;*/
+}
+
 .form-horizontal .controls {
     margin-left: 0px !important
 }

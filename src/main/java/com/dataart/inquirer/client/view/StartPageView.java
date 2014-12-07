@@ -1,12 +1,12 @@
 package com.dataart.inquirer.client.view;
 
+import com.dataart.inquirer.client.callback.CommonAsyncCallback;
 import com.dataart.inquirer.client.card.LoginCard;
 import com.dataart.inquirer.client.presenter.StartPagePresenter;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiConstructor;
 import com.google.gwt.uibinder.client.UiField;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -38,12 +38,7 @@ public class StartPageView extends Composite implements IView{
     }
 
     private void setUpService() {
-        presenter.getAuthServiceAsync().retrieveUsername(new AsyncCallback<String>() {
-            @Override
-            public void onFailure(Throwable caught) {
-                userName.setText("Remote Procedure Call - Failure");
-                loginCard.setUsernameTextBoxValue("Remote Procedure Call - Failure");
-            }
+        presenter.getAuthServiceAsync().retrieveUsername(new CommonAsyncCallback<String>() {
             @Override
             public void onSuccess(String result) {
                 userName.setText("Hello " + result + "! ;)");
@@ -51,11 +46,7 @@ public class StartPageView extends Composite implements IView{
             }
         });
 
-        presenter.getAuthServiceAsync().retrieveRequestHeader("User-Agent", new AsyncCallback<String>() {
-            @Override
-            public void onFailure(Throwable throwable) {
-                userAgent.setText("Remote Procedure Call - Failure");
-            }
+        presenter.getAuthServiceAsync().retrieveRequestHeader("User-Agent", new CommonAsyncCallback<String>() {
             @Override
             public void onSuccess(String result) {
                 userAgent.setText("It looks like you are using " + result);
