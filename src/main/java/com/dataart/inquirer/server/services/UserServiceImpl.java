@@ -61,7 +61,20 @@ public class UserServiceImpl implements UserService {
         return returnedUserDTOs;
     }
 
+    @Override
+    public UserDTO findUserByUsername(String username) {
+        return createDTO(userRepository.findByUsername(username));
+    }
+
+    @Override
+    public UserDTO findUserByEmail(String email) {
+        return createDTO(userRepository.findByEmail(email));
+    }
+
     public UserDTO createDTO(UserEntity userEntity){
+        if (userEntity == null){
+            return null;
+        }
         return new UserDTO(userEntity.getId(), userEntity.getUsername(),
                 userEntity.getEmail(), userEntity.getPassword(), userEntity.getRole());
     }

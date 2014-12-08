@@ -14,4 +14,8 @@ public interface UserServiceAsync {
     void editUser(UserDTO userDTO, AsyncCallback<UserDTO> async);
 
     void addUserBatch(Set<UserDTO> userDTOs, AsyncCallback<ArrayList<UserDTO>> async);
+
+    void findUserByUsername(String username, AsyncCallback<UserDTO> async);
+
+    void findUserByEmail(String email, AsyncCallback<UserDTO> async);
 }

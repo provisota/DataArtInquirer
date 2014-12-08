@@ -77,6 +77,7 @@ public class AdminView extends Composite implements IView{
             userDTO.setRole(Role.ROLE_ADMIN);
         }
         presenter.updateUserRoles(selectedUsers);
+        selectionModel.clear();
     }
 
     @UiHandler("setUserButton")
@@ -86,6 +87,7 @@ public class AdminView extends Composite implements IView{
             userDTO.setRole(Role.ROLE_USER);
         }
         presenter.updateUserRoles(selectedUsers);
+        selectionModel.clear();
     }
 
     private void setupDataGrid() {
