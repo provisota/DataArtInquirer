@@ -21,6 +21,7 @@ public class WidgetHolder extends DockPanel {
 
     private Button userButton;
     private Button adminButton;
+    private Button creatorButton;
     private Button statisticButton;
     private Button logoutButton;
 
@@ -58,10 +59,13 @@ public class WidgetHolder extends DockPanel {
         userButton.setType(ButtonType.PRIMARY);
         userButton.setWidth("180px");
 
-
-        adminButton = new Button("Добавить опросник");
+        adminButton = new Button("Пользователи");
         adminButton.setType(ButtonType.PRIMARY);
         adminButton.setWidth("180px");
+
+        creatorButton = new Button("Создать опросник");
+        creatorButton.setType(ButtonType.PRIMARY);
+        creatorButton.setWidth("180px");
 
         statisticButton = new Button("Статистика (Графики)");
         statisticButton.setType(ButtonType.PRIMARY);
@@ -78,6 +82,8 @@ public class WidgetHolder extends DockPanel {
         mainButtonsPanel.add(new HTML("<p></p>"));
         mainButtonsPanel.add(adminButton);
         mainButtonsPanel.add(new HTML("<p></p>"));
+        mainButtonsPanel.add(creatorButton);
+        mainButtonsPanel.add(new HTML("<p></p>"));
         mainButtonsPanel.add(statisticButton);
         mainButtonsPanel.add(new HTML("<p></p>"));
         mainButtonsPanel.add(logoutButton);
@@ -90,6 +96,11 @@ public class WidgetHolder extends DockPanel {
         adminTooltip.setText("только для админов");
         adminTooltip.setPlacement(Placement.RIGHT);
         adminTooltip.add(adminButton);
+
+        Tooltip creatorTooltip = new Tooltip();
+        creatorTooltip.setText("только для админов");
+        creatorTooltip.setPlacement(Placement.RIGHT);
+        creatorTooltip.add(creatorButton);
 
         Tooltip logoutTooltip = new Tooltip();
         logoutTooltip.setText("завершить сеанс");
@@ -110,6 +121,14 @@ public class WidgetHolder extends DockPanel {
                 initCenterHolder(presenterMap.get(AdminPresenter.class).getView());
             }
         });
+
+        creatorButton.addClickHandler(new ClickHandler() {
+            @Override
+            public void onClick(ClickEvent event) {
+                initCenterHolder(presenterMap.get(CreatorPresenter.class).getView());
+            }
+        });
+
         statisticButton.addClickHandler(new ClickHandler() {
             @Override
             public void onClick(ClickEvent event) {

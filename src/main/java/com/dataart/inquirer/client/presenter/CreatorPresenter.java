@@ -1,58 +1,32 @@
 package com.dataart.inquirer.client.presenter;
 
 import com.dataart.inquirer.client.callback.CommonAsyncCallback;
-import com.dataart.inquirer.client.models.AdminModel;
+import com.dataart.inquirer.client.models.CreatorModel;
 import com.dataart.inquirer.client.services.AuthoritiesServiceAsync;
-import com.dataart.inquirer.client.services.UserServiceAsync;
 import com.dataart.inquirer.client.view.AccessDeniedView;
-import com.dataart.inquirer.client.view.AdminView;
-import com.dataart.inquirer.shared.dto.UserDTO;
+import com.dataart.inquirer.client.view.CreatorView;
 import com.google.gwt.user.client.ui.Widget;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
 /**
  * @author Alterovych Ilya
  */
-public final class AdminPresenter implements IPresenter {
-    private AdminView view;
-    private AuthoritiesServiceAsync authoritiesServiceAsync;
-    private UserServiceAsync userServiceAsync;
-    private AdminModel model;
+public final class CreatorPresenter implements IPresenter {
+    private CreatorView view;
+    private AuthoritiesServiceAsync authServiceAsync;
+    private CreatorModel model;
     private Set<String> authoritiesSet = new HashSet<>();
 
-    public AdminPresenter(AuthoritiesServiceAsync authoritiesServiceAsync,
-                          UserServiceAsync userServiceAsync, AdminModel model) {
-        this.authoritiesServiceAsync = authoritiesServiceAsync;
-        this.userServiceAsync = userServiceAsync;
+    public CreatorPresenter(AuthoritiesServiceAsync authServiceAsync, CreatorModel model) {
+        this.authServiceAsync = authServiceAsync;
         this.model = model;
         updateAuthorities();
     }
 
-    public void updateUserList() {
-        userServiceAsync.getAll(new CommonAsyncCallback<ArrayList<UserDTO>>() {
-            @Override
-            public void onSuccess(ArrayList<UserDTO> userDTOs) {
-                model.setUserDTOs(userDTOs);
-                initUpdateView();
-            }
-        });
-    }
-
-    public void updateUserRoles(Set<UserDTO> userDTOs) {
-        userServiceAsync.addUserBatch(userDTOs, new CommonAsyncCallback<ArrayList<UserDTO>>() {
-            @Override
-            public void onSuccess(ArrayList<UserDTO> result) {
-                updateUserList();
-                initUpdateView();
-            }
-        });
-    }
-
     private void updateAuthorities() {
-        authoritiesServiceAsync.getAuthorities(new CommonAsyncCallback<Set<String>>() {
+        authServiceAsync.getAuthorities(new CommonAsyncCallback<Set<String>>() {
             @Override
             public void onSuccess(Set<String> result) {
                 authoritiesSet = result;
@@ -69,7 +43,7 @@ public final class AdminPresenter implements IPresenter {
         авторизация Spring Security*/
         authoritiesSet.add("ROLE_ADMIN");
         if (authoritiesSet.contains("ROLE_ADMIN")) {
-            updateUserList();
+            //TODO updateInquirerList();
             return view.asWidget();
         } else {
             return AccessDeniedView.getInstance().asWidget();
@@ -80,8 +54,7 @@ public final class AdminPresenter implements IPresenter {
     public void initUpdateView() {
         if (view == null) {
             //create and init view
-            updateUserList();
-            view = new AdminView(this);
+            view = new CreatorView(this);
             view.init();
         } else {
             //update view
@@ -89,11 +62,11 @@ public final class AdminPresenter implements IPresenter {
         }
     }
 
-    public AdminModel getModel() {
+    public CreatorModel getModel() {
         return model;
     }
 
-    public void setModel(AdminModel model) {
+    public void setModel(CreatorModel model) {
         this.model = model;
     }
 }

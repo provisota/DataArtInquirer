@@ -25,24 +25,15 @@
     </ui:style>
     <g:VerticalPanel>
         <b:HTMLPanel styleName="{style.main-panel}">
-            <b:FlowPanel>
-                <b:ButtonGroup>
-                    <b:Button ui:field="users" type="PRIMARY">Пользователи</b:Button>
-                    <b:Button ui:field="addInquirerButton" type="PRIMARY">Добавить опросник
-                    </b:Button>
-                </b:ButtonGroup>
-            </b:FlowPanel>
             <p/>
-            <b:Label visible="false" ui:field="addInquirerLabel">
-                Add inquirer view not implemented yet.</b:Label>
             <g:VerticalPanel width="100%" height="80%">
                 <g:cell horizontalAlignment="CENTER" verticalAlignment="TOP">
-                    <b:DataGrid ui:field="dataGrid" bordered="true"
+                    <b:DataGrid ui:field="dataGrid" bordered="true" visible="true"
                                 addStyleNames="{style.dataGrid}"/>
                 </g:cell>
             </g:VerticalPanel>
             <p/>
-            <b:FlowPanel ui:field="roleButtonsPanel" visible="false">
+            <b:FlowPanel ui:field="roleButtonsPanel">
                 <b:ButtonGroup>
                     <b:Tooltip text="выбранным дать права пользвателя" placement="LEFT">
                         <b:Button ui:field="setUserButton" type="PRIMARY">сделать юзером

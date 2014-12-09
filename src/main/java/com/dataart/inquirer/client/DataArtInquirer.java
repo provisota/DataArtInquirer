@@ -1,6 +1,7 @@
 package com.dataart.inquirer.client;
 
 import com.dataart.inquirer.client.models.AdminModel;
+import com.dataart.inquirer.client.models.CreatorModel;
 import com.dataart.inquirer.client.presenter.*;
 import com.dataart.inquirer.client.services.AuthoritiesService;
 import com.dataart.inquirer.client.services.AuthoritiesServiceAsync;
@@ -33,6 +34,8 @@ public class DataArtInquirer implements EntryPoint {
         presenterMap.put(UserPresenter.class, new UserPresenter());
         presenterMap.put(AdminPresenter.class, new AdminPresenter(authServiceAsync,
                 userServiceAsync, new AdminModel()));
+        presenterMap.put(CreatorPresenter.class, new CreatorPresenter(authServiceAsync,
+                new CreatorModel()));
         presenterMap.put(StatisticPresenter.class, new StatisticPresenter());
 
         WidgetHolderPresenter widgetHolderPresenter =

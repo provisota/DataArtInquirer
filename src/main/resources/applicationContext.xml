@@ -28,8 +28,9 @@
     <context:property-placeholder location="classpath:config.properties" system-properties-mode="OVERRIDE"/>
 
     <security:http auto-config="true" use-expressions="false">
-        <!--TODO WARNING!!! For run app in GWT DevMode or GWT SuperDevMode
-        uncomment next line and comment ALL other 'intercept-url' tags-->
+        <!-- TODO ВАЖНО!!! Для тестирования приложения в GWT DevMode или GWT SuperDevMode
+        раскомментировать следующую строку, и закоментировать все остальные строки
+        с тегом 'intercept-url' -->
         <security:intercept-url pattern="/**" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
         <!--<security:intercept-url pattern="/login.jsp*"-->
                                 <!--access="IS_AUTHENTICATED_ANONYMOUSLY"/>-->

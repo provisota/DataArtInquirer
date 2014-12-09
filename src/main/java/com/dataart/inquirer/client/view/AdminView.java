@@ -37,37 +37,15 @@ public class AdminView extends Composite implements IView{
     @UiField(provided = true)
     DataGrid<UserDTO> dataGrid;
     @UiField
-    Button users;
-    @UiField
-    Button addInquirerButton;
-    @UiField
     FlowPanel roleButtonsPanel;
     @UiField
     Button setAdminButton;
     @UiField
     Button setUserButton;
-    @UiField
-    Label addInquirerLabel;
 
     @UiConstructor
     public AdminView(AdminPresenter presenter) {
         this.presenter = presenter;
-    }
-
-    @UiHandler("users")
-    public void onUserButtonClick(ClickEvent event){
-        addInquirerLabel.setVisible(false);
-        dataGrid.setVisible(true);
-        roleButtonsPanel.setVisible(true);
-        presenter.updateUserList();
-    }
-
-    @UiHandler("addInquirerButton")
-    public void onAddInquirerClick(ClickEvent event){
-        //TODO отображение формы для создания нового опросника
-        dataGrid.setVisible(false);
-        roleButtonsPanel.setVisible(false);
-        addInquirerLabel.setVisible(true);
     }
 
     @UiHandler("setAdminButton")
