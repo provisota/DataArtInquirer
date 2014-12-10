@@ -19,7 +19,10 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.view.client.DefaultSelectionEventManager;
 import com.google.gwt.view.client.MultiSelectionModel;
 import com.google.gwt.view.client.ProvidesKey;
-import org.gwtbootstrap3.client.ui.*;
+import org.gwtbootstrap3.client.ui.Button;
+import org.gwtbootstrap3.client.ui.Image;
+import org.gwtbootstrap3.client.ui.gwt.DataGrid;
+import org.gwtbootstrap3.client.ui.gwt.FlowPanel;
 
 import java.util.ArrayList;
 import java.util.Set;
@@ -29,8 +32,8 @@ import java.util.Set;
  */
 public class AdminView extends Composite implements IView{
 
-    interface adminViewUiBinder extends UiBinder<VerticalPanel, AdminView> {}
-    private static adminViewUiBinder ourUiBinder = GWT.create(adminViewUiBinder.class);
+    interface AdminViewUiBinder extends UiBinder<VerticalPanel, AdminView> {}
+    private static AdminViewUiBinder ourUiBinder = GWT.create(AdminViewUiBinder.class);
     private final AdminPresenter presenter;
     private MultiSelectionModel<UserDTO> selectionModel;
     private ArrayList<UserDTO> userList;

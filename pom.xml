@@ -27,8 +27,7 @@
 
         <!-- GWT dependencies -->
         <gwt.version>2.6.1</gwt.version>
-        <gwt-bootstrap3.version>0.6</gwt-bootstrap3.version>
-        <gwt-bootstrap2.version>2.3.2.0</gwt-bootstrap2.version>
+        <gwt-bootstrap3.version>0.8</gwt-bootstrap3.version>
 
         <!-- Generic properties -->
         <maven-resources-plugin.version>2.6</maven-resources-plugin.version>
@@ -148,12 +147,6 @@
             <artifactId>gwtbootstrap3</artifactId>
             <version>${gwt-bootstrap3.version}</version>
             <scope>provided</scope>
-        </dependency>
-        <!-- GWT Bootstrap2 -->
-        <dependency>
-            <groupId>com.github.gwtbootstrap</groupId>
-            <artifactId>gwt-bootstrap</artifactId>
-            <version>${gwt-bootstrap2.version}</version>
         </dependency>
         <!-- log4j -->
         <dependency>

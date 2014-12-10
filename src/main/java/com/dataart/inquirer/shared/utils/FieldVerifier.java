@@ -1,4 +1,4 @@
-package com.dataart.inquirer.shared;
+package com.dataart.inquirer.shared.utils;
 
 /**
  * <p>

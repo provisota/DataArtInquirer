@@ -5,7 +5,7 @@ import com.google.gwt.cell.client.TextCell;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.safehtml.shared.SafeHtml;
 import com.google.gwt.user.cellview.client.Column;
-import org.gwtbootstrap3.client.ui.DataGrid;
+import org.gwtbootstrap3.client.ui.gwt.DataGrid;
 
 /**
  * @author Alterovych Ilya

@@ -4,7 +4,7 @@ import com.dataart.inquirer.client.callback.CommonAsyncCallback;
 import com.dataart.inquirer.client.models.CreatorModel;
 import com.dataart.inquirer.client.services.AuthoritiesServiceAsync;
 import com.dataart.inquirer.client.view.AccessDeniedView;
-import com.dataart.inquirer.client.view.CreatorView;
+import com.dataart.inquirer.client.view.creator.CreatorView;
 import com.google.gwt.user.client.ui.Widget;
 
 import java.util.HashSet;

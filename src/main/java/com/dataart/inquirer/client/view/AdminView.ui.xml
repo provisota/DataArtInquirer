@@ -1,6 +1,7 @@
 <ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
              xmlns:g='urn:import:com.google.gwt.user.client.ui'
-             xmlns:b="urn:import:org.gwtbootstrap3.client.ui">
+             xmlns:b="urn:import:org.gwtbootstrap3.client.ui"
+             xmlns:b.gwt='urn:import:org.gwtbootstrap3.client.ui.gwt'>
     <ui:style>
         .main-panel {
             height: 400px !important;
@@ -10,13 +11,14 @@
             /*font-weight: bold;*/
         }
 
-        button {
+        .button {
             width: 160px;
             /*margin-right: 4px;*/
         }
 
         .dataGrid {
-            border: 2px solid rgb(220, 220, 220);
+            border: 1px solid lightgrey;
+            border-radius: 4px;
             background-color: white;
             height: 100%;
             width: 100%;
@@ -24,16 +26,16 @@
 
     </ui:style>
     <g:VerticalPanel>
-        <b:HTMLPanel styleName="{style.main-panel}">
+        <b.gwt:HTMLPanel styleName="{style.main-panel}">
             <p/>
             <g:VerticalPanel width="100%" height="80%">
                 <g:cell horizontalAlignment="CENTER" verticalAlignment="TOP">
-                    <b:DataGrid ui:field="dataGrid" bordered="true" visible="true"
+                    <b.gwt:DataGrid ui:field="dataGrid" bordered="true" visible="true"
                                 addStyleNames="{style.dataGrid}"/>
                 </g:cell>
             </g:VerticalPanel>
             <p/>
-            <b:FlowPanel ui:field="roleButtonsPanel">
+            <b.gwt:FlowPanel ui:field="roleButtonsPanel">
                 <b:ButtonGroup>
                     <b:Tooltip text="выбранным дать права пользвателя" placement="LEFT">
                         <b:Button ui:field="setUserButton" type="PRIMARY">сделать юзером
@@ -44,7 +46,7 @@
                         </b:Button>
                     </b:Tooltip>
                 </b:ButtonGroup>
-            </b:FlowPanel>
-        </b:HTMLPanel>
+            </b.gwt:FlowPanel>
+        </b.gwt:HTMLPanel>
     </g:VerticalPanel>
 </ui:UiBinder>

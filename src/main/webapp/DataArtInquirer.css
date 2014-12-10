@@ -12,6 +12,10 @@ body {
     /*font-weight: bold;*/
 }
 
+/*.checkbox input[type="checkbox"]{*/
+    /*float: none !important;*/
+/*}*/
+
 .form-horizontal .controls {
     margin-left: 0px !important
 }

@@ -1,7 +1,6 @@
 package com.dataart.inquirer.client.view;
 
 import com.dataart.inquirer.client.callback.CommonAsyncCallback;
-import com.dataart.inquirer.client.card.LoginCard;
 import com.dataart.inquirer.client.presenter.StartPagePresenter;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
@@ -22,8 +21,6 @@ public class StartPageView extends Composite implements IView{
     @UiField
     Label userName;
     @UiField
-    LoginCard loginCard;
-    @UiField
     Label userAgent;
 
     @UiConstructor
@@ -42,7 +39,6 @@ public class StartPageView extends Composite implements IView{
             @Override
             public void onSuccess(String result) {
                 userName.setText("Hello " + result + "! ;)");
-                loginCard.setUsernameTextBoxValue(result);
             }
         });
 
