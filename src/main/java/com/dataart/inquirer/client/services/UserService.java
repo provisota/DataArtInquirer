@@ -23,4 +23,5 @@ public interface UserService extends RemoteService {
     ArrayList<UserDTO> addUserBatch (Set<UserDTO> userDTOs);
     UserDTO findUserByUsername (String username);
     UserDTO findUserByEmail (String email);
+    void addTestUsers();
 }

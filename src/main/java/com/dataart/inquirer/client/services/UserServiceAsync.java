@@ -18,4 +18,6 @@ public interface UserServiceAsync {
     void findUserByUsername(String username, AsyncCallback<UserDTO> async);
 
     void findUserByEmail(String email, AsyncCallback<UserDTO> async);
+
+    void addTestUsers(AsyncCallback<Void> async);
 }

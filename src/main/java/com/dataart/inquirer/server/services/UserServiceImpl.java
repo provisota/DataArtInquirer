@@ -4,6 +4,7 @@ import com.dataart.inquirer.client.services.UserService;
 import com.dataart.inquirer.server.dao.UserRepository;
 import com.dataart.inquirer.shared.dto.UserDTO;
 import com.dataart.inquirer.shared.entity.UserEntity;
+import com.dataart.inquirer.shared.enums.Role;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -69,6 +70,32 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDTO findUserByEmail(String email) {
         return createDTO(userRepository.findByEmail(email));
+    }
+
+    @Override
+    public void addTestUsers() {
+        if (!checkNameExist("user") && !checkEmailExist("user@mail.com")) {
+            addUser(new UserDTO("user", "user@mail.com", "user", Role.ROLE_USER));
+        }
+        if (!checkNameExist("admin") && !checkEmailExist("admin@mail.com")) {
+            addUser(new UserDTO("admin", "admin@mail.com", "admin", Role.ROLE_ADMIN));
+        }
+    }
+
+    private boolean checkEmailExist(String email) {
+        boolean isExist = findUserByEmail(email) != null;
+        if (isExist) {
+            System.out.println("Под эл.почтой  " + email + " уже зарегистрирован пользователь.");
+        }
+        return isExist;
+    }
+
+    private boolean checkNameExist(String username) {
+        boolean isExist = findUserByUsername(username) != null;
+        if (isExist) {
+            System.out.println("Под именем " + username + " уже зарегистрирован пользователь.");
+        }
+        return isExist;
     }
 
     public UserDTO createDTO(UserEntity userEntity){

@@ -21,6 +21,8 @@
         <!-- Hibernate and MySql -->
         <mysql-connector.version>5.1.30</mysql-connector.version>
         <hibernate.version>4.2.6.Final</hibernate.version>
+        <!--H2 DataBase-->
+        <h2database.version>1.4.182</h2database.version>
 
         <!-- Bean validation -->
         <hibernate-validator.version>5.1.0.Final</hibernate-validator.version>
@@ -85,6 +87,12 @@
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
             <version>${mysql-connector.version}</version>
+        </dependency>
+        <!--H2 DataBase-->
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <version>${h2database.version}</version>
         </dependency>
 
         <!-- Hibernate -->
@@ -158,7 +166,9 @@
         </dependency>
     </dependencies>
     <build>
-        <outputDirectory>${project.build.directory}/${project.build.finalName}/WEB-INF/classes</outputDirectory>
+        <outputDirectory>
+            ${project.build.directory}/${project.build.finalName}/WEB-INF/classes
+        </outputDirectory>
         <plugins>
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
@@ -206,7 +216,9 @@
                             <goal>copy-resources</goal>
                         </goals>
                         <configuration>
-                            <outputDirectory>${project.build.directory}/${project.build.finalName}</outputDirectory>
+                            <outputDirectory>
+                                ${project.build.directory}/${project.build.finalName}
+                            </outputDirectory>
                             <resources>
                                 <resource>
                                     <directory>src/main/webapp</directory>

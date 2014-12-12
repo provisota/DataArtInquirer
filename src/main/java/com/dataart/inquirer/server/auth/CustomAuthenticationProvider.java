@@ -21,12 +21,7 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
         //add test user & admin records (remove for production)
-        if (!checkNameExist("user") && !checkEmailExist("user@mail.com")) {
-            userService.addUser(new UserDTO("user", "user@mail.com", "user", Role.ROLE_USER));
-        }
-        if (!checkNameExist("admin") && !checkEmailExist("admin@mail.com")) {
-            userService.addUser(new UserDTO("admin", "admin@mail.com", "admin", Role.ROLE_ADMIN));
-        }
+        userService.addTestUsers();
         ArrayList<UserDTO> userDTOs = userService.getAll();
 
         String username = (String) authentication.getPrincipal();
@@ -51,22 +46,6 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
         customAuthentication.setAuthenticated(true);
 
         return customAuthentication;
-    }
-
-    private boolean checkEmailExist(String email) {
-        boolean isExist = userService.findUserByEmail(email) != null;
-        if (isExist) {
-            System.out.println("Под эл.почтой  " + email + " уже зарегистрирован пользователь.");
-        }
-        return isExist;
-    }
-
-    private boolean checkNameExist(String username) {
-        boolean isExist = userService.findUserByUsername(username) != null;
-        if (isExist) {
-            System.out.println("Под именем " + username + " уже зарегистрирован пользователь.");
-        }
-        return isExist;
     }
 
     @Override

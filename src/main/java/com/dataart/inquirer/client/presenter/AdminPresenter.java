@@ -29,6 +29,16 @@ public final class AdminPresenter implements IPresenter {
         this.userServiceAsync = userServiceAsync;
         this.model = model;
         updateAuthorities();
+        addTestUsers();
+    }
+
+    //add test user & admin records (remove for production)
+    private void addTestUsers() {
+        userServiceAsync.addTestUsers(new CommonAsyncCallback<Void>() {
+            @Override
+            public void onSuccess(Void result) {
+            }
+        });
     }
 
     public void updateUserList() {

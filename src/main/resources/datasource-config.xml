@@ -9,10 +9,19 @@
 
        <context:property-placeholder location="classpath:config.properties" system-properties-mode="OVERRIDE"/>
 
+       <!--MySQL config-->
        <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
               <property name="driverClassName" value="${jdbc.driver}" />
               <property name="url" value="${jdbc.url}" />
               <property name="username" value="${jdbc.username}" />
               <property name="password" value="${jdbc.password}" />
        </bean>
+
+       <!--H2 config-->
+       <!--<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">-->
+              <!--<property name="driverClassName" value="${h2.jdbc.driver}" />-->
+              <!--<property name="url" value="${h2.jdbc.url}" />-->
+              <!--<property name="username" value="${h2.jdbc.username}" />-->
+              <!--<property name="password" value="${h2.jdbc.password}" />-->
+       <!--</bean>-->
 </beans>
