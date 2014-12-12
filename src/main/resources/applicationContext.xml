@@ -31,7 +31,8 @@
         <!-- TODO ВАЖНО!!! Для тестирования приложения в GWT DevMode или GWT SuperDevMode
         раскомментировать следующую строку, и закоментировать все остальные строки
         с тегом 'intercept-url' -->
-        <security:intercept-url pattern="/**" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
+        <security:intercept-url pattern="/**" access="IS_AUTHENTICATED_ANONYMOUSLY,
+        IS_AUTHENTICATED_FULLY, IS_AUTHENTICATED_REMEMBERED"/>
         <!--<security:intercept-url pattern="/login.jsp*"-->
                                 <!--access="IS_AUTHENTICATED_ANONYMOUSLY"/>-->
         <!--<security:intercept-url pattern="/dataartinquirer/**"-->

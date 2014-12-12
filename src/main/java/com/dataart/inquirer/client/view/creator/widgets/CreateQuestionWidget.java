@@ -64,7 +64,7 @@ public class CreateQuestionWidget extends Composite {
             answerTypeTooltip.setTitle("текстовое поле для ответа");
             answerTypeTooltip.show();
         } else {
-            answerTypeTooltip.setTitle("выбирите тип ответа");
+            answerTypeTooltip.setTitle("выберите тип ответа");
         }
         answerTypeTooltip.show();
         answerTypeTooltip.reconfigure();

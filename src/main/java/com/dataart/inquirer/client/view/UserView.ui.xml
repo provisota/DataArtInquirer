@@ -10,9 +10,13 @@
             font-weight: bold;
         }
     </ui:style>
+    <ui:with field='res' type="com.dataart.inquirer.client.resources.ImageResources"/>
     <g:VerticalPanel>
-        <b.gwt:HTMLPanel styleName="{style.main-panel}">
-            <p>User view not implemented yet.</p>
-        </b.gwt:HTMLPanel>
+        <g:cell horizontalAlignment="ALIGN_CENTER" verticalAlignment="ALIGN_MIDDLE">
+            <b.gwt:HTMLPanel width="800px">
+                <b:Label>User view not implemented yet.</b:Label>
+                <g:Image resource="{res.underConstruction}"/>
+            </b.gwt:HTMLPanel>
+        </g:cell>
     </g:VerticalPanel>
 </ui:UiBinder>

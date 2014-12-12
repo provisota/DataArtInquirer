@@ -28,7 +28,7 @@
                                placeholder="введите сюда свой вопрос"/>
                 </b:InputGroup>
                 <p/>
-                <b:Tooltip title="выбирите тип ответа" placement="RIGHT"
+                <b:Tooltip title="выберите тип ответа" placement="RIGHT"
                            ui:field="answerTypeTooltip">
                     <b:ListBox width="160px" selectedIndex="0"
                                ui:field="answerTypeListBox">

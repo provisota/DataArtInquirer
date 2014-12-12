@@ -12,7 +12,7 @@
     <ui:with field='res' type="com.dataart.inquirer.client.resources.ImageResources"/>
     <g:VerticalPanel styleName="{style.main-panel}">
         <g:cell horizontalAlignment="ALIGN_CENTER" verticalAlignment="ALIGN_MIDDLE">
-            <g:Image height="300px" resource="{res.accessDenied}"/>
+            <g:Image resource="{res.accessDenied}"/>
         </g:cell>
     </g:VerticalPanel>
 </ui:UiBinder>
