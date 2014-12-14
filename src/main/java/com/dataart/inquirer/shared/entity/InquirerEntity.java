@@ -2,8 +2,6 @@ package com.dataart.inquirer.shared.entity;
 
 import com.dataart.inquirer.shared.dto.InquirerDTO;
 import com.dataart.inquirer.shared.dto.QuestionDTO;
-import org.hibernate.annotations.LazyCollection;
-import org.hibernate.annotations.LazyCollectionOption;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
@@ -37,7 +35,6 @@ public class InquirerEntity implements Serializable {
 
     @OneToMany(mappedBy = "inquirerEntity", cascade = {CascadeType.ALL},
             orphanRemoval = true)
-    @LazyCollection(LazyCollectionOption.FALSE)
     @OnDelete(action = OnDeleteAction.CASCADE)
     private List<QuestionEntity> questionsList = new ArrayList<>();
 
@@ -109,7 +106,7 @@ public class InquirerEntity implements Serializable {
                 ", description='" + description + '\'' +
                 ", isPublished=" + isPublished +
                 ", questionsList=" + questionsList +
-                '}';
+                "}\n";
     }
 
     @Override

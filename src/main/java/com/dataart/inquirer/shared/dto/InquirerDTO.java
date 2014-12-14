@@ -98,6 +98,7 @@ public class InquirerDTO implements Serializable {
                 ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
                 ", isPublished=" + isPublished +
+                ", questionsList=" + questionsList +
                 '}';
     }
 }

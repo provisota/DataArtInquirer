@@ -91,7 +91,7 @@ public class QuestionDTO implements Serializable {
 
     @Override
     public String toString() {
-        return "QuestionDTO{" +
+        return "\nQuestionDTO{" +
                 "id=" + id +
                 ", description='" + description + '\'' +
                 ", answerType=" + answerType +

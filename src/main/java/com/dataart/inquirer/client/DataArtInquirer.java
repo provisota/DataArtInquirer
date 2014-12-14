@@ -1,12 +1,9 @@
 package com.dataart.inquirer.client;
 
 import com.dataart.inquirer.client.models.AdminModel;
-import com.dataart.inquirer.client.models.CreatorModel;
+import com.dataart.inquirer.client.models.InquirerModel;
 import com.dataart.inquirer.client.presenter.*;
-import com.dataart.inquirer.client.services.AuthoritiesService;
-import com.dataart.inquirer.client.services.AuthoritiesServiceAsync;
-import com.dataart.inquirer.client.services.UserService;
-import com.dataart.inquirer.client.services.UserServiceAsync;
+import com.dataart.inquirer.client.services.*;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
 
@@ -24,6 +21,7 @@ public class DataArtInquirer implements EntryPoint {
     public void onModuleLoad() {
         AuthoritiesServiceAsync authServiceAsync = GWT.create(AuthoritiesService.class);
         UserServiceAsync userServiceAsync = GWT.create(UserService.class);
+        InquirerServiceAsync inquirerServiceAsync = GWT.create(InquirerService.class);
 
         /*кладём все презентеры в словарь, в котором ключь - класс реализующий интерфейс
         IPresenter, а значение объект соответствующей реализации интерфейса IPresenter
@@ -35,7 +33,7 @@ public class DataArtInquirer implements EntryPoint {
         presenterMap.put(AdminPresenter.class, new AdminPresenter(authServiceAsync,
                 userServiceAsync, new AdminModel()));
         presenterMap.put(CreatorPresenter.class, new CreatorPresenter(authServiceAsync,
-                new CreatorModel()));
+                inquirerServiceAsync, new InquirerModel()));
         presenterMap.put(StatisticPresenter.class, new StatisticPresenter());
 
         WidgetHolderPresenter widgetHolderPresenter =

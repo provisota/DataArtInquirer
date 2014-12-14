@@ -1,10 +1,13 @@
 package com.dataart.inquirer.client.presenter;
 
 import com.dataart.inquirer.client.callback.CommonAsyncCallback;
-import com.dataart.inquirer.client.models.CreatorModel;
+import com.dataart.inquirer.client.models.InquirerModel;
 import com.dataart.inquirer.client.services.AuthoritiesServiceAsync;
+import com.dataart.inquirer.client.services.InquirerServiceAsync;
 import com.dataart.inquirer.client.view.AccessDeniedView;
 import com.dataart.inquirer.client.view.creator.CreatorView;
+import com.dataart.inquirer.shared.dto.InquirerDTO;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Widget;
 
 import java.util.HashSet;
@@ -16,11 +19,15 @@ import java.util.Set;
 public final class CreatorPresenter implements IPresenter {
     private CreatorView view;
     private AuthoritiesServiceAsync authServiceAsync;
-    private CreatorModel model;
+    private InquirerServiceAsync inquirerServiceAsync;
+    private InquirerModel model;
     private Set<String> authoritiesSet = new HashSet<>();
 
-    public CreatorPresenter(AuthoritiesServiceAsync authServiceAsync, CreatorModel model) {
+    public CreatorPresenter(AuthoritiesServiceAsync authServiceAsync,
+                            InquirerServiceAsync inquirerServiceAsync,
+                            InquirerModel model) {
         this.authServiceAsync = authServiceAsync;
+        this.inquirerServiceAsync = inquirerServiceAsync;
         this.model = model;
         updateAuthorities();
     }
@@ -31,6 +38,16 @@ public final class CreatorPresenter implements IPresenter {
             public void onSuccess(Set<String> result) {
                 authoritiesSet = result;
 //                Window.confirm("authoritiesSet: " + result);
+            }
+        });
+    }
+
+    public void addInquirer(InquirerDTO inquirerDTO) {
+        //TODO добавить реальный опросник inquirerDTO вместо тестового
+        inquirerServiceAsync.addTestInquirer(new CommonAsyncCallback<InquirerDTO>() {
+            @Override
+            public void onSuccess(InquirerDTO result) {
+                Window.alert(String.valueOf(result));
             }
         });
     }
@@ -62,11 +79,28 @@ public final class CreatorPresenter implements IPresenter {
         }
     }
 
-    public CreatorModel getModel() {
+    public InquirerModel getModel() {
         return model;
     }
 
-    public void setModel(CreatorModel model) {
+    public void setModel(InquirerModel model) {
         this.model = model;
+    }
+
+    /**
+     * Удаляет ВСЕ опросники из БД
+     */
+    @SuppressWarnings("UnusedDeclaration")
+    public void deleteAllInquirers() {
+        if (Window.confirm("Вы уверены?")) {
+            if (Window.confirm("ВСЕ ОПРОСНИКИ БУДУТ УДАЛЕНЫ!!! ВЫ ТОЧНО УВЕРЕНЫ?")) {
+                inquirerServiceAsync.deleteAllInquirers(new CommonAsyncCallback<Void>() {
+                    @Override
+                    public void onSuccess(Void result) {
+                        Window.alert("ALL Inquirers are deleted");
+                    }
+                });
+            }
+        }
     }
 }

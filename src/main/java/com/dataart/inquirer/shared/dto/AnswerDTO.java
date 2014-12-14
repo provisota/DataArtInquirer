@@ -75,10 +75,10 @@ public class AnswerDTO implements Serializable {
 
     @Override
     public String toString() {
-        return "AnswerDTO{" +
+        return "\nAnswerDTO{" +
                 "id=" + id +
                 ", description='" + description + '\'' +
                 ", isRightAnswer=" + isRightAnswer +
-                '}';
+                "}\n";
     }
 }
