@@ -5,7 +5,7 @@ import com.dataart.inquirer.client.models.AdminModel;
 import com.dataart.inquirer.client.services.AuthoritiesServiceAsync;
 import com.dataart.inquirer.client.services.UserServiceAsync;
 import com.dataart.inquirer.client.view.AccessDeniedView;
-import com.dataart.inquirer.client.view.AdminView;
+import com.dataart.inquirer.client.view.admin.AdminView;
 import com.dataart.inquirer.shared.dto.UserDTO;
 import com.google.gwt.user.client.ui.Widget;
 

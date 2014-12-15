@@ -22,7 +22,6 @@ public interface ImageResources extends ClientBundle {
     @Source("icons/under_construction.jpeg")
     ImageResource underConstruction();
 
-
     public static ImageResources resources = GWT.create(ImageResources.class);
 
 }

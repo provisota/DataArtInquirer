@@ -1,6 +1,6 @@
 package com.dataart.inquirer.client.presenter;
 
-import com.dataart.inquirer.client.view.UserView;
+import com.dataart.inquirer.client.view.user.UserView;
 import com.google.gwt.user.client.ui.Widget;
 
 /**

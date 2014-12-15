@@ -1,7 +1,10 @@
-package com.dataart.inquirer.client.view;
+package com.dataart.inquirer.client.view.admin;
 
 import com.dataart.inquirer.client.presenter.AdminPresenter;
 import com.dataart.inquirer.client.resources.ImageResources;
+import com.dataart.inquirer.client.view.IView;
+import com.dataart.inquirer.client.view.admin.columns.ColumnsHolder;
+import com.dataart.inquirer.client.view.admin.comparators.ComparatorsHolder;
 import com.dataart.inquirer.shared.dto.UserDTO;
 import com.dataart.inquirer.shared.enums.Role;
 import com.google.gwt.cell.client.CheckboxCell;
@@ -14,6 +17,7 @@ import com.google.gwt.uibinder.client.UiConstructor;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.cellview.client.Column;
+import com.google.gwt.user.cellview.client.ColumnSortEvent;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.view.client.DefaultSelectionEventManager;
@@ -30,13 +34,14 @@ import java.util.Set;
 /**
  * @author Alterovych Ilya
  */
-public class AdminView extends Composite implements IView{
+public class AdminView extends Composite implements IView {
 
     interface AdminViewUiBinder extends UiBinder<VerticalPanel, AdminView> {}
     private static AdminViewUiBinder ourUiBinder = GWT.create(AdminViewUiBinder.class);
     private final AdminPresenter presenter;
     private MultiSelectionModel<UserDTO> selectionModel;
     private ArrayList<UserDTO> userList;
+    private ColumnSortEvent.ListHandler<UserDTO> sortHandler;
     @UiField(provided = true)
     DataGrid<UserDTO> dataGrid;
     @UiField
@@ -73,14 +78,35 @@ public class AdminView extends Composite implements IView{
 
     private void setupDataGrid() {
         dataGrid = new DataGrid<>(100);
-        dataGrid.setVisible(false);
+        dataGrid.setVisible(true);
         dataGrid.setEmptyTableWidget(new Image(ImageResources.resources.noData()));
+        addColumnSortHandler();
         setSelectionModel();
         initDataGridColumns();
     }
 
+    /**
+     * add Sort Handler to Columns so we can sort it.
+     */
+    private void addColumnSortHandler() {
+        sortHandler = new ColumnSortEvent.ListHandler<UserDTO>(presenter.getModel()
+                        .getUserDTOs()){
+                    @Override
+                    public void onColumnSort(ColumnSortEvent event) {
+                        setList(presenter.getModel().getUserDTOs());
+                        super.onColumnSort(event);
+                        presenter.getModel().setUserDTOs(
+                                (ArrayList<UserDTO>) getList());
+                        refresh();
+                    }
+                };
+        dataGrid.addColumnSortHandler(sortHandler);
+    }
+
+    /**
+     * Add a selection model so we can select cells.
+     */
     private void setSelectionModel() {
-        // Add a selection model so we can select cells.
         selectionModel = new MultiSelectionModel<>(
                 new ProvidesKey<UserDTO>() {
             @Override
@@ -93,33 +119,17 @@ public class AdminView extends Composite implements IView{
     }
 
     private void initDataGridColumns() {
-        new UserColumn(dataGrid, "Id", 24) {
-            @Override
-            public String getValue(UserDTO userDTO) {
-                return String.valueOf(userDTO.getId());
-            }
-        };
+        ColumnsHolder columnsHolder = new ColumnsHolder(dataGrid);
+        ComparatorsHolder comparatorsHolder = new ComparatorsHolder();
 
-        new UserColumn(dataGrid, "Логин", 24) {
-            @Override
-            public String getValue(UserDTO userDTO) {
-                return userDTO.getUsername();
-            }
-        };
-
-        new UserColumn(dataGrid, "E-mail", 24) {
-            @Override
-            public String getValue(UserDTO userDTO) {
-                return userDTO.getEmail();
-            }
-        };
-
-        new UserColumn(dataGrid, "Права доступа", 24) {
-            @Override
-            public String getValue(UserDTO userDTO) {
-                return userDTO.getRole().name();
-            }
-        };
+        sortHandler.setComparator(columnsHolder.getIdColumn(),
+                comparatorsHolder.getIdComparator());
+        sortHandler.setComparator(columnsHolder.getUsernameColumn(),
+                comparatorsHolder.getUsernameComparator());
+        sortHandler.setComparator(columnsHolder.getEmailColumn(),
+                comparatorsHolder.getEmailComparator());
+        sortHandler.setComparator(columnsHolder.getRoleColumn(),
+                comparatorsHolder.getRoleComparator());
 
         //add CheckBox column to DataGrid
         Column<UserDTO, Boolean> checkBoxColumn =

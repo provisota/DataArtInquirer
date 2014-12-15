@@ -1,7 +1,7 @@
 package com.dataart.inquirer.client.presenter;
 
 import com.dataart.inquirer.client.services.AuthoritiesServiceAsync;
-import com.dataart.inquirer.client.view.StartPageView;
+import com.dataart.inquirer.client.view.start.StartPageView;
 import com.google.gwt.user.client.ui.Widget;
 
 public final class StartPagePresenter implements IPresenter {
