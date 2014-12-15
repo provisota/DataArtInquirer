@@ -55,23 +55,25 @@ public class CreateQuestionWidget extends Composite {
     @SuppressWarnings("UnusedParameters")
     @UiHandler("answerTypeListBox")
     public void onAnswerTypeChange(ChangeEvent changeEvent) {
+        addAnswerButton.setEnabled(true);
         int selectedIndex = answerTypeListBox.getSelectedIndex();
         String answerType = answerTypeListBox.getValue(selectedIndex);
         answerTypeTooltip.hide();
-        if ("CheckBox".equals(answerType)) {
-            this.answerType = AnswerType.CHECK_BOX;
-            answerTypeTooltip.setTitle("несколько вариантов ответа");
-        } else if ("RadioButton".equals(answerType)) {
+        if ("RadioButton".equals(answerType)) {
             this.answerType = AnswerType.RADIO_BUTTON;
             answerTypeTooltip.setTitle("один вариант ответа");
         } else if ("Select".equals(answerType)) {
             this.answerType = AnswerType.SELECT;
             answerTypeTooltip.setTitle("один вариант ответа");
+        } else if ("CheckBox".equals(answerType)) {
+            this.answerType = AnswerType.CHECK_BOX;
+            answerTypeTooltip.setTitle("несколько вариантов ответа");
         } else if ("TextBox".equals(answerType)) {
             this.answerType = AnswerType.TEXT_BOX;
             answerTypeTooltip.setTitle("текстовое поле для ответа");
         } else {
             this.answerType = null;
+            addAnswerButton.setEnabled(false);
             answerTypeTooltip.setTitle("выберите тип ответа");
         }
         answerTypeTooltip.show();
@@ -81,5 +83,22 @@ public class CreateQuestionWidget extends Composite {
     @SuppressWarnings("UnusedDeclaration")
     public AnswerType getAnswerType() {
         return answerType;
+    }
+
+    public VerticalPanel getAnswerPanel() {
+        return answerPanel;
+    }
+
+    public void setAnswerType(AnswerType answerType) {
+        this.answerType = answerType;
+        answerTypeListBox.setSelectedIndex(answerType.ordinal() + 1);
+    }
+
+    public String getQuestionDescription() {
+        return questionDescription.getValue();
+    }
+
+    public void setQuestionDescription(String questionDescription) {
+        this.questionDescription.setValue(questionDescription);
     }
 }

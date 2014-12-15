@@ -90,8 +90,8 @@ public final class AdminPresenter implements IPresenter {
     public void initUpdateView() {
         if (view == null) {
             //create and init view
-            updateUserList();
             view = new AdminView(this);
+            updateUserList();
             view.init();
         } else {
             //update view
@@ -101,9 +101,5 @@ public final class AdminPresenter implements IPresenter {
 
     public AdminModel getModel() {
         return model;
-    }
-
-    public void setModel(AdminModel model) {
-        this.model = model;
     }
 }

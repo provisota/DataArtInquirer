@@ -25,11 +25,15 @@ public class InquirerDTO implements Serializable {
         this.id = id;
     }
 
-    public InquirerDTO(String name, String description,
-                       boolean isPublished, List<QuestionDTO> questionsList) {
+    public InquirerDTO(String name, String description, boolean isPublished) {
         this.name = name;
         this.description = description;
         this.isPublished = isPublished;
+    }
+
+    public InquirerDTO(String name, String description,
+                       boolean isPublished, List<QuestionDTO> questionsList) {
+        this(name, description, isPublished);
         this.questionsList = questionsList;
     }
 

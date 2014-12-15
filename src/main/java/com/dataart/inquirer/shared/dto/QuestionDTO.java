@@ -28,9 +28,13 @@ public class QuestionDTO implements Serializable {
 
     public QuestionDTO(String description, AnswerType answerType,
                        List<AnswerDTO> answersList) {
+        this(description, answerType);
+        this.answersList = answersList;
+    }
+
+    public QuestionDTO(String description, AnswerType answerType) {
         this.description = description;
         this.answerType = answerType;
-        this.answersList = answersList;
     }
 
     public List<AnswerDTO> getAnswersList() {

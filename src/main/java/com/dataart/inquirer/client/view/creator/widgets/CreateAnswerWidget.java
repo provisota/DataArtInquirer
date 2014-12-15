@@ -34,8 +34,25 @@ public class CreateAnswerWidget extends Composite {
     @UiField
     Button removeAnswer;
 
+    @SuppressWarnings("UnusedParameters")
     @UiHandler("removeAnswer")
     public void onRemoveButton(ClickEvent event){
         this.removeFromParent();
+    }
+
+    public String getAnswerDescription() {
+        return answerDescription.getValue();
+    }
+
+    public void setAnswerDescription(String answerDescription) {
+        this.answerDescription.setValue(answerDescription);
+    }
+
+    public boolean isRightAnswer() {
+        return isRightAnswerBox.getValue();
+    }
+
+    public void setIsRightAnswer(boolean isRightAnswerBox) {
+        this.isRightAnswerBox.setValue(isRightAnswerBox);
     }
 }

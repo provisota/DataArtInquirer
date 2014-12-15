@@ -43,13 +43,23 @@ public final class CreatorPresenter implements IPresenter {
     }
 
     public void addInquirer(InquirerDTO inquirerDTO) {
-        //TODO добавить реальный опросник inquirerDTO вместо тестового
+        inquirerServiceAsync.addInquirer(inquirerDTO,
+                new CommonAsyncCallback<InquirerDTO>() {
+            @Override
+            public void onSuccess(InquirerDTO result) {
+                Window.alert("Опросник \"" + result.getName() + "\" успешно добавлен.");
+                view.resetInquirerPanel();
+            }
+        });
+        //Добавление тестового опросника:
+        /*
         inquirerServiceAsync.addTestInquirer(new CommonAsyncCallback<InquirerDTO>() {
             @Override
             public void onSuccess(InquirerDTO result) {
                 Window.alert(String.valueOf(result));
             }
         });
+        */
     }
 
     @Override
@@ -81,10 +91,6 @@ public final class CreatorPresenter implements IPresenter {
 
     public InquirerModel getModel() {
         return model;
-    }
-
-    public void setModel(InquirerModel model) {
-        this.model = model;
     }
 
     /**

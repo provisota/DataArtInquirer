@@ -42,7 +42,8 @@
                 <g:VerticalPanel ui:field="answerPanel"/>
                 <p/>
                 <b.gwt:FlowPanel>
-                    <b:Button type="PRIMARY" addStyleNames="{style.button}"
+                    <b:Button type="PRIMARY" enabled="false"
+                              addStyleNames="{style.button}"
                               ui:field="addAnswerButton">Добавить ответ
                     </b:Button>
                     <b:Button type="WARNING" ui:field="removeQuestion">Удалить вопрос
