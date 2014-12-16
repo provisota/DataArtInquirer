@@ -1,11 +1,11 @@
 package com.dataart.inquirer.server.auth;
 
-import java.util.ArrayList;
-import java.util.Collection;
-
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.GrantedAuthorityImpl;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+
+import java.util.ArrayList;
+import java.util.Collection;
 
 public class CustomUserAuthentication implements Authentication {
 	
@@ -13,17 +13,17 @@ public class CustomUserAuthentication implements Authentication {
 	
 	private boolean authenticated;
 	
-	private GrantedAuthority grantedAuthority;
+	private SimpleGrantedAuthority grantedAuthority;
 	private Authentication authentication;
 	
 	public CustomUserAuthentication(String role, Authentication authentication) {
-		this.grantedAuthority = new GrantedAuthorityImpl(role);
+		this.grantedAuthority = new SimpleGrantedAuthority(role);
 		this.authentication = authentication;
 	}
 
 	@Override
 	public Collection<GrantedAuthority> getAuthorities() {
-		Collection<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
+		Collection<GrantedAuthority> authorities = new ArrayList<>();
 		authorities.add(grantedAuthority);
 		return authorities;
 	}

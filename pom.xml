@@ -16,7 +16,7 @@
         <!-- Spring -->
         <spring.version>4.0.2.RELEASE</spring.version>
         <spring-data-jpa.version>1.5.1.RELEASE</spring-data-jpa.version>
-        <spring.securiry>3.2.0.RELEASE</spring.securiry>
+        <spring.securiry>3.2.5.RELEASE</spring.securiry>
 
         <!-- Hibernate and MySql -->
         <mysql-connector.version>5.1.30</mysql-connector.version>
@@ -154,11 +154,13 @@
             <groupId>com.google.gwt</groupId>
             <artifactId>gwt-dev</artifactId>
             <version>${gwt.version}</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>com.google.gwt</groupId>
             <artifactId>gwt-codeserver</artifactId>
             <version>${gwt.version}</version>
+            <scope>provided</scope>
         </dependency>
         <!-- GWT Bootstrap3 -->
         <dependency>

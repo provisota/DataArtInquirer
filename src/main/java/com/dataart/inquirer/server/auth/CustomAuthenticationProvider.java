@@ -11,8 +11,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
-import java.util.ArrayList;
-
 public class CustomAuthenticationProvider implements AuthenticationProvider {
 
     @Autowired
@@ -22,19 +20,14 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
         //add test user & admin records (remove for production)
         userService.addTestUsers();
-        ArrayList<UserDTO> userDTOs = userService.getAll();
 
         String username = (String) authentication.getPrincipal();
         String password = (String) authentication.getCredentials();
-        UserDTO existingUser = null;
         //check existing of username
-        for (UserDTO userDTO : userDTOs) {
-            if (userDTO.getUsername().equals(username)) {
-                existingUser = userDTO;
-            }
-        }
-        if (existingUser == null)
+        UserDTO existingUser = userService.findUserByUsername(username);
+        if (existingUser == null) {
             throw new UsernameNotFoundException("User not found");
+        }
 
         String storedPass = existingUser.getPassword();
 
