@@ -19,6 +19,7 @@ import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.cellview.client.ColumnSortEvent;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.view.client.DefaultSelectionEventManager;
 import com.google.gwt.view.client.MultiSelectionModel;
@@ -56,6 +57,7 @@ public class AdminView extends Composite implements IView {
         this.presenter = presenter;
     }
 
+    @SuppressWarnings("UnusedParameters")
     @UiHandler("setAdminButton")
     public void onSetAdminClick(ClickEvent event){
         Set<UserDTO> selectedUsers = selectionModel.getSelectedSet();
@@ -66,6 +68,7 @@ public class AdminView extends Composite implements IView {
         selectionModel.clear();
     }
 
+    @SuppressWarnings("UnusedParameters")
     @UiHandler("setUserButton")
     public void onSetUserClick(ClickEvent event){
         Set<UserDTO> selectedUsers = selectionModel.getSelectedSet();
@@ -139,7 +142,7 @@ public class AdminView extends Composite implements IView {
                 return selectionModel.isSelected(userDTO);
             }
         };
-//        checkBoxColumn.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
+        checkBoxColumn.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
         dataGrid.addColumn(checkBoxColumn, SafeHtmlUtils.fromSafeConstant("<br/>"));
         dataGrid.setColumnWidth(checkBoxColumn, 6, Style.Unit.PCT);
     }

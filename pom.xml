@@ -28,7 +28,7 @@
         <hibernate-validator.version>5.1.0.Final</hibernate-validator.version>
 
         <!-- GWT dependencies -->
-        <gwt.version>2.6.1</gwt.version>
+        <gwt.version>2.7.0</gwt.version>
         <gwt-bootstrap3.version>0.8</gwt-bootstrap3.version>
 
         <!-- Generic properties -->
@@ -149,6 +149,16 @@
             <version>${gwt.version}</version>
             <!-- "provided" so that we don't deploy -->
             <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.google.gwt</groupId>
+            <artifactId>gwt-dev</artifactId>
+            <version>${gwt.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.google.gwt</groupId>
+            <artifactId>gwt-codeserver</artifactId>
+            <version>${gwt.version}</version>
         </dependency>
         <!-- GWT Bootstrap3 -->
         <dependency>

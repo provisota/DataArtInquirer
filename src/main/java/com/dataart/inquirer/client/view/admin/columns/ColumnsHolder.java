@@ -13,7 +13,7 @@ public class ColumnsHolder {
     private RoleColumn roleColumn;
 
     public ColumnsHolder(DataGrid<UserDTO> dataGrid) {
-        idColumn = new IdColumn(dataGrid, "Id", "id пользователя", 24, false);
+        idColumn = new IdColumn(dataGrid, "Id", "id пользователя", 24, true);
         usernameColumn = new UsernameColumn(dataGrid, "Логин", "логин пользователя", 24,
                 false);
         emailColumn = new EmailColumn(dataGrid, "E-mail", "эл.почта пользователя", 24,
