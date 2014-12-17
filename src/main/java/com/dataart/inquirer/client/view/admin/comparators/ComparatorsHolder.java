@@ -4,17 +4,10 @@ package com.dataart.inquirer.client.view.admin.comparators;
  * @author Alterovych Ilya
  */
 public class ComparatorsHolder {
-    private IdComparator idComparator;
-    private UsernameComparator usernameComparator;
-    private EmailComparator emailComparator;
-    private RoleComparator roleComparator;
-
-    public ComparatorsHolder() {
-        idComparator = new IdComparator();
-        usernameComparator = new UsernameComparator();
-        emailComparator = new EmailComparator();
-        roleComparator = new RoleComparator();
-    }
+    private IdComparator idComparator = new IdComparator();
+    private UsernameComparator usernameComparator = new UsernameComparator();
+    private EmailComparator emailComparator = new EmailComparator();
+    private RoleComparator roleComparator = new RoleComparator();
 
     public IdComparator getIdComparator() {
         return idComparator;

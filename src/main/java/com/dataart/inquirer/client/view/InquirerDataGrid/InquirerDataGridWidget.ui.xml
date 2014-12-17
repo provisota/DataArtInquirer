@@ -1,0 +1,21 @@
+<ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
+             xmlns:g='urn:import:com.google.gwt.user.client.ui'
+             xmlns:b.gwt='urn:import:org.gwtbootstrap3.client.ui.gwt'>
+    <ui:style>
+
+        .dataGrid {
+            border: 1px solid lightgrey;
+            border-radius: 4px;
+            background-color: white;
+            height: 400px;
+            width: 800px;
+        }
+
+    </ui:style>
+    <g:VerticalPanel>
+        <g:cell horizontalAlignment="CENTER" verticalAlignment="TOP">
+            <b.gwt:DataGrid ui:field="dataGrid" bordered="true" visible="true"
+                            addStyleNames="{style.dataGrid}"/>
+        </g:cell>
+    </g:VerticalPanel>
+</ui:UiBinder>

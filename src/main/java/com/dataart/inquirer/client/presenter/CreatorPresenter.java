@@ -10,6 +10,7 @@ import com.dataart.inquirer.shared.dto.InquirerDTO;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Widget;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -70,11 +71,21 @@ public final class CreatorPresenter implements IPresenter {
         авторизация Spring Security*/
         authoritiesSet.add("ROLE_ADMIN");
         if (authoritiesSet.contains("ROLE_ADMIN")) {
-            //TODO updateInquirerList();
+            updateInquirerList();
             return view.asWidget();
         } else {
             return AccessDeniedView.getInstance().asWidget();
         }
+    }
+
+    private void updateInquirerList() {
+        inquirerServiceAsync.getAll(new CommonAsyncCallback<ArrayList<InquirerDTO>>() {
+            @Override
+            public void onSuccess(ArrayList<InquirerDTO> inquirerDTOs) {
+                model.setInquirerDTOs(inquirerDTOs);
+                initUpdateView();
+            }
+        });
     }
 
     @Override
@@ -82,6 +93,7 @@ public final class CreatorPresenter implements IPresenter {
         if (view == null) {
             //create and init view
             view = new CreatorView(this);
+            updateInquirerList();
             view.init();
         } else {
             //update view

@@ -2,6 +2,7 @@ package com.dataart.inquirer.client.view.creator;
 
 import com.dataart.inquirer.client.presenter.CreatorPresenter;
 import com.dataart.inquirer.client.view.IView;
+import com.dataart.inquirer.client.view.InquirerDataGrid.InquirerDataGridWidget;
 import com.dataart.inquirer.client.view.creator.widgets.CreateAnswerWidget;
 import com.dataart.inquirer.client.view.creator.widgets.CreateInquirerWidget;
 import com.dataart.inquirer.client.view.creator.widgets.CreateQuestionWidget;
@@ -38,6 +39,8 @@ public class CreatorView extends Composite implements IView {
     VerticalPanel inquirerPanel;
     @UiField
     Button removeInquirer;
+    @UiField(provided = true)
+    InquirerDataGridWidget dataGrid;
 
     @SuppressWarnings("UnusedParameters")
     @UiHandler("addInquirerButton")
@@ -110,15 +113,17 @@ public class CreatorView extends Composite implements IView {
     @UiConstructor
     public CreatorView(CreatorPresenter presenter) {
         this.presenter = presenter;
+        dataGrid = new InquirerDataGridWidget(presenter.getModel());
     }
 
     @Override
     public void init() {
+        dataGrid.init();
         initWidget(ourUiBinder.createAndBindUi(this));
     }
 
     @Override
     public void refresh() {
-
+        dataGrid.refresh();
     }
 }

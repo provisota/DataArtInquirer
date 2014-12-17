@@ -7,6 +7,7 @@ import java.util.ArrayList;
 /**
  * @author Alterovych Ilya
  */
+@SuppressWarnings("UnusedDeclaration")
 public class AdminModel {
     private ArrayList<UserDTO> userDTOs;
     private UserDTO selectedUserDTO;
