@@ -20,6 +20,7 @@ import org.gwtbootstrap3.client.ui.Tooltip;
  * @author Alterovych Ilya
  */
 public class CreateQuestionWidget extends Composite {
+
     interface CreateQuestionViewUiBinder extends UiBinder<VerticalPanel,
             CreateQuestionWidget> {
     }
@@ -114,6 +115,21 @@ public class CreateQuestionWidget extends Composite {
                 answerWidget.getIsRightAnswerBox().setEnabled(true);
                 answerWidget.getIsRightAnswerBox().setValue(false);
                 answerWidget.setHasOneAnswer(false);
+            }
+        }
+    }
+
+    public void blockCheckBoxes() {
+        for (Widget widget : answerPanel){
+            if (widget instanceof CreateAnswerWidget){
+                CreateAnswerWidget answerWidget = (CreateAnswerWidget)widget;
+                if (answerWidget.getAnswerType() == AnswerType.RADIO_BUTTON
+                        || answerWidget.getAnswerType() == AnswerType.CHECK_BOX){
+                    answerWidget.setHasOneAnswer(true);
+                    if (!answerWidget.isRightAnswerBox.getValue()) {
+                        answerWidget.isRightAnswerBox.setEnabled(false);
+                    }
+                }
             }
         }
     }

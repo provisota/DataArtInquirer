@@ -148,6 +148,7 @@ public class CreatorView extends Composite implements IView {
                                 createQuestionWidget.getAnswerType()));
                     }
                 }
+                createQuestionWidget.blockCheckBoxes();
             }
         }
     }

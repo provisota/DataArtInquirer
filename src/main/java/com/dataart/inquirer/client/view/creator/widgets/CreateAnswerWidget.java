@@ -110,6 +110,10 @@ public class CreateAnswerWidget extends Composite {
         this.answerType = answerType;
     }
 
+    public AnswerType getAnswerType() {
+        return answerType;
+    }
+
     public CheckBox getIsRightAnswerBox() {
         return isRightAnswerBox;
     }
