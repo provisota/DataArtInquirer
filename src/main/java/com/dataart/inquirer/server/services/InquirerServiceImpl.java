@@ -66,6 +66,11 @@ public class InquirerServiceImpl implements InquirerService {
         inquirerRepository.deleteAll();
     }
 
+    @Override
+    public void deleteInquirer(InquirerDTO inquirerDTO) {
+        inquirerRepository.delete(new InquirerEntity(inquirerDTO));
+    }
+
     private InquirerDTO createInquirerDTO(InquirerEntity inquirerEntity) {
         List<QuestionEntity> questionEntities = inquirerEntity.getQuestionsList();
         List<QuestionDTO> questionDTOs =

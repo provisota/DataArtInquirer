@@ -15,4 +15,5 @@ public interface InquirerService extends RemoteService {
     InquirerDTO addInquirer(InquirerDTO inquirerDTO);
     InquirerDTO addTestInquirer();
     void deleteAllInquirers();
+    void deleteInquirer(InquirerDTO inquirerDTO);
 }

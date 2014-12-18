@@ -11,9 +11,9 @@ import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiConstructor;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.cellview.client.ColumnSortEvent;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.view.client.CellPreviewEvent;
 import com.google.gwt.view.client.ProvidesKey;
 import com.google.gwt.view.client.SelectionChangeEvent;
 import com.google.gwt.view.client.SingleSelectionModel;
@@ -28,7 +28,8 @@ import java.util.ArrayList;
 public class InquirerDataGridWidget extends Composite implements IView {
 
     interface InquirerDataGridWidgetUiBinder
-            extends UiBinder<VerticalPanel, InquirerDataGridWidget> {}
+            extends UiBinder<VerticalPanel, InquirerDataGridWidget> {
+    }
 
     private static InquirerDataGridWidgetUiBinder ourUiBinder =
             GWT.create(InquirerDataGridWidgetUiBinder.class);
@@ -54,6 +55,20 @@ public class InquirerDataGridWidget extends Composite implements IView {
         addColumnSortHandler();
         setSelectionModel();
         initDataGridColumns();
+        addCellPreviewHandler();
+    }
+
+    private void addCellPreviewHandler() {
+        dataGrid.addCellPreviewHandler(new CellPreviewEvent.Handler<InquirerDTO>() {
+            @Override
+            public void onCellPreview(CellPreviewEvent<InquirerDTO> event) {
+                String inquirerDescription = event.getValue().getDescription();
+                if ("mouseover".equals(event.getNativeEvent().getType())) {
+                    dataGrid.getRowElement(event.getIndex()).getCells().
+                            getItem(event.getColumn()).setTitle(inquirerDescription);
+                }
+            }
+        });
     }
 
     private void initDataGridColumns() {
@@ -75,19 +90,19 @@ public class InquirerDataGridWidget extends Composite implements IView {
     private void setSelectionModel() {
         selectionModel = new SingleSelectionModel<>
                 (new ProvidesKey<InquirerDTO>() {
-            @Override
-            public Object getKey(InquirerDTO inquirerDTO) {
-                return inquirerDTO;
-            }
-        });
+                    @Override
+                    public Object getKey(InquirerDTO inquirerDTO) {
+                        return inquirerDTO;
+                    }
+                });
 
         selectionModel.addSelectionChangeHandler(new SelectionChangeEvent.Handler() {
             @Override
             public void onSelectionChange(SelectionChangeEvent selectionChangeEvent) {
                 final InquirerDTO inquirerDTO = selectionModel.getSelectedObject();
-                //do something you want to do on change selection
+                //here do something you want to do on change selection
                 model.setSelectedInquirerDTO(inquirerDTO);
-                Window.alert("выбран опросник: \n" + inquirerDTO);
+//                Window.alert("выбран опросник: \n" + inquirerDTO);
             }
         });
         dataGrid.setSelectionModel(selectionModel);
@@ -95,7 +110,7 @@ public class InquirerDataGridWidget extends Composite implements IView {
 
     private void addColumnSortHandler() {
         sortHandler = new ColumnSortEvent.ListHandler<InquirerDTO>
-                (model.getInquirerDTOs()){
+                (model.getInquirerDTOs()) {
             @Override
             public void onColumnSort(ColumnSortEvent event) {
                 setList(model.getInquirerDTOs());

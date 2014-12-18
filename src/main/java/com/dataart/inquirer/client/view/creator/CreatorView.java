@@ -38,27 +38,42 @@ public class CreatorView extends Composite implements IView {
     @UiField
     VerticalPanel inquirerPanel;
     @UiField
-    Button removeInquirer;
+    Button clearInquirerButton;
     @UiField(provided = true)
     InquirerDataGridWidget dataGrid;
+    @UiField
+    Button deleteInquirerButton;
+    @UiField
+    Button editInquirerButton;
+
+    @SuppressWarnings("UnusedParameters")
+    @UiHandler("deleteInquirerButton")
+    public void onDeleteInquirer(ClickEvent event) {
+        presenter.deleteSelectedInquirer();
+        resetInquirerPanel();
+    }
 
     @SuppressWarnings("UnusedParameters")
     @UiHandler("addInquirerButton")
     public void onAddInquirer(ClickEvent event) {
         saveInquirer.setVisible(true);
-        removeInquirer.setVisible(true);
+        clearInquirerButton.setVisible(true);
         addInquirerButton.setEnabled(false);
+        deleteInquirerButton.setVisible(false);
+        editInquirerButton.setVisible(false);
         inquirerPanel.add(new CreateInquirerWidget());
+        dataGrid.setVisible(false);
     }
 
     /**
      * Удаляет текуший опросник (из отображения)
+     *
      * @param event клик на кнопке
      */
     @SuppressWarnings("UnusedParameters")
-    @UiHandler("removeInquirer")
+    @UiHandler("clearInquirerButton")
     public void onRemoveButton(ClickEvent event) {
-        if (Window.confirm("Вы уверены?")) {
+        if (Window.confirm("Вы уверены? Все несохранённые данные будут потеряны!")) {
             resetInquirerPanel();
 //            presenter.deleteAllInquirers(); //удалит ВСЕ опросники из БД
         }
@@ -67,18 +82,24 @@ public class CreatorView extends Composite implements IView {
     @SuppressWarnings("UnusedParameters")
     @UiHandler("saveInquirer")
     public void onSaveInquirer(ClickEvent event) {
+//        presenter.addTestInquirer();
         presenter.addInquirer(createInquirer());
     }
 
     public void resetInquirerPanel() {
+        presenter.initUpdateView();
         saveInquirer.setVisible(false);
-        removeInquirer.setVisible(false);
+        clearInquirerButton.setVisible(false);
         addInquirerButton.setEnabled(true);
+        deleteInquirerButton.setVisible(true);
+        editInquirerButton.setVisible(true);
+        dataGrid.setVisible(true);
         inquirerPanel.clear();
     }
 
     /**
      * Создает новый опросник содержащий поля введённые в форму отображения
+     *
      * @return свежеиспечённый опросник)
      */
     private InquirerDTO createInquirer() {
@@ -97,8 +118,8 @@ public class CreatorView extends Composite implements IView {
 
                 for (Widget nextAnswer :
                         ((CreateQuestionWidget) nextQuestion).getAnswerPanel()) {
-                    if (nextAnswer instanceof CreateAnswerWidget){
-                        CreateAnswerWidget answerWidget = (CreateAnswerWidget)nextAnswer;
+                    if (nextAnswer instanceof CreateAnswerWidget) {
+                        CreateAnswerWidget answerWidget = (CreateAnswerWidget) nextAnswer;
                         questionDTO.getAnswersList().add(
                                 new AnswerDTO(answerWidget.getAnswerDescription(),
                                         answerWidget.isRightAnswer()));

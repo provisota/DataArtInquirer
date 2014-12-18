@@ -13,4 +13,6 @@ public interface InquirerServiceAsync {
     void addTestInquirer(AsyncCallback<InquirerDTO> async);
 
     void deleteAllInquirers(AsyncCallback<Void> async);
+
+    void deleteInquirer(InquirerDTO inquirerDTO, AsyncCallback<Void> async);
 }

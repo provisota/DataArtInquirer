@@ -39,14 +39,14 @@ public class StartPageView extends Composite implements IView {
         presenter.getAuthServiceAsync().retrieveUsername(new CommonAsyncCallback<String>() {
             @Override
             public void onSuccess(String result) {
-                userName.setText("Hello " + result + "! ;)");
+                userName.setText("Привет " + result + "! ;)");
             }
         });
 
         presenter.getAuthServiceAsync().retrieveRequestHeader("User-Agent", new CommonAsyncCallback<String>() {
             @Override
             public void onSuccess(String result) {
-                userAgent.setText("It looks like you are using " + result);
+                userAgent.setText("Похоже ты используешь " + result);
             }
         });
     }

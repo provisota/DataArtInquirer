@@ -7,29 +7,48 @@
         .button {
             width: 160px;
             margin-right: 4px;
+            font-weight: bold;
         }
     </ui:style>
     <g:VerticalPanel>
         <g:cell horizontalAlignment="ALIGN_CENTER" verticalAlignment="ALIGN_MIDDLE">
             <b.gwt:HTMLPanel width="800px">
                 <b.gwt:FlowPanel>
-                    <b:Button addStyleNames="{style.button}" ui:field="addInquirerButton" type="PRIMARY">
+                    <b:Button addStyleNames="{style.button}" ui:field="addInquirerButton"
+                              type="PRIMARY">
                         Добавить опросник
-                    </b:Button>
-                    <b:Button width="160" ui:field="saveInquirer"
-                              type="PRIMARY" visible="false">
-                        Сохранить опросник
                     </b:Button>
                 </b.gwt:FlowPanel>
                 <p/>
                 <my:InquirerDataGridWidget ui:field="dataGrid"/>
-                <p/>
                 <g:VerticalPanel ui:field="inquirerPanel"/>
-                <p/>
-                <b:Button width="160" type="DANGER"
-                          ui:field="removeInquirer" visible="false">
-                    Удалить опросник
-                </b:Button>
+                <b.gwt:FlowPanel>
+                    <b:Tooltip text="очистить форму создания опросника" placement="LEFT">
+                        <b:Button marginTop="4" addStyleNames="{style.button}"
+                                  type="DANGER"
+                                  ui:field="clearInquirerButton" visible="false">
+                            ОЧИСТИТЬ
+                        </b:Button>
+                    </b:Tooltip>
+                    <b:Tooltip text="сохранить опросник в базу данных" placement="RIGHT">
+                        <b:Button width="160px" marginTop="4" ui:field="saveInquirer"
+                                  type="SUCCESS" visible="false">
+                            СОХРАНИТЬ
+                        </b:Button>
+                    </b:Tooltip>
+                    <b:Tooltip text="Редактировать выбранный опросник" placement="LEFT">
+                        <b:Button addStyleNames="{style.button}" type="WARNING"
+                                  ui:field="editInquirerButton" visible="true">
+                            Редактировать
+                        </b:Button>
+                    </b:Tooltip>
+                    <b:Tooltip text="удалить опросник из БД" placement="RIGHT">
+                        <b:Button addStyleNames="{style.button}" type="DANGER"
+                                  ui:field="deleteInquirerButton" visible="true">
+                            УДАЛИТЬ
+                        </b:Button>
+                    </b:Tooltip>
+                </b.gwt:FlowPanel>
             </b.gwt:HTMLPanel>
         </g:cell>
     </g:VerticalPanel>

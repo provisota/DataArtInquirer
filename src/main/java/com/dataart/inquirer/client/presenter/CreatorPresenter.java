@@ -46,21 +46,26 @@ public final class CreatorPresenter implements IPresenter {
     public void addInquirer(InquirerDTO inquirerDTO) {
         inquirerServiceAsync.addInquirer(inquirerDTO,
                 new CommonAsyncCallback<InquirerDTO>() {
+                    @Override
+                    public void onSuccess(InquirerDTO result) {
+                        Window.alert("Опросник \"" + result.getName() + "\" успешно добавлен.");
+                        view.resetInquirerPanel();
+                    }
+                });
+    }
+
+    /**
+     * Метод для добавления тестового опросника.
+     */
+    @SuppressWarnings("UnusedDeclaration")
+    public void addTestInquirer() {
+        inquirerServiceAsync.addTestInquirer(new CommonAsyncCallback<InquirerDTO>() {
             @Override
             public void onSuccess(InquirerDTO result) {
                 Window.alert("Опросник \"" + result.getName() + "\" успешно добавлен.");
                 view.resetInquirerPanel();
             }
         });
-        //Добавление тестового опросника:
-        /*
-        inquirerServiceAsync.addTestInquirer(new CommonAsyncCallback<InquirerDTO>() {
-            @Override
-            public void onSuccess(InquirerDTO result) {
-                Window.alert(String.valueOf(result));
-            }
-        });
-        */
     }
 
     @Override
@@ -72,6 +77,7 @@ public final class CreatorPresenter implements IPresenter {
         authoritiesSet.add("ROLE_ADMIN");
         if (authoritiesSet.contains("ROLE_ADMIN")) {
             updateInquirerList();
+            initUpdateView();
             return view.asWidget();
         } else {
             return AccessDeniedView.getInstance().asWidget();
@@ -83,23 +89,11 @@ public final class CreatorPresenter implements IPresenter {
             @Override
             public void onSuccess(ArrayList<InquirerDTO> inquirerDTOs) {
                 model.setInquirerDTOs(inquirerDTOs);
-                initUpdateView();
+                view.refresh();
             }
         });
     }
 
-    @Override
-    public void initUpdateView() {
-        if (view == null) {
-            //create and init view
-            view = new CreatorView(this);
-            updateInquirerList();
-            view.init();
-        } else {
-            //update view
-            view.refresh();
-        }
-    }
 
     public InquirerModel getModel() {
         return model;
@@ -119,6 +113,40 @@ public final class CreatorPresenter implements IPresenter {
                     }
                 });
             }
+        }
+    }
+
+    public void deleteSelectedInquirer() {
+        if (Window.confirm
+                ("Вы уверены? Опросник будет полностью удалён из базы данных!")) {
+            final InquirerDTO selectedInquirer = model.getSelectedInquirerDTO();
+            if (selectedInquirer != null) {
+                inquirerServiceAsync.deleteInquirer(selectedInquirer,
+                        new CommonAsyncCallback<Void>() {
+                            @Override
+                            public void onSuccess(Void result) {
+                                Window.alert("Опросник " + selectedInquirer.getName() +
+                                        " удалён из базы данных");
+                                model.setSelectedInquirerDTO(null);
+                                view.resetInquirerPanel();
+                            }
+                        });
+            } else {
+                Window.alert("Сначала выберите существующий опросник из базы данных");
+            }
+        }
+    }
+
+    @Override
+    public void initUpdateView() {
+        if (view == null) {
+            //create and init view
+            view = new CreatorView(this);
+            updateInquirerList();
+            view.init();
+        } else {
+            //update view
+            updateInquirerList();
         }
     }
 }
