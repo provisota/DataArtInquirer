@@ -19,6 +19,7 @@
     <c:url var="authUrl" value="/static/j_spring_security_check" />
     <form method="post" class="signin" action="${authUrl}">
         <fieldset>
+            <p style="color: red">${param.message}</p>
             <table cellspacing="0">
                 <tr>
                     <th><label for="username_or_email">Username or Email</label></th>

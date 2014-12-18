@@ -25,7 +25,8 @@
 
     <context:component-scan base-package="com.dataart.inquirer.server.services"/>
 
-    <context:property-placeholder location="classpath:config.properties" system-properties-mode="OVERRIDE"/>
+    <context:property-placeholder location="classpath:config.properties"
+                                  system-properties-mode="OVERRIDE"/>
 
     <security:http auto-config="true" use-expressions="false">
         <!-- TODO ВАЖНО!!! Для тестирования приложения в GWT DevMode или GWT SuperDevMode
@@ -42,7 +43,8 @@
         <!--<security:intercept-url pattern="/**" access="ROLE_USER, ROLE_ADMIN"/>-->
         <security:form-login login-processing-url="/static/j_spring_security_check"
                              login-page="/login.jsp"
-                             authentication-failure-url="/login.jsp?login_error=t"/>
+                             authentication-failure-url="/login.jsp?message=invalid login
+                             or password"/>
         <security:logout logout-success-url="/login.jsp"/>
     </security:http>
 
@@ -57,11 +59,12 @@
     </security:authentication-manager>
 
     <!-- EntityManagerFactory config -->
-    <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
-        <property name="dataSource" ref="dataSource" />
-        <property name="packagesToScan" value="com.dataart.inquirer.shared.entity" />
+    <bean id="entityManagerFactory"
+          class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+        <property name="dataSource" ref="dataSource"/>
+        <property name="packagesToScan" value="com.dataart.inquirer.shared.entity"/>
         <property name="jpaVendorAdapter">
-            <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter" >
+            <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
                 <property name="database" value="${jpa.database}"/>
                 <property name="databasePlatform" value="${hibernate.dialect}"/>
             </bean>
@@ -76,7 +79,8 @@
     </bean>
 
     <!-- JpaTransactionManager -->
-    <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+    <bean id="transactionManager"
+          class="org.springframework.orm.jpa.JpaTransactionManager">
         <property name="entityManagerFactory" ref="entityManagerFactory"/>
     </bean>
     <!-- enables scanning for @Transactional annotations -->
