@@ -1,4 +1,4 @@
-package com.dataart.inquirer.client.view.InquirerDataGrid.columns;
+package com.dataart.inquirer.client.view.inquirerDataGrid.columns;
 
 import com.dataart.inquirer.shared.dto.InquirerDTO;
 import org.gwtbootstrap3.client.ui.gwt.DataGrid;

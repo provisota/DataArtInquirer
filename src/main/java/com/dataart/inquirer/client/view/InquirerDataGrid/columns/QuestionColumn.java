@@ -1,12 +1,13 @@
-package com.dataart.inquirer.client.view.InquirerDataGrid.columns;
+package com.dataart.inquirer.client.view.inquirerDataGrid.columns;
 
+import com.dataart.inquirer.client.view.AbstractColumn;
 import com.dataart.inquirer.shared.dto.InquirerDTO;
 import org.gwtbootstrap3.client.ui.gwt.DataGrid;
 
 /**
  * @author Alterovych Ilya
  */
-public class QuestionColumn extends AbstractInquirerColumn {
+public class QuestionColumn extends AbstractColumn<InquirerDTO, String> {
     /**
      * конструктор класса
      *

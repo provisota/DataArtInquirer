@@ -1,10 +1,10 @@
-package com.dataart.inquirer.client.view.InquirerDataGrid;
+package com.dataart.inquirer.client.view.inquirerDataGrid;
 
 import com.dataart.inquirer.client.models.InquirerModel;
 import com.dataart.inquirer.client.resources.ImageResources;
 import com.dataart.inquirer.client.view.IView;
-import com.dataart.inquirer.client.view.InquirerDataGrid.columns.ColumnsHolder;
-import com.dataart.inquirer.client.view.InquirerDataGrid.comparators.ComparatorsHolder;
+import com.dataart.inquirer.client.view.inquirerDataGrid.columns.ColumnsHolder;
+import com.dataart.inquirer.client.view.inquirerDataGrid.comparators.ComparatorsHolder;
 import com.dataart.inquirer.shared.dto.InquirerDTO;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
@@ -13,10 +13,7 @@ import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.cellview.client.ColumnSortEvent;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.VerticalPanel;
-import com.google.gwt.view.client.CellPreviewEvent;
-import com.google.gwt.view.client.ProvidesKey;
-import com.google.gwt.view.client.SelectionChangeEvent;
-import com.google.gwt.view.client.SingleSelectionModel;
+import com.google.gwt.view.client.*;
 import org.gwtbootstrap3.client.ui.Image;
 import org.gwtbootstrap3.client.ui.gwt.DataGrid;
 
@@ -120,6 +117,11 @@ public class InquirerDataGridWidget extends Composite implements IView {
             }
         };
         dataGrid.addColumnSortHandler(sortHandler);
+    }
+
+    public void resetSelection() {
+        selectionModel.setSelected(selectionModel.getSelectedObject(), false);
+        model.setSelectedInquirerDTO(null);
     }
 
     @Override

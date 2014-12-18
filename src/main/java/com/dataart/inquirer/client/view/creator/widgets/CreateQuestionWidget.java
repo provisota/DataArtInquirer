@@ -5,10 +5,12 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.uibinder.client.UiBinder;
+import com.google.gwt.uibinder.client.UiConstructor;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.user.client.ui.Widget;
 import org.gwtbootstrap3.client.ui.Button;
 import org.gwtbootstrap3.client.ui.ListBox;
 import org.gwtbootstrap3.client.ui.TextBox;
@@ -18,15 +20,29 @@ import org.gwtbootstrap3.client.ui.Tooltip;
  * @author Alterovych Ilya
  */
 public class CreateQuestionWidget extends Composite {
-    interface CreateQuestionViewUiBinder extends UiBinder<VerticalPanel, CreateQuestionWidget> {
+    interface CreateQuestionViewUiBinder extends UiBinder<VerticalPanel,
+            CreateQuestionWidget> {
     }
 
-    private static CreateQuestionViewUiBinder ourUiBinder = GWT.create(CreateQuestionViewUiBinder.class);
+    private static CreateQuestionViewUiBinder ourUiBinder =
+            GWT.create(CreateQuestionViewUiBinder.class);
 
+    public CreateQuestionWidget(Integer id, String questionDescription, AnswerType answerType) {
+        this();
+        this.id = id;
+        this.questionDescription.setText(questionDescription);
+        setAnswerType(answerType);
+        addAnswerButton.setEnabled(true);
+    }
+
+    @UiConstructor
     public CreateQuestionWidget() {
         initWidget(ourUiBinder.createAndBindUi(this));
     }
+
     private AnswerType answerType;
+    private int id;
+
     @UiField
     TextBox questionDescription;
     @UiField
@@ -49,7 +65,13 @@ public class CreateQuestionWidget extends Composite {
     @SuppressWarnings("UnusedParameters")
     @UiHandler("addAnswerButton")
     public void onAddAnswer(ClickEvent event) {
-        answerPanel.add(new CreateAnswerWidget());
+        CreateAnswerWidget createAnswerWidget = new CreateAnswerWidget(answerType);
+        for (Widget widget : answerPanel){
+            if (((CreateAnswerWidget)widget).hasOneAnswer()){
+                createAnswerWidget.getIsRightAnswerBox().setEnabled(false);
+            }
+        }
+        answerPanel.add(createAnswerWidget);
     }
 
     @SuppressWarnings("UnusedParameters")
@@ -78,6 +100,22 @@ public class CreateQuestionWidget extends Composite {
         }
         answerTypeTooltip.show();
         answerTypeTooltip.reconfigure();
+        changeWidgetsAnswerType();
+    }
+
+    /**
+     * Изменяет AnswerType во всех уже добавленых ответах
+     */
+    private void changeWidgetsAnswerType() {
+        for (Widget widget : answerPanel){
+            if (widget instanceof CreateAnswerWidget){
+                CreateAnswerWidget answerWidget = (CreateAnswerWidget)widget;
+                answerWidget.setAnswerType(this.answerType);
+                answerWidget.getIsRightAnswerBox().setEnabled(true);
+                answerWidget.getIsRightAnswerBox().setValue(false);
+                answerWidget.setHasOneAnswer(false);
+            }
+        }
     }
 
     @SuppressWarnings("UnusedDeclaration")
@@ -98,7 +136,7 @@ public class CreateQuestionWidget extends Composite {
         return questionDescription.getValue();
     }
 
-    public void setQuestionDescription(String questionDescription) {
-        this.questionDescription.setValue(questionDescription);
+    public Integer getId() {
+        return id;
     }
 }

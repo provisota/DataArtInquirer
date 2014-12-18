@@ -37,6 +37,11 @@ public class QuestionDTO implements Serializable {
         this.answerType = answerType;
     }
 
+    public QuestionDTO(int id, String description, AnswerType answerType) {
+        this(description, answerType);
+        this.id = id;
+    }
+
     public List<AnswerDTO> getAnswersList() {
         return answersList;
     }

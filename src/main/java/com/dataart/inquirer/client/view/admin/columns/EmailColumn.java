@@ -1,5 +1,6 @@
 package com.dataart.inquirer.client.view.admin.columns;
 
+import com.dataart.inquirer.client.view.AbstractColumn;
 import com.dataart.inquirer.shared.dto.UserDTO;
 import org.gwtbootstrap3.client.ui.gwt.DataGrid;
 
@@ -7,7 +8,7 @@ import org.gwtbootstrap3.client.ui.gwt.DataGrid;
 /**
  * @author Alterovych Ilya
  */
-public class EmailColumn extends AbstractUserColumn {
+public class EmailColumn extends AbstractColumn<UserDTO, String> {
     /**
      * конструктор класса
      *
