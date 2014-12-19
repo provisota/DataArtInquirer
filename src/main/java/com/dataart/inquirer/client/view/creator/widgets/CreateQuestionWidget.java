@@ -124,7 +124,7 @@ public class CreateQuestionWidget extends Composite {
             if (widget instanceof CreateAnswerWidget){
                 CreateAnswerWidget answerWidget = (CreateAnswerWidget)widget;
                 if (answerWidget.getAnswerType() == AnswerType.RADIO_BUTTON
-                        || answerWidget.getAnswerType() == AnswerType.CHECK_BOX){
+                        || answerWidget.getAnswerType() == AnswerType.SELECT){
                     answerWidget.setHasOneAnswer(true);
                     if (!answerWidget.isRightAnswerBox.getValue()) {
                         answerWidget.isRightAnswerBox.setEnabled(false);

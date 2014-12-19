@@ -3,13 +3,6 @@
              xmlns:b="urn:import:org.gwtbootstrap3.client.ui"
              xmlns:b.gwt='urn:import:org.gwtbootstrap3.client.ui.gwt'>
     <ui:style>
-        .main-panel {
-            height: 400px !important;
-            width: 800px !important;
-            text-align: center !important;
-            /*border: 2px solid red;*/
-            /*font-weight: bold;*/
-        }
 
         .button {
             width: 160px;
@@ -20,33 +13,35 @@
             border: 1px solid lightgrey;
             border-radius: 4px;
             background-color: white;
-            height: 100%;
-            width: 100%;
+            height: 400px;
+            /*width: 100%;*/
+            width: 800px;
         }
 
     </ui:style>
     <g:VerticalPanel>
-        <b.gwt:HTMLPanel styleName="{style.main-panel}">
-            <p/>
-            <g:VerticalPanel width="100%" height="80%">
-                <g:cell horizontalAlignment="CENTER" verticalAlignment="TOP">
-                    <b.gwt:DataGrid ui:field="dataGrid" bordered="true" visible="true"
+        <g:cell horizontalAlignment="CENTER" verticalAlignment="TOP">
+            <b.gwt:HTMLPanel width="800px">
+                <p/>
+                <b.gwt:DataGrid ui:field="dataGrid" bordered="true" visible="true"
                                 addStyleNames="{style.dataGrid}"/>
-                </g:cell>
-            </g:VerticalPanel>
-            <p/>
-            <b.gwt:FlowPanel ui:field="roleButtonsPanel">
-                <b:ButtonGroup>
-                    <b:Tooltip text="выбранным дать права пользвателя" placement="LEFT">
-                        <b:Button ui:field="setUserButton" type="PRIMARY">сделать юзером
-                        </b:Button>
-                    </b:Tooltip>
-                    <b:Tooltip text="выбранным дать права админа" placement="RIGHT">
-                        <b:Button ui:field="setAdminButton" type="PRIMARY">сделать админом
-                        </b:Button>
-                    </b:Tooltip>
-                </b:ButtonGroup>
-            </b.gwt:FlowPanel>
-        </b.gwt:HTMLPanel>
+                <p/>
+                <b.gwt:FlowPanel ui:field="roleButtonsPanel">
+                    <b:ButtonGroup>
+                        <b:Tooltip text="выбранным дать права пользвателя"
+                                   placement="LEFT">
+                            <b:Button ui:field="setUserButton" type="PRIMARY">сделать
+                                юзером
+                            </b:Button>
+                        </b:Tooltip>
+                        <b:Tooltip text="выбранным дать права админа" placement="RIGHT">
+                            <b:Button ui:field="setAdminButton" type="PRIMARY">сделать
+                                админом
+                            </b:Button>
+                        </b:Tooltip>
+                    </b:ButtonGroup>
+                </b.gwt:FlowPanel>
+            </b.gwt:HTMLPanel>
+        </g:cell>
     </g:VerticalPanel>
 </ui:UiBinder>
