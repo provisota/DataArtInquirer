@@ -72,6 +72,10 @@ public class UserDTO implements Serializable {
         return result;
     }
 
+    public UserDTO cloneUserDTO(){
+        return new UserDTO(id, username, email, password, role);
+    }
+
     //getters & setters
     public int getId() {
         return id;

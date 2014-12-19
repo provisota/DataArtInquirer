@@ -30,6 +30,7 @@ import org.gwtbootstrap3.client.ui.gwt.DataGrid;
 import org.gwtbootstrap3.client.ui.gwt.FlowPanel;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -37,7 +38,9 @@ import java.util.Set;
  */
 public class AdminView extends Composite implements IView {
 
-    interface AdminViewUiBinder extends UiBinder<VerticalPanel, AdminView> {}
+    interface AdminViewUiBinder extends UiBinder<VerticalPanel, AdminView> {
+    }
+
     private static AdminViewUiBinder ourUiBinder = GWT.create(AdminViewUiBinder.class);
     private final AdminPresenter presenter;
     private MultiSelectionModel<UserDTO> selectionModel;
@@ -59,21 +62,23 @@ public class AdminView extends Composite implements IView {
 
     @SuppressWarnings("UnusedParameters")
     @UiHandler("setAdminButton")
-    public void onSetAdminClick(ClickEvent event){
-        Set<UserDTO> selectedUsers = selectionModel.getSelectedSet();
-        for(UserDTO userDTO : selectedUsers){
-            userDTO.setRole(Role.ROLE_ADMIN);
-        }
-        presenter.updateUserRoles(selectedUsers);
-        selectionModel.clear();
+    public void onSetAdminClick(ClickEvent event) {
+        changeUserRole(Role.ROLE_ADMIN);
     }
 
     @SuppressWarnings("UnusedParameters")
     @UiHandler("setUserButton")
-    public void onSetUserClick(ClickEvent event){
-        Set<UserDTO> selectedUsers = selectionModel.getSelectedSet();
-        for(UserDTO userDTO : selectedUsers){
-            userDTO.setRole(Role.ROLE_USER);
+    public void onSetUserClick(ClickEvent event) {
+        changeUserRole(Role.ROLE_USER);
+    }
+
+    private void changeUserRole(Role role) {
+        Set<UserDTO> selectedUsers = new HashSet<>();
+        for (UserDTO userDTO : selectionModel.getSelectedSet()) {
+            selectedUsers.add(userDTO.cloneUserDTO());
+        }
+        for (UserDTO userDTO : selectedUsers) {
+            userDTO.setRole(role);
         }
         presenter.updateUserRoles(selectedUsers);
         selectionModel.clear();
@@ -93,16 +98,16 @@ public class AdminView extends Composite implements IView {
      */
     private void addColumnSortHandler() {
         sortHandler = new ColumnSortEvent.ListHandler<UserDTO>(presenter.getModel()
-                        .getUserDTOs()){
-                    @Override
-                    public void onColumnSort(ColumnSortEvent event) {
-                        setList(presenter.getModel().getUserDTOs());
-                        super.onColumnSort(event);
-                        presenter.getModel().setUserDTOs(
-                                (ArrayList<UserDTO>) getList());
-                        refresh();
-                    }
-                };
+                .getUserDTOs()) {
+            @Override
+            public void onColumnSort(ColumnSortEvent event) {
+                setList(presenter.getModel().getUserDTOs());
+                super.onColumnSort(event);
+                presenter.getModel().setUserDTOs(
+                        (ArrayList<UserDTO>) getList());
+                refresh();
+            }
+        };
         dataGrid.addColumnSortHandler(sortHandler);
     }
 
@@ -112,11 +117,11 @@ public class AdminView extends Composite implements IView {
     private void setSelectionModel() {
         selectionModel = new MultiSelectionModel<>(
                 new ProvidesKey<UserDTO>() {
-            @Override
-            public Object getKey(UserDTO item) {
-                return item;
-            }
-        });
+                    @Override
+                    public Object getKey(UserDTO item) {
+                        return item;
+                    }
+                });
         dataGrid.setSelectionModel(selectionModel,
                 DefaultSelectionEventManager.<UserDTO>createCheckboxManager());
     }
@@ -136,12 +141,12 @@ public class AdminView extends Composite implements IView {
 
         //add CheckBox column to DataGrid
         Column<UserDTO, Boolean> checkBoxColumn =
-                new Column<UserDTO, Boolean>(new CheckboxCell(true, false)){
-            @Override
-            public Boolean getValue(UserDTO userDTO) {
-                return selectionModel.isSelected(userDTO);
-            }
-        };
+                new Column<UserDTO, Boolean>(new CheckboxCell(true, false)) {
+                    @Override
+                    public Boolean getValue(UserDTO userDTO) {
+                        return selectionModel.isSelected(userDTO);
+                    }
+                };
         checkBoxColumn.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
         dataGrid.addColumn(checkBoxColumn, SafeHtmlUtils.fromSafeConstant("<br/>"));
         dataGrid.setColumnWidth(checkBoxColumn, 6, Style.Unit.PCT);
