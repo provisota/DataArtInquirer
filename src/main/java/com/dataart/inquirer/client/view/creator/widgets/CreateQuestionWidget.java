@@ -101,6 +101,8 @@ public class CreateQuestionWidget extends Composite {
         } else if ("TextBox".equals(answerType)) {
             this.answerType = AnswerType.TEXT_BOX;
             answerTypeTooltip.setTitle("текстовое поле для ответа");
+            answerPanel.clear();
+            addAnswerButton.setEnabled(false);
         } else {
             this.answerType = null;
             addAnswerButton.setEnabled(false);
