@@ -2,10 +2,10 @@ package com.dataart.inquirer.client.view.creator;
 
 import com.dataart.inquirer.client.presenter.CreatorPresenter;
 import com.dataart.inquirer.client.view.IView;
-import com.dataart.inquirer.client.view.inquirerDataGrid.InquirerDataGridWidget;
 import com.dataart.inquirer.client.view.creator.widgets.CreateAnswerWidget;
 import com.dataart.inquirer.client.view.creator.widgets.CreateInquirerWidget;
 import com.dataart.inquirer.client.view.creator.widgets.CreateQuestionWidget;
+import com.dataart.inquirer.client.view.inquirerDataGrid.InquirerDataGridWidget;
 import com.dataart.inquirer.shared.dto.AnswerDTO;
 import com.dataart.inquirer.shared.dto.InquirerDTO;
 import com.dataart.inquirer.shared.dto.QuestionDTO;
@@ -21,6 +21,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import org.gwtbootstrap3.client.ui.Button;
 import org.gwtbootstrap3.client.ui.ButtonGroup;
+import org.gwtbootstrap3.client.ui.TextBox;
 
 import java.util.List;
 
@@ -129,6 +130,15 @@ public class CreatorView extends Composite implements IView {
             Window.alert("Укажите во ВСЕХ вопросах тип правильного ответа!");
             return;
         }
+        if (hasEmptyTextField()) {
+            Window.alert("Все текстовые поля ОБЯЗАТЕЛЬНО должны быть заполнены!");
+            return;
+        }
+        /*if (hasEmptyAnswer()) {
+            Window.alert("В каждом вопросе хоть ОДИН ответ " +
+                    "должен быть отмечен как правильный!");
+            return;
+        }*/
         presenter.addInquirer(createInquirer());
         dataGrid.resetSelection();
     }
@@ -140,6 +150,56 @@ public class CreatorView extends Composite implements IView {
             return null;
         }
         return inquirerDTO;
+    }
+
+    /**
+     * Проверяет все текстовые поля на заполненность,
+     * а так же подсвечивает пустые красным цветом.
+     * @return true - если есть пустые текстовые поля<br>
+     * false - если нет пустых текстовых полей
+     */
+    private boolean hasEmptyTextField() {
+        boolean hasEmptyTextField = false;
+
+        CreateInquirerWidget inquirerWidget = (CreateInquirerWidget) inquirerPanel
+                .getWidget(0);
+
+        TextBox inquirerNameTextBox = inquirerWidget.getNameTextBox();
+        if (inquirerNameTextBox.getValue().isEmpty()){
+            inquirerNameTextBox.addStyleName("error-text-field");
+            hasEmptyTextField = true;
+        }
+
+        TextBox inquirerDescriptionTextBox = inquirerWidget.getDescriptionTextBox();
+        if (inquirerDescriptionTextBox.getValue().isEmpty()){
+            inquirerDescriptionTextBox.addStyleName("error-text-field");
+            hasEmptyTextField = true;
+        }
+
+        for (Widget widget : inquirerWidget.getQuestionPanel()) {
+            if (widget instanceof CreateQuestionWidget) {
+                CreateQuestionWidget questionWidget = (CreateQuestionWidget) widget;
+                TextBox questionDescriptionTextBox =
+                        questionWidget.getDescriptionTextBox();
+                if (questionDescriptionTextBox.getValue().isEmpty()) {
+                    questionDescriptionTextBox.addStyleName("error-text-field");
+                    hasEmptyTextField = true;
+                }
+
+                for (Widget ansWidget : questionWidget.getAnswerPanel()){
+                    if (ansWidget instanceof CreateAnswerWidget){
+                        CreateAnswerWidget answerWidget = (CreateAnswerWidget) ansWidget;
+                        TextBox answerDescriptionTextBox =
+                                answerWidget.getDescriptionTextBox();
+                        if (answerDescriptionTextBox.getValue().isEmpty()){
+                            answerDescriptionTextBox.addStyleName("error-text-field");
+                            hasEmptyTextField = true;
+                        }
+                    }
+                }
+            }
+        }
+        return hasEmptyTextField;
     }
 
     /**

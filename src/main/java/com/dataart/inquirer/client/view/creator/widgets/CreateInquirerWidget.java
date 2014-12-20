@@ -2,6 +2,7 @@ package com.dataart.inquirer.client.view.creator.widgets;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.FocusEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiConstructor;
 import com.google.gwt.uibinder.client.UiField;
@@ -56,6 +57,18 @@ public class CreateInquirerWidget extends Composite {
         questionPanel.add(new CreateQuestionWidget());
     }
 
+    @SuppressWarnings("UnusedParameters")
+    @UiHandler("inquirerName")
+    public void onInquirerNameFocused (FocusEvent event){
+        inquirerName.removeStyleName("error-text-field");
+    }
+
+    @SuppressWarnings("UnusedParameters")
+    @UiHandler("inquirerDescription")
+    public void onInquirerDescriptionFocused (FocusEvent event){
+        inquirerDescription.removeStyleName("error-text-field");
+    }
+
     public String getInquirerName() {
         return inquirerName.getValue();
     }
@@ -74,5 +87,13 @@ public class CreateInquirerWidget extends Composite {
 
     public Integer getId() {
         return id;
+    }
+
+    public TextBox getNameTextBox(){
+        return inquirerName;
+    }
+
+    public TextBox getDescriptionTextBox(){
+        return inquirerDescription;
     }
 }

@@ -4,6 +4,7 @@ import com.dataart.inquirer.shared.enums.AnswerType;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.FocusEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiConstructor;
 import com.google.gwt.uibinder.client.UiField;
@@ -56,6 +57,12 @@ public class CreateQuestionWidget extends Composite {
     VerticalPanel answerPanel;
     @UiField
     Tooltip answerTypeTooltip;
+
+    @SuppressWarnings("UnusedParameters")
+    @UiHandler("questionDescription")
+    public void onInquirerDescriptionFocused (FocusEvent event){
+        questionDescription.removeStyleName("error-text-field");
+    }
 
     @SuppressWarnings("UnusedParameters")
     @UiHandler("removeQuestion")
@@ -154,5 +161,9 @@ public class CreateQuestionWidget extends Composite {
 
     public Integer getId() {
         return id;
+    }
+
+    public TextBox getDescriptionTextBox(){
+        return questionDescription;
     }
 }

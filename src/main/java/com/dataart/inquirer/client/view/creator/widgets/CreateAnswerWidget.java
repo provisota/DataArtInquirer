@@ -3,6 +3,7 @@ package com.dataart.inquirer.client.view.creator.widgets;
 import com.dataart.inquirer.shared.enums.AnswerType;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.FocusEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiConstructor;
 import com.google.gwt.uibinder.client.UiField;
@@ -56,6 +57,12 @@ public class CreateAnswerWidget extends Composite {
     CheckBox isRightAnswerBox;
     @UiField
     Button removeAnswer;
+
+    @SuppressWarnings("UnusedParameters")
+    @UiHandler("answerDescription")
+    public void onInquirerDescriptionFocused (FocusEvent event){
+        answerDescription.removeStyleName("error-text-field");
+    }
 
     @SuppressWarnings("UnusedParameters")
     @UiHandler("removeAnswer")
@@ -124,5 +131,9 @@ public class CreateAnswerWidget extends Composite {
 
     public void setHasOneAnswer(boolean hasOneAnswer) {
         this.hasOneAnswer = hasOneAnswer;
+    }
+
+    public TextBox getDescriptionTextBox(){
+        return answerDescription;
     }
 }

@@ -5,6 +5,14 @@ body {
     padding-top: 10px !important;
 }
 
+.normal-text-field{
+    border: 1px solid rgb(204, 204, 204) !important;
+}
+
+.error-text-field{
+    border: 2px solid red !important;
+}
+
 .main-panel {
     height: 300px !important;
     width: 800px !important;
@@ -17,11 +25,11 @@ body {
 /*}*/
 
 .form-horizontal .controls {
-    margin-left: 0px !important
+    margin-left: 0 !important
 }
 
 .form-horizontal .control-group {
-    margin-bottom: 0px !important
+    margin-bottom: 0 !important
 }
 
 legend {
@@ -32,7 +40,7 @@ h1 {
     font-size: 2em;
     font-weight: bold;
     color: #777777;
-    margin: 40px 0px 70px;
+    margin: 40px 0 70px;
     text-align: center;
 }
 
