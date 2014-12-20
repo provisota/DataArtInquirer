@@ -43,12 +43,18 @@ public final class CreatorPresenter implements IPresenter {
         });
     }
 
-    public void addInquirer(InquirerDTO inquirerDTO) {
+    public void addInquirer(final InquirerDTO inquirerDTO) {
         inquirerServiceAsync.addInquirer(inquirerDTO,
                 new CommonAsyncCallback<InquirerDTO>() {
                     @Override
                     public void onSuccess(InquirerDTO result) {
-                        Window.alert("Опросник \"" + result.getName() + "\" успешно добавлен.");
+                        if (inquirerDTO.getId() == 0) {
+                            Window.alert("Опросник \"" + result.getName() +
+                                    "\" успешно добавлен.");
+                        } else {
+                            Window.alert("Опросник \"" + result.getName() +
+                                    "\" успешно обновлён.");
+                        }
                         view.resetInquirerPanel();
                     }
                 });
