@@ -68,7 +68,7 @@ public class CreateQuestionWidget extends Composite {
     }
 
     /**
-     * Удаляет this вопрос и перенумеровывает оставшиеся
+     * Удаляет this вопрос и перенумеровывает оставшиеся вопросы
      * @param event клик по кнопке
      */
     @SuppressWarnings("UnusedParameters")
@@ -95,6 +95,7 @@ public class CreateQuestionWidget extends Composite {
             }
         }
         answerPanel.add(createAnswerWidget);
+        setAnswerNumbers();
     }
 
     @SuppressWarnings("UnusedParameters")
@@ -128,6 +129,17 @@ public class CreateQuestionWidget extends Composite {
         changeWidgetsAnswerType();
     }
 
+    public void setAnswerNumbers() {
+        int number = 1;
+        for (Widget widget : answerPanel) {
+            if (widget instanceof CreateAnswerWidget) {
+                CreateAnswerWidget answerWidget = (CreateAnswerWidget) widget;
+                answerWidget.setAnswerNumber(number);
+            }
+            ++number;
+        }
+    }
+
     private void getAllParents(Widget widget) {
         Widget parent = widget.getParent();
         if (parent != null){
@@ -135,7 +147,6 @@ public class CreateQuestionWidget extends Composite {
             getAllParents(parent);
         }
     }
-
 
     public void setQuestionNumber(int number) {
         questionNumber.setText("Вопрос №" + number);

@@ -59,17 +59,6 @@ public class CreateInquirerWidget extends Composite {
         setQuestionNumbers();
     }
 
-    public void setQuestionNumbers() {
-        int number = 1;
-        for (Widget widget : questionPanel) {
-            if (widget instanceof CreateQuestionWidget) {
-                CreateQuestionWidget questionWidget = (CreateQuestionWidget) widget;
-                questionWidget.setQuestionNumber(number);
-            }
-            ++number;
-        }
-    }
-
     @SuppressWarnings("UnusedParameters")
     @UiHandler("inquirerName")
     public void onInquirerNameFocused(FocusEvent event) {
@@ -80,6 +69,17 @@ public class CreateInquirerWidget extends Composite {
     @UiHandler("inquirerDescription")
     public void onInquirerDescriptionFocused(FocusEvent event) {
         inquirerDescription.removeStyleName("error-text-field");
+    }
+
+    public void setQuestionNumbers() {
+        int number = 1;
+        for (Widget widget : questionPanel) {
+            if (widget instanceof CreateQuestionWidget) {
+                CreateQuestionWidget questionWidget = (CreateQuestionWidget) widget;
+                questionWidget.setQuestionNumber(number);
+            }
+            ++number;
+        }
     }
 
     public String getInquirerName() {

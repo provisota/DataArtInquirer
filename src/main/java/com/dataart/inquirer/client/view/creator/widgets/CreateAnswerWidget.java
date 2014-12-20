@@ -13,9 +13,12 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import org.gwtbootstrap3.client.ui.Button;
 import org.gwtbootstrap3.client.ui.CheckBox;
+import org.gwtbootstrap3.client.ui.InputGroupAddon;
 import org.gwtbootstrap3.client.ui.TextBox;
 
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * @author Alterovych Ilya
@@ -50,6 +53,7 @@ public class CreateAnswerWidget extends Composite {
     private int id;
     private AnswerType answerType;
     private boolean hasOneAnswer;
+    private Set<Widget> allParentWidgets = new HashSet<>();
 
     @UiField
     TextBox answerDescription;
@@ -57,6 +61,8 @@ public class CreateAnswerWidget extends Composite {
     CheckBox isRightAnswerBox;
     @UiField
     Button removeAnswer;
+    @UiField
+    InputGroupAddon answerNumber;
 
     @SuppressWarnings("UnusedParameters")
     @UiHandler("answerDescription")
@@ -64,10 +70,30 @@ public class CreateAnswerWidget extends Composite {
         answerDescription.removeStyleName("error-text-field");
     }
 
+    /**
+     * Удаляет this ответ и перенумеровывает оставшиеся ответы
+     * @param event клик по кнопке
+     */
     @SuppressWarnings("UnusedParameters")
     @UiHandler("removeAnswer")
     public void onRemoveButton(ClickEvent event) {
+        allParentWidgets.clear();
+        getAllParents(this);
         this.removeFromParent();
+
+        for (Widget parent : allParentWidgets){
+            if (parent instanceof CreateQuestionWidget){
+                ((CreateQuestionWidget) parent).setAnswerNumbers();
+            }
+        }
+    }
+
+    private void getAllParents(Widget widget) {
+        Widget parent = widget.getParent();
+        if (parent != null){
+            allParentWidgets.add(parent);
+            getAllParents(parent);
+        }
     }
 
     @SuppressWarnings("UnusedParameters")
@@ -75,6 +101,10 @@ public class CreateAnswerWidget extends Composite {
     public void onRightAnswerSelect(ClickEvent event) {
         blockCheckBoxesIfNeeded();
         getParent().removeStyleName("error-text-field");
+    }
+
+    public void setAnswerNumber(int number) {
+        answerNumber.setText("Вариант ответа №" + number);
     }
 
     private void blockCheckBoxesIfNeeded() {

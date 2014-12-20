@@ -14,7 +14,7 @@
     <g:VerticalPanel>
         <b.gwt:HTMLPanel styleName="{style.main}">
             <b:InputGroup>
-                <b:InputGroupAddon>Вариант ответа</b:InputGroupAddon>
+                <b:InputGroupAddon ui:field="answerNumber"/>
                 <b:TextBox ui:field="answerDescription"
                            placeholder="введите вариант ответа"/>
             </b:InputGroup>
