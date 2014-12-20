@@ -53,7 +53,7 @@ public final class CreatorPresenter implements IPresenter {
                                     "\" успешно добавлен.");
                         } else {
                             Window.alert("Опросник \"" + result.getName() +
-                                    "\" успешно обновлён.");
+                                    "\" успешно отредактирован.");
                         }
                         view.resetInquirerPanel();
                     }

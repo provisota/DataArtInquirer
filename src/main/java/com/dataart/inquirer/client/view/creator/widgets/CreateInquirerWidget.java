@@ -9,6 +9,7 @@ import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.user.client.ui.Widget;
 import org.gwtbootstrap3.client.ui.Button;
 import org.gwtbootstrap3.client.ui.CheckBox;
 import org.gwtbootstrap3.client.ui.TextBox;
@@ -55,17 +56,29 @@ public class CreateInquirerWidget extends Composite {
     @UiHandler("addAnswerButton")
     public void onAddAnswer(ClickEvent event) {
         questionPanel.add(new CreateQuestionWidget());
+        setQuestionNumbers();
+    }
+
+    public void setQuestionNumbers() {
+        int number = 1;
+        for (Widget widget : questionPanel) {
+            if (widget instanceof CreateQuestionWidget) {
+                CreateQuestionWidget questionWidget = (CreateQuestionWidget) widget;
+                questionWidget.setQuestionNumber(number);
+            }
+            ++number;
+        }
     }
 
     @SuppressWarnings("UnusedParameters")
     @UiHandler("inquirerName")
-    public void onInquirerNameFocused (FocusEvent event){
+    public void onInquirerNameFocused(FocusEvent event) {
         inquirerName.removeStyleName("error-text-field");
     }
 
     @SuppressWarnings("UnusedParameters")
     @UiHandler("inquirerDescription")
-    public void onInquirerDescriptionFocused (FocusEvent event){
+    public void onInquirerDescriptionFocused(FocusEvent event) {
         inquirerDescription.removeStyleName("error-text-field");
     }
 
@@ -89,11 +102,11 @@ public class CreateInquirerWidget extends Composite {
         return id;
     }
 
-    public TextBox getNameTextBox(){
+    public TextBox getNameTextBox() {
         return inquirerName;
     }
 
-    public TextBox getDescriptionTextBox(){
+    public TextBox getDescriptionTextBox() {
         return inquirerDescription;
     }
 }

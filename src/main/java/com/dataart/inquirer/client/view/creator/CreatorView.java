@@ -9,6 +9,7 @@ import com.dataart.inquirer.client.view.inquirerDataGrid.InquirerDataGridWidget;
 import com.dataart.inquirer.shared.dto.AnswerDTO;
 import com.dataart.inquirer.shared.dto.InquirerDTO;
 import com.dataart.inquirer.shared.dto.QuestionDTO;
+import com.dataart.inquirer.shared.enums.AnswerType;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.uibinder.client.UiBinder;
@@ -169,6 +170,9 @@ public class CreatorView extends Composite implements IView {
         for (Widget widget : questionsPanel) {
             if (widget instanceof CreateQuestionWidget) {
                 CreateQuestionWidget questionWidget = (CreateQuestionWidget) widget;
+                if (questionWidget.getAnswerType() == AnswerType.TEXT_BOX){
+                    continue;
+                }
 
                 boolean hasRightAnswer = false;
                 for (Widget ansWidget : questionWidget.getAnswerPanel()) {

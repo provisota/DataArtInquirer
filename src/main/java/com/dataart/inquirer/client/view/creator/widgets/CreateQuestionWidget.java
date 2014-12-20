@@ -12,10 +12,10 @@ import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
-import org.gwtbootstrap3.client.ui.Button;
-import org.gwtbootstrap3.client.ui.ListBox;
-import org.gwtbootstrap3.client.ui.TextBox;
-import org.gwtbootstrap3.client.ui.Tooltip;
+import org.gwtbootstrap3.client.ui.*;
+
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * @author Alterovych Ilya
@@ -44,6 +44,7 @@ public class CreateQuestionWidget extends Composite {
 
     private AnswerType answerType;
     private int id;
+    private Set<Widget> allParentWidgets = new HashSet<>();
 
     @UiField
     TextBox questionDescription;
@@ -57,25 +58,39 @@ public class CreateQuestionWidget extends Composite {
     VerticalPanel answerPanel;
     @UiField
     Tooltip answerTypeTooltip;
+    @UiField
+    InputGroupAddon questionNumber;
 
     @SuppressWarnings("UnusedParameters")
     @UiHandler("questionDescription")
-    public void onQuestionDescriptionFocused(FocusEvent event){
+    public void onQuestionDescriptionFocused(FocusEvent event) {
         questionDescription.removeStyleName("error-text-field");
     }
 
+    /**
+     * Удаляет this вопрос и перенумеровывает оставшиеся
+     * @param event клик по кнопке
+     */
     @SuppressWarnings("UnusedParameters")
     @UiHandler("removeQuestion")
     public void onRemoveButton(ClickEvent event) {
+        allParentWidgets.clear();
+        getAllParents(this);
         this.removeFromParent();
+
+        for (Widget parent : allParentWidgets){
+            if (parent instanceof CreateInquirerWidget){
+                ((CreateInquirerWidget) parent).setQuestionNumbers();
+            }
+        }
     }
 
     @SuppressWarnings("UnusedParameters")
     @UiHandler("addAnswerButton")
     public void onAddAnswer(ClickEvent event) {
         CreateAnswerWidget createAnswerWidget = new CreateAnswerWidget(answerType);
-        for (Widget widget : answerPanel){
-            if (((CreateAnswerWidget)widget).hasOneAnswer()){
+        for (Widget widget : answerPanel) {
+            if (((CreateAnswerWidget) widget).hasOneAnswer()) {
                 createAnswerWidget.getIsRightAnswerBox().setEnabled(false);
             }
         }
@@ -113,13 +128,26 @@ public class CreateQuestionWidget extends Composite {
         changeWidgetsAnswerType();
     }
 
+    private void getAllParents(Widget widget) {
+        Widget parent = widget.getParent();
+        if (parent != null){
+            allParentWidgets.add(parent);
+            getAllParents(parent);
+        }
+    }
+
+
+    public void setQuestionNumber(int number) {
+        questionNumber.setText("Вопрос №" + number);
+    }
+
     /**
      * Изменяет AnswerType во всех уже добавленых ответах
      */
     private void changeWidgetsAnswerType() {
-        for (Widget widget : answerPanel){
-            if (widget instanceof CreateAnswerWidget){
-                CreateAnswerWidget answerWidget = (CreateAnswerWidget)widget;
+        for (Widget widget : answerPanel) {
+            if (widget instanceof CreateAnswerWidget) {
+                CreateAnswerWidget answerWidget = (CreateAnswerWidget) widget;
                 answerWidget.setAnswerType(this.answerType);
                 answerWidget.getIsRightAnswerBox().setEnabled(true);
                 answerWidget.getIsRightAnswerBox().setValue(false);
@@ -129,11 +157,11 @@ public class CreateQuestionWidget extends Composite {
     }
 
     public void blockCheckBoxes() {
-        for (Widget widget : answerPanel){
-            if (widget instanceof CreateAnswerWidget){
-                CreateAnswerWidget answerWidget = (CreateAnswerWidget)widget;
+        for (Widget widget : answerPanel) {
+            if (widget instanceof CreateAnswerWidget) {
+                CreateAnswerWidget answerWidget = (CreateAnswerWidget) widget;
                 if (answerWidget.getAnswerType() == AnswerType.RADIO_BUTTON
-                        || answerWidget.getAnswerType() == AnswerType.SELECT){
+                        || answerWidget.getAnswerType() == AnswerType.SELECT) {
                     answerWidget.setHasOneAnswer(true);
                     if (!answerWidget.isRightAnswerBox.getValue()) {
                         answerWidget.isRightAnswerBox.setEnabled(false);
@@ -165,7 +193,7 @@ public class CreateQuestionWidget extends Composite {
         return id;
     }
 
-    public TextBox getDescriptionTextBox(){
+    public TextBox getDescriptionTextBox() {
         return questionDescription;
     }
 }

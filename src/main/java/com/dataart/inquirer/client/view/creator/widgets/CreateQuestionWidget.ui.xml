@@ -23,7 +23,7 @@
         <g:cell horizontalAlignment="ALIGN_CENTER" verticalAlignment="ALIGN_MIDDLE">
             <b.gwt:HTMLPanel styleName="{style.main}">
                 <b:InputGroup>
-                    <b:InputGroupAddon>Вопрос</b:InputGroupAddon>
+                    <b:InputGroupAddon ui:field="questionNumber"/>
                     <b:TextBox ui:field="questionDescription"
                                placeholder="введите сюда свой вопрос"/>
                 </b:InputGroup>
