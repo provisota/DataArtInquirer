@@ -6,12 +6,17 @@ import com.dataart.inquirer.client.view.IView;
 import com.dataart.inquirer.client.view.inquirerDataGrid.columns.ColumnsHolder;
 import com.dataart.inquirer.client.view.inquirerDataGrid.comparators.ComparatorsHolder;
 import com.dataart.inquirer.shared.dto.InquirerDTO;
+import com.google.gwt.cell.client.CheckboxCell;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.dom.client.Style;
+import com.google.gwt.safehtml.shared.SafeHtmlUtils;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiConstructor;
 import com.google.gwt.uibinder.client.UiField;
+import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.cellview.client.ColumnSortEvent;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.view.client.*;
 import org.gwtbootstrap3.client.ui.Image;
@@ -82,6 +87,18 @@ public class InquirerDataGridWidget extends Composite implements IView {
                 comparatorsHolder.getQuestionComparator());
         sortHandler.setComparator(columnsHolder.getPublishedColumn(),
                 comparatorsHolder.getPublishedComparator());
+
+        //add CheckBox column to DataGrid
+        Column<InquirerDTO, Boolean> checkBoxColumn =
+                new Column<InquirerDTO, Boolean>(new CheckboxCell(true, false)) {
+                    @Override
+                    public Boolean getValue(InquirerDTO inquirerDTO) {
+                        return selectionModel.isSelected(inquirerDTO);
+                    }
+                };
+        checkBoxColumn.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
+        dataGrid.addColumn(checkBoxColumn, SafeHtmlUtils.fromSafeConstant("<br/>"));
+        dataGrid.setColumnWidth(checkBoxColumn, 10, Style.Unit.PCT);
     }
 
     private void setSelectionModel() {
@@ -99,10 +116,12 @@ public class InquirerDataGridWidget extends Composite implements IView {
                 final InquirerDTO inquirerDTO = selectionModel.getSelectedObject();
                 //here do something you want to do on change selection
                 model.setSelectedInquirerDTO(inquirerDTO);
-//                Window.alert("выбран опросник: \n" + inquirerDTO);
             }
         });
-        dataGrid.setSelectionModel(selectionModel);
+        dataGrid.setSelectionModel(selectionModel,
+                DefaultSelectionEventManager.<InquirerDTO>createCheckboxManager());
+        /*//или так (мне так больше нравиться):
+        dataGrid.setSelectionModel(selectionModel);*/
     }
 
     private void addColumnSortHandler() {

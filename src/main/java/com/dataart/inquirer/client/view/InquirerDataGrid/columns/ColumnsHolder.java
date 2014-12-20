@@ -14,7 +14,7 @@ public class ColumnsHolder {
     private PublishedColumn publishedColumn;
 
     public ColumnsHolder(DataGrid<InquirerDTO> dataGrid) {
-        idColumn = new IdColumn(dataGrid, "Id", "Id опросника", 10, true);
+        idColumn = new IdColumn(dataGrid, "Id", "Id опросника", 6, true);
         nameColumn = new NameColumn(dataGrid, "Название", "название опросника", 20,
                 false);
         descriptionColumn = new DescriptionColumn(dataGrid, "Описание",
