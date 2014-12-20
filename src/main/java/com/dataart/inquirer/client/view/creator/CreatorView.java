@@ -20,6 +20,7 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import org.gwtbootstrap3.client.ui.Button;
+import org.gwtbootstrap3.client.ui.ButtonGroup;
 
 import java.util.List;
 
@@ -36,33 +37,49 @@ public class CreatorView extends Composite implements IView {
     @UiField
     Button addInquirerButton;
     @UiField
-    Button saveInquirer;
+    Button saveInquirerButton;
     @UiField
     VerticalPanel inquirerPanel;
     @UiField
-    Button clearInquirerButton;
+    Button goBackButton;
     @UiField(provided = true)
     InquirerDataGridWidget dataGrid;
     @UiField
     Button deleteInquirerButton;
     @UiField
     Button editInquirerButton;
+    @UiField
+    Button resetButton;
+    @UiField
+    ButtonGroup startButtonGroup;
+    @UiField
+    ButtonGroup createEditButtonGroup;
+    @UiField
+    ButtonGroup upperCreateEditButtonGroup;
+    @UiField
+    Button upperGoBackButton;
+    @UiField
+    Button upperResetButton;
+    @UiField
+    Button upperSaveInquirerButton;
 
     @SuppressWarnings("UnusedParameters")
     @UiHandler("editInquirerButton")
     public void onEditInquirer(ClickEvent event) {
-        InquirerDTO inquirerDTO = presenter.getModel().getSelectedInquirerDTO();
-        if (inquirerDTO == null) {
-            Window.alert("Сначала выберите существующий опросник из базы данных");
+        if (getSelectedInquirer() == null) {
             return;
         }
         setAddEditButtonsGroup();
-        showExistingInquirer(inquirerDTO);
+        resetButton.setEnabled(true);
+        showExistingInquirer(getSelectedInquirer());
     }
 
     @SuppressWarnings("UnusedParameters")
     @UiHandler("deleteInquirerButton")
     public void onDeleteInquirer(ClickEvent event) {
+        if (getSelectedInquirer() == null) {
+            return;
+        }
         presenter.deleteSelectedInquirer();
         resetInquirerPanel();
     }
@@ -71,7 +88,6 @@ public class CreatorView extends Composite implements IView {
     @UiHandler("addInquirerButton")
     public void onAddInquirer(ClickEvent event) {
         dataGrid.resetSelection();
-        presenter.getModel().setSelectedInquirerDTO(null);
         setAddEditButtonsGroup();
         inquirerPanel.add(new CreateInquirerWidget());
     }
@@ -82,7 +98,7 @@ public class CreatorView extends Composite implements IView {
      * @param event клик на кнопке
      */
     @SuppressWarnings("UnusedParameters")
-    @UiHandler("clearInquirerButton")
+    @UiHandler(value = {"goBackButton", "upperGoBackButton"})
     public void onClearButton(ClickEvent event) {
         if (Window.confirm("Вы уверены? Все несохранённые данные будут потеряны!")) {
             dataGrid.resetSelection();
@@ -91,8 +107,22 @@ public class CreatorView extends Composite implements IView {
         }
     }
 
+    /**
+     * Сбрасывает текуший опросник до сохранённого в БД состояния
+     *
+     * @param event клик на кнопке
+     */
     @SuppressWarnings("UnusedParameters")
-    @UiHandler("saveInquirer")
+    @UiHandler(value = {"resetButton", "upperResetButton"})
+    public void onResetButton(ClickEvent event) {
+        if (Window.confirm("Вы уверены? Все несохранённые данные будут потеряны!")) {
+            inquirerPanel.clear();
+            showExistingInquirer(presenter.getModel().getSelectedInquirerDTO());
+        }
+    }
+
+    @SuppressWarnings("UnusedParameters")
+    @UiHandler(value = {"saveInquirerButton", "upperSaveInquirerButton"})
     public void onSaveInquirer(ClickEvent event) {
 //        presenter.addTestInquirer();
         if (hasEmptyQuestionType()) {
@@ -103,17 +133,27 @@ public class CreatorView extends Composite implements IView {
         dataGrid.resetSelection();
     }
 
+    private InquirerDTO getSelectedInquirer() {
+        InquirerDTO inquirerDTO = presenter.getModel().getSelectedInquirerDTO();
+        if (inquirerDTO == null) {
+            Window.alert("Сначала выберите существующий опросник из базы данных");
+            return null;
+        }
+        return inquirerDTO;
+    }
+
     /**
      * Проверяет во всех ли вопросах указан тип правильного ответа.
+     *
      * @return true - если есть вопросы где не тип правильного ответа <br>
      * false - усли во всех вопросах указан тип правильного ответа
      */
     private boolean hasEmptyQuestionType() {
         VerticalPanel questionsPanel = ((CreateInquirerWidget) inquirerPanel
                 .getWidget(0)).getQuestionPanel();
-        for (Widget widget : questionsPanel){
-            if (widget instanceof CreateQuestionWidget){
-                if (((CreateQuestionWidget) widget).getAnswerType() == null){
+        for (Widget widget : questionsPanel) {
+            if (widget instanceof CreateQuestionWidget) {
+                if (((CreateQuestionWidget) widget).getAnswerType() == null) {
                     return true;
                 }
             }
@@ -127,6 +167,12 @@ public class CreatorView extends Composite implements IView {
      * @param inquirerDTO сущность опросника для редактирования
      */
     private void showExistingInquirer(InquirerDTO inquirerDTO) {
+        if (inquirerDTO == null){
+            inquirerPanel.clear();
+            inquirerPanel.add(new CreateInquirerWidget());
+            return;
+        }
+
         CreateInquirerWidget inquirerWidget = new CreateInquirerWidget(
                 inquirerDTO.getId(), inquirerDTO.getName(),
                 inquirerDTO.getDescription(), inquirerDTO.isPublished());
@@ -154,21 +200,22 @@ public class CreatorView extends Composite implements IView {
     }
 
     private void setAddEditButtonsGroup() {
-        saveInquirer.setVisible(true);
-        clearInquirerButton.setVisible(true);
-        addInquirerButton.setEnabled(false);
-        deleteInquirerButton.setVisible(false);
-        editInquirerButton.setVisible(false);
+        createEditButtonGroup.setVisible(true);
+        upperCreateEditButtonGroup.setVisible(true);
+
+        startButtonGroup.setVisible(false);
+        addInquirerButton.setVisible(false);
         dataGrid.setVisible(false);
     }
 
     public void resetInquirerPanel() {
         presenter.initUpdateView();
-        saveInquirer.setVisible(false);
-        clearInquirerButton.setVisible(false);
-        addInquirerButton.setEnabled(true);
-        deleteInquirerButton.setVisible(true);
-        editInquirerButton.setVisible(true);
+
+        createEditButtonGroup.setVisible(false);
+        upperCreateEditButtonGroup.setVisible(false);
+
+        startButtonGroup.setVisible(true);
+        addInquirerButton.setVisible(true);
         dataGrid.setVisible(true);
         inquirerPanel.clear();
     }

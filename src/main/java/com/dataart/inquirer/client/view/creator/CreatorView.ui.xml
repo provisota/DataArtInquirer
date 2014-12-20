@@ -18,36 +18,72 @@
                               type="PRIMARY">
                         Добавить опросник
                     </b:Button>
+                    <b:ButtonGroup ui:field="upperCreateEditButtonGroup" visible="false">
+                        <b:Tooltip text="отменить все изменения и вернуться назад"
+                                   placement="TOP">
+                            <b:Button marginTop="4" type="DANGER"
+                                      ui:field="upperGoBackButton">
+                                ОТМЕНА
+                            </b:Button>
+                        </b:Tooltip>
+                        <b:Tooltip text="сбросить опросник к сохранённому состоянию"
+                                   placement="TOP">
+                            <b:Button marginTop="4" type="WARNING"
+                                      ui:field="upperResetButton">
+                                СБРОС
+                            </b:Button>
+                        </b:Tooltip>
+                        <b:Tooltip text="сохранить опросник в базу данных"
+                                   placement="TOP">
+                            <b:Button width="160px" marginTop="4"
+                                      ui:field="upperSaveInquirerButton" type="SUCCESS">
+                                СОХРАНИТЬ
+                            </b:Button>
+                        </b:Tooltip>
+                    </b:ButtonGroup>
                 </b.gwt:FlowPanel>
                 <p/>
                 <my:InquirerDataGridWidget ui:field="dataGrid"/>
                 <g:VerticalPanel ui:field="inquirerPanel"/>
                 <b.gwt:FlowPanel>
-                    <b:Tooltip text="очистить форму создания опросника" placement="LEFT">
-                        <b:Button marginTop="4" addStyleNames="{style.button}"
-                                  type="DANGER"
-                                  ui:field="clearInquirerButton" visible="false">
-                            ОЧИСТИТЬ
-                        </b:Button>
-                    </b:Tooltip>
-                    <b:Tooltip text="сохранить опросник в базу данных" placement="RIGHT">
-                        <b:Button width="160px" marginTop="4" ui:field="saveInquirer"
-                                  type="SUCCESS" visible="false">
-                            СОХРАНИТЬ
-                        </b:Button>
-                    </b:Tooltip>
-                    <b:Tooltip text="Редактировать выбранный опросник" placement="LEFT">
-                        <b:Button addStyleNames="{style.button}" type="WARNING"
-                                  ui:field="editInquirerButton" visible="true">
-                            Редактировать
-                        </b:Button>
-                    </b:Tooltip>
-                    <b:Tooltip text="удалить опросник из БД" placement="RIGHT">
-                        <b:Button addStyleNames="{style.button}" type="DANGER"
-                                  ui:field="deleteInquirerButton" visible="true">
-                            УДАЛИТЬ
-                        </b:Button>
-                    </b:Tooltip>
+                    <b:ButtonGroup ui:field="createEditButtonGroup" visible="false">
+                        <b:Tooltip text="отменить все изменения и вернуться назад"
+                                   placement="TOP">
+                            <b:Button marginTop="4" type="DANGER"
+                                      ui:field="goBackButton">
+                                ОТМЕНА
+                            </b:Button>
+                        </b:Tooltip>
+                        <b:Tooltip text="сбросить опросник к сохранённому состоянию"
+                                   placement="TOP">
+                            <b:Button marginTop="4" type="WARNING"
+                                      ui:field="resetButton">
+                                СБРОС
+                            </b:Button>
+                        </b:Tooltip>
+                        <b:Tooltip text="сохранить опросник в базу данных"
+                                   placement="TOP">
+                            <b:Button width="160px" marginTop="4"
+                                      ui:field="saveInquirerButton" type="SUCCESS">
+                                СОХРАНИТЬ
+                            </b:Button>
+                        </b:Tooltip>
+                    </b:ButtonGroup>
+                    <b:ButtonGroup ui:field="startButtonGroup" visible="true">
+                        <b:Tooltip text="редактировать выбранный опросник"
+                                   placement="LEFT">
+                            <b:Button type="WARNING"
+                                      ui:field="editInquirerButton" visible="true">
+                                Редактировать
+                            </b:Button>
+                        </b:Tooltip>
+                        <b:Tooltip text="удалить опросник из БД" placement="RIGHT">
+                            <b:Button type="DANGER"
+                                      ui:field="deleteInquirerButton" visible="true">
+                                УДАЛИТЬ
+                            </b:Button>
+                        </b:Tooltip>
+                    </b:ButtonGroup>
                 </b.gwt:FlowPanel>
             </b.gwt:HTMLPanel>
         </g:cell>
