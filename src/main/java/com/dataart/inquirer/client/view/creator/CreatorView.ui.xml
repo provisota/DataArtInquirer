@@ -13,11 +13,18 @@
     <g:VerticalPanel>
         <g:cell horizontalAlignment="ALIGN_CENTER" verticalAlignment="ALIGN_MIDDLE">
             <b.gwt:HTMLPanel width="800px">
-                <b.gwt:FlowPanel>
-                    <b:Button addStyleNames="{style.button}" ui:field="addInquirerButton"
-                              type="PRIMARY">
-                        Добавить опросник
-                    </b:Button>
+                <b.gwt:FlowPanel  width="100%">
+                    <g:HorizontalPanel>
+                        <b:Button addStyleNames="{style.button}"
+                                  ui:field="addInquirerButton"
+                                  type="PRIMARY">
+                            Добавить опросник
+                        </b:Button>
+                        <b:InputGroup ui:field="searchInquirer">
+                            <b:InputGroupAddon>Найти</b:InputGroupAddon>
+                            <b:TextBox  width="270px" placeholder="начните вводить название опросника"/>
+                        </b:InputGroup>
+                    </g:HorizontalPanel>
                     <b:ButtonGroup ui:field="upperCreateEditButtonGroup" visible="false">
                         <b:Tooltip text="отменить все изменения и вернуться назад"
                                    placement="TOP">

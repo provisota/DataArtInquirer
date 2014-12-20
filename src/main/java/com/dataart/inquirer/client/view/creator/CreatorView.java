@@ -21,6 +21,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import org.gwtbootstrap3.client.ui.Button;
 import org.gwtbootstrap3.client.ui.ButtonGroup;
+import org.gwtbootstrap3.client.ui.InputGroup;
 import org.gwtbootstrap3.client.ui.TextBox;
 
 import java.util.List;
@@ -63,6 +64,8 @@ public class CreatorView extends Composite implements IView {
     Button upperResetButton;
     @UiField
     Button upperSaveInquirerButton;
+    @UiField
+    InputGroup searchInquirer;
 
     @SuppressWarnings("UnusedParameters")
     @UiHandler("editInquirerButton")
@@ -301,6 +304,7 @@ public class CreatorView extends Composite implements IView {
 
         startButtonGroup.setVisible(false);
         addInquirerButton.setVisible(false);
+        searchInquirer.setVisible(false);
         dataGrid.setVisible(false);
     }
 
@@ -312,6 +316,7 @@ public class CreatorView extends Composite implements IView {
 
         startButtonGroup.setVisible(true);
         addInquirerButton.setVisible(true);
+        searchInquirer.setVisible(true);
         dataGrid.setVisible(true);
         inquirerPanel.clear();
     }
