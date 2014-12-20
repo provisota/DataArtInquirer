@@ -60,7 +60,7 @@ public class CreateQuestionWidget extends Composite {
 
     @SuppressWarnings("UnusedParameters")
     @UiHandler("questionDescription")
-    public void onInquirerDescriptionFocused (FocusEvent event){
+    public void onQuestionDescriptionFocused(FocusEvent event){
         questionDescription.removeStyleName("error-text-field");
     }
 

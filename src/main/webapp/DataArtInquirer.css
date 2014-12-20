@@ -11,6 +11,7 @@ body {
 
 .error-text-field{
     border: 2px solid red !important;
+    border-radius: 4px !important;
 }
 
 .main-panel {

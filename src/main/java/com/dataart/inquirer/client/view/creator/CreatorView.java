@@ -134,11 +134,11 @@ public class CreatorView extends Composite implements IView {
             Window.alert("Все текстовые поля ОБЯЗАТЕЛЬНО должны быть заполнены!");
             return;
         }
-        /*if (hasEmptyAnswer()) {
+        if (hasQuestionWithoutAnswer()) {
             Window.alert("В каждом вопросе хоть ОДИН ответ " +
                     "должен быть отмечен как правильный!");
             return;
-        }*/
+        }
         presenter.addInquirer(createInquirer());
         dataGrid.resetSelection();
     }
@@ -153,8 +153,44 @@ public class CreatorView extends Composite implements IView {
     }
 
     /**
+     * Проверяет все вопросы на наличие хоть одного правильного ответа.
+     * а так же подсвечивает все пустые ответы красным цветом.
+     * @return true - если есть вопрос без единого правильного ответа<br>
+     * false - если все все вопросы имеют хоть один правильный ответ
+     */
+    private boolean hasQuestionWithoutAnswer() {
+        boolean hasQuestionWithoutAnswer = false;
+        VerticalPanel questionsPanel = ((CreateInquirerWidget) inquirerPanel
+                .getWidget(0)).getQuestionPanel();
+
+        for (Widget widget : questionsPanel) {
+            if (widget instanceof CreateQuestionWidget) {
+                CreateQuestionWidget questionWidget = (CreateQuestionWidget) widget;
+
+                boolean hasRightAnswer = false;
+                for (Widget ansWidget : questionWidget.getAnswerPanel()) {
+                    if (ansWidget instanceof CreateAnswerWidget) {
+                        CreateAnswerWidget answerWidget = (CreateAnswerWidget) ansWidget;
+                        if (answerWidget.isRightAnswer()) {
+                            hasRightAnswer = true;
+                        }
+                    }
+                }
+
+                if (!hasRightAnswer) {
+                    questionWidget.getAnswerPanel().addStyleName("error-text-field");
+                    hasQuestionWithoutAnswer = true;
+                }
+            }
+        }
+
+        return hasQuestionWithoutAnswer;
+    }
+
+    /**
      * Проверяет все текстовые поля на заполненность,
      * а так же подсвечивает пустые красным цветом.
+     *
      * @return true - если есть пустые текстовые поля<br>
      * false - если нет пустых текстовых полей
      */
@@ -165,13 +201,13 @@ public class CreatorView extends Composite implements IView {
                 .getWidget(0);
 
         TextBox inquirerNameTextBox = inquirerWidget.getNameTextBox();
-        if (inquirerNameTextBox.getValue().isEmpty()){
+        if (inquirerNameTextBox.getValue().isEmpty()) {
             inquirerNameTextBox.addStyleName("error-text-field");
             hasEmptyTextField = true;
         }
 
         TextBox inquirerDescriptionTextBox = inquirerWidget.getDescriptionTextBox();
-        if (inquirerDescriptionTextBox.getValue().isEmpty()){
+        if (inquirerDescriptionTextBox.getValue().isEmpty()) {
             inquirerDescriptionTextBox.addStyleName("error-text-field");
             hasEmptyTextField = true;
         }
@@ -186,12 +222,12 @@ public class CreatorView extends Composite implements IView {
                     hasEmptyTextField = true;
                 }
 
-                for (Widget ansWidget : questionWidget.getAnswerPanel()){
-                    if (ansWidget instanceof CreateAnswerWidget){
+                for (Widget ansWidget : questionWidget.getAnswerPanel()) {
+                    if (ansWidget instanceof CreateAnswerWidget) {
                         CreateAnswerWidget answerWidget = (CreateAnswerWidget) ansWidget;
                         TextBox answerDescriptionTextBox =
                                 answerWidget.getDescriptionTextBox();
-                        if (answerDescriptionTextBox.getValue().isEmpty()){
+                        if (answerDescriptionTextBox.getValue().isEmpty()) {
                             answerDescriptionTextBox.addStyleName("error-text-field");
                             hasEmptyTextField = true;
                         }
@@ -227,7 +263,7 @@ public class CreatorView extends Composite implements IView {
      * @param inquirerDTO сущность опросника для редактирования
      */
     private void showExistingInquirer(InquirerDTO inquirerDTO) {
-        if (inquirerDTO == null){
+        if (inquirerDTO == null) {
             inquirerPanel.clear();
             inquirerPanel.add(new CreateInquirerWidget());
             return;

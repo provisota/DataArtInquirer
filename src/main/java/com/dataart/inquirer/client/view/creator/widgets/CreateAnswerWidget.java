@@ -60,7 +60,7 @@ public class CreateAnswerWidget extends Composite {
 
     @SuppressWarnings("UnusedParameters")
     @UiHandler("answerDescription")
-    public void onInquirerDescriptionFocused (FocusEvent event){
+    public void onAnswerDescriptionFocused(FocusEvent event){
         answerDescription.removeStyleName("error-text-field");
     }
 
@@ -73,6 +73,11 @@ public class CreateAnswerWidget extends Composite {
     @SuppressWarnings("UnusedParameters")
     @UiHandler("isRightAnswerBox")
     public void onRightAnswerSelect(ClickEvent event) {
+        blockCheckBoxesIfNeeded();
+        getParent().removeStyleName("error-text-field");
+    }
+
+    private void blockCheckBoxesIfNeeded() {
         if (isRightAnswerBox.getValue()) {
             if (answerType == AnswerType.SELECT || answerType == AnswerType.RADIO_BUTTON) {
                 hasOneAnswer = true;
