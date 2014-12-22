@@ -24,4 +24,5 @@ public interface UserService extends RemoteService {
     UserDTO findUserByUsername (String username);
     UserDTO findUserByEmail (String email);
     void addTestUsers();
+    UserDTO getLoggedInUser();
 }

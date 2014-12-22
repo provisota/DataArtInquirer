@@ -4,25 +4,22 @@
              xmlns:b.gwt='urn:import:org.gwtbootstrap3.client.ui.gwt'
              xmlns:my="urn:import:com.dataart.inquirer.client.view.inquirerDataGrid">
     <ui:style>
-        .button {
-            width: 160px;
-            margin-right: 4px;
-            font-weight: bold;
-        }
+
     </ui:style>
     <g:VerticalPanel>
         <g:cell horizontalAlignment="ALIGN_CENTER" verticalAlignment="ALIGN_MIDDLE">
             <b.gwt:HTMLPanel width="800px">
                 <b.gwt:FlowPanel  width="100%">
                     <g:HorizontalPanel>
-                        <b:Button addStyleNames="{style.button}"
+                        <b:Button width="160" marginRight="4"
                                   ui:field="addInquirerButton"
                                   type="PRIMARY">
                             Добавить опросник
                         </b:Button>
                         <b:InputGroup ui:field="searchInquirer">
                             <b:InputGroupAddon>Найти</b:InputGroupAddon>
-                            <b:TextBox  width="270px" placeholder="начните вводить название опросника"/>
+                            <b:TextBox  width="270px"
+                                        placeholder="начните вводить название опросника"/>
                         </b:InputGroup>
                     </g:HorizontalPanel>
                     <b:ButtonGroup ui:field="upperCreateEditButtonGroup" visible="false">

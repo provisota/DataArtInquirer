@@ -6,6 +6,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import java.util.ArrayList;
 import java.util.Set;
 
+@SuppressWarnings("UnusedDeclaration")
 public interface UserServiceAsync {
     void getAll(AsyncCallback<ArrayList<UserDTO>> async);
 
@@ -20,4 +21,6 @@ public interface UserServiceAsync {
     void findUserByEmail(String email, AsyncCallback<UserDTO> async);
 
     void addTestUsers(AsyncCallback<Void> async);
+
+    void getLoggedInUser(AsyncCallback<UserDTO> async);
 }

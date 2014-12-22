@@ -6,6 +6,8 @@ import com.dataart.inquirer.shared.dto.UserDTO;
 import com.dataart.inquirer.shared.entity.UserEntity;
 import com.dataart.inquirer.shared.enums.Role;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -79,6 +81,23 @@ public class UserServiceImpl implements UserService {
         }
         if (!checkNameExist("admin") && !checkEmailExist("admin@mail.com")) {
             addUser(new UserDTO("admin", "admin@mail.com", "admin", Role.ROLE_ADMIN));
+        }
+        if (!checkNameExist("anonymousUser") &&
+                !checkEmailExist("anonymousUser@mail.com")) {
+            addUser(new UserDTO("anonymousUser", "anonymousUser@mail.com", "admin",
+                    Role.ROLE_ADMIN));
+        }
+    }
+
+    @Override
+    public UserDTO getLoggedInUser() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        if (authentication == null) {
+            System.out.println("Not logged in");
+            return null;
+        } else {
+            return findUserByUsername((String) authentication.getPrincipal());
         }
     }
 

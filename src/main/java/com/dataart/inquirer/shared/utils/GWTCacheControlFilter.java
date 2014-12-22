@@ -1,4 +1,4 @@
-package com.dataart.inquirer;
+package com.dataart.inquirer.shared.utils;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;

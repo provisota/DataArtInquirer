@@ -12,7 +12,7 @@
     <!--Filter for forced disabling browser caching of nocache.js files-->
     <filter>
         <filter-name>gwtCacheControlFilter</filter-name>
-        <filter-class>com.dataart.inquirer.GWTCacheControlFilter</filter-class>
+        <filter-class>com.dataart.inquirer.shared.utils.GWTCacheControlFilter</filter-class>
     </filter>
 
     <filter-mapping>
