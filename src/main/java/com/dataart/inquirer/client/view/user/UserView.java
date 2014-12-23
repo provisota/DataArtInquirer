@@ -3,6 +3,7 @@ package com.dataart.inquirer.client.view.user;
 import com.dataart.inquirer.client.presenter.UserPresenter;
 import com.dataart.inquirer.client.view.IView;
 import com.dataart.inquirer.client.view.inquirerDataGrid.InquirerDataGridWidget;
+import com.dataart.inquirer.client.view.user.widgets.UserInquirerWidget;
 import com.dataart.inquirer.shared.dto.InquirerDTO;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -39,6 +40,37 @@ public class UserView extends Composite implements IView {
     HorizontalPanel selectionButtonGroup;
     @UiField
     Button startInquirerButton;
+    @UiField
+    VerticalPanel inquirerPanel;
+    @UiField
+    ButtonGroup passInquirerButtonGroup;
+    @UiField
+    ButtonGroup upperPassInquirerButtonGroup;
+    @UiField
+    Button upperGoBackButton;
+    @UiField
+    Button upperSaveButton;
+    @UiField
+    Button upperPassInquirerButton;
+    @UiField
+    Button goBackButton;
+    @UiField
+    Button saveButton;
+    @UiField
+    Button passInquirerButton;
+
+    /**
+     * Удаляет текуший опросник (из отображения)
+     *
+     * @param event клик на кнопке
+     */
+    @SuppressWarnings("UnusedParameters")
+    @UiHandler(value = {"goBackButton", "upperGoBackButton"})
+    public void onClearButton(ClickEvent event) {
+        if (Window.confirm("Вы уверены? Все несохранённые данные будут потеряны!")) {
+            resetInquirerPanel();
+        }
+    }
 
     @SuppressWarnings("UnusedParameters")
     @UiHandler("newInquirerButton")
@@ -64,8 +96,35 @@ public class UserView extends Composite implements IView {
         if (getSelectedInquirer() == null) {
             return;
         }
-        dataGrid.resetSelection();
         //TODO отображаем выбранный опросник
+        setPassInquirerButtonGroup();
+        showInquirer(getSelectedInquirer());
+    }
+
+    private void showInquirer(InquirerDTO selectedInquirer) {
+        inquirerPanel.add(new UserInquirerWidget(selectedInquirer));
+    }
+
+    private void resetInquirerPanel() {
+        presenter.initUpdateView();
+
+        passInquirerButtonGroup.setVisible(false);
+        upperPassInquirerButtonGroup.setVisible(false);
+
+        startInquirerButton.setVisible(true);
+        selectionButtonGroup.setVisible(true);
+        dataGrid.setVisible(true);
+        dataGrid.resetSelection();
+        inquirerPanel.clear();
+    }
+
+    private void setPassInquirerButtonGroup() {
+        passInquirerButtonGroup.setVisible(true);
+        upperPassInquirerButtonGroup.setVisible(true);
+
+        startInquirerButton.setVisible(false);
+        selectionButtonGroup.setVisible(false);
+        dataGrid.setVisible(false);
     }
 
     private InquirerDTO getSelectedInquirer() {

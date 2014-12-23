@@ -151,11 +151,7 @@ public class InquirerDataGridWidget extends Composite implements IView {
 
     @Override
     public void refresh() {
-        inquirerList = model.getInquirerDTOs();
-        dataGrid.setRowCount(inquirerList.size(), true);
-        dataGrid.setRowData(0, inquirerList);
-        dataGrid.redraw();
-//        Window.alert(String.valueOf(model.getInquirerDTOs()));
+        refresh(model.getInquirerDTOs());
     }
 
     public void refresh(ArrayList<InquirerDTO> inquirerDTOs) {

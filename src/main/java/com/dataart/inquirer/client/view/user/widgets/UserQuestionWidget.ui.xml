@@ -1,0 +1,24 @@
+<ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
+             xmlns:g='urn:import:com.google.gwt.user.client.ui'
+             xmlns:b.gwt='urn:import:org.gwtbootstrap3.client.ui.gwt'>
+    <ui:style>
+        .question-description {
+            font-size: large;
+        }
+
+        input[type=radio], input[type=checkbox] {
+            margin: 4px 10px 0 15px;
+        }
+    </ui:style>
+    <g:VerticalPanel>
+        <g:cell horizontalAlignment="ALIGN_LEFT" verticalAlignment="ALIGN_TOP">
+            <b.gwt:HTMLPanel width="750px">
+                <g:Label addStyleNames="{style.question-description}"
+                         ui:field="questionDescription"/>
+                <p/>
+                <g:VerticalPanel ui:field="answerPanel"/>
+                <p/>
+            </b.gwt:HTMLPanel>
+        </g:cell>
+    </g:VerticalPanel>
+</ui:UiBinder>

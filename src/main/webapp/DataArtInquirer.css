@@ -5,6 +5,20 @@ body {
     padding-top: 10px !important;
 }
 
+.user-answer-panel {
+    margin-left: 25px;
+    font-family: Arial, sans-serif;
+    width: 90%;
+}
+
+.user-answer-panel-with-line {
+    margin-left: 25px;
+    font-family: Arial, sans-serif;
+    background-color: whitesmoke;
+    border-left: 1px solid lightgrey;
+    width: 90%;
+}
+
 .normal-text-field{
     border: 1px solid rgb(204, 204, 204) !important;
 }
@@ -20,10 +34,6 @@ body {
     text-align: center !important;
     /*font-weight: bold;*/
 }
-
-/*.checkbox input[type="checkbox"]{*/
-    /*float: none !important;*/
-/*}*/
 
 .form-horizontal .controls {
     margin-left: 0 !important

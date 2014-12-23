@@ -25,7 +25,7 @@
                         </b:Tooltip>
                         <b:Tooltip text="отобразить законченные опросники"
                                    placement="TOP">
-                            <b:Button marginRight="4" type="PRIMARY"
+                            <b:Button type="PRIMARY" marginRight="4"
                                       ui:field="finishedInquirerButton">
                                 Законченные опросники
                             </b:Button>
@@ -33,15 +33,65 @@
                     </b:ButtonGroup>
                     <b:InputGroup ui:field="searchInquirer">
                         <b:InputGroupAddon>Найти</b:InputGroupAddon>
-                        <b:TextBox  width="209px"
-                                    placeholder="название опросника"/>
+                        <b:TextBox width="209px"
+                                   placeholder="название опросника"/>
                     </b:InputGroup>
                 </g:HorizontalPanel>
+                <b.gwt:FlowPanel>
+                    <b:ButtonGroup ui:field="upperPassInquirerButtonGroup"
+                                   visible="false">
+                        <b:Tooltip text="отменить все изменения и вернуться назад"
+                                   placement="TOP">
+                            <b:Button type="DANGER" ui:field="upperGoBackButton">
+                                ОТМЕНА
+                            </b:Button>
+                        </b:Tooltip>
+                        <b:Tooltip text="сохранить что бы продолжить позже"
+                                   placement="TOP">
+                            <b:Button type="PRIMARY" ui:field="upperSaveButton">
+                                СОХРАНИТЬ
+                            </b:Button>
+                        </b:Tooltip>
+                        <b:Tooltip text="сдать и получить результаты"
+                                   placement="TOP">
+                            <b:Button width="160px" ui:field="upperPassInquirerButton"
+                                      type="SUCCESS">
+                                ЗАВЕРШИТЬ
+                            </b:Button>
+                        </b:Tooltip>
+                    </b:ButtonGroup>
+                </b.gwt:FlowPanel>
                 <p/>
                 <my:InquirerDataGridWidget ui:field="dataGrid"/>
                 <g:VerticalPanel ui:field="inquirerPanel"/>
+                <b.gwt:FlowPanel>
+                    <b:ButtonGroup ui:field="passInquirerButtonGroup"
+                                   visible="false">
+                        <b:Tooltip text="отменить все изменения и вернуться назад"
+                                   placement="TOP">
+                            <b:Button marginTop="9" type="DANGER"
+                                      ui:field="goBackButton">
+                                ОТМЕНА
+                            </b:Button>
+                        </b:Tooltip>
+                        <b:Tooltip text="сохранить что бы продолжить позже"
+                                   placement="TOP">
+                            <b:Button marginTop="9" type="PRIMARY"
+                                      ui:field="saveButton">
+                                СОХРАНИТЬ
+                            </b:Button>
+                        </b:Tooltip>
+                        <b:Tooltip text="сдать и получить результаты"
+                                   placement="TOP">
+                            <b:Button width="160px" marginTop="9"
+                                      ui:field="passInquirerButton" type="SUCCESS">
+                                ЗАВЕРШИТЬ
+                            </b:Button>
+                        </b:Tooltip>
+                    </b:ButtonGroup>
+                </b.gwt:FlowPanel>
                 <b:Tooltip text="пройти выбраный опросник" placement="RIGHT">
-                    <b:Button type="SUCCESS"
+                    <b:Button type="SUCCESS" marginTop="-12"
                               ui:field="startInquirerButton" visible="true">
                         ПРОЙТИ
                     </b:Button>

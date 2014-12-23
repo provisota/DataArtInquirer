@@ -75,7 +75,6 @@ public class CreatorView extends Composite implements IView {
             return;
         }
         setAddEditButtonsGroup();
-        resetButton.setEnabled(true);
         showExistingInquirer(getSelectedInquirer());
     }
 
