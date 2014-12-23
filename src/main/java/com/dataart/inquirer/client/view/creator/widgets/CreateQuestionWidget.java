@@ -1,5 +1,6 @@
 package com.dataart.inquirer.client.view.creator.widgets;
 
+import com.dataart.inquirer.shared.dto.QuestionDTO;
 import com.dataart.inquirer.shared.enums.AnswerType;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ChangeEvent;
@@ -29,11 +30,11 @@ public class CreateQuestionWidget extends Composite {
     private static CreateQuestionViewUiBinder ourUiBinder =
             GWT.create(CreateQuestionViewUiBinder.class);
 
-    public CreateQuestionWidget(Integer id, String questionDescription, AnswerType answerType) {
+    public CreateQuestionWidget(QuestionDTO questionDTO) {
         this();
-        this.id = id;
-        this.questionDescription.setText(questionDescription);
-        setAnswerType(answerType);
+        this.id = questionDTO.getId();
+        this.questionDescription.setText(questionDTO.getDescription());
+        setAnswerType(questionDTO.getAnswerType());
         addAnswerButton.setEnabled(true);
     }
 

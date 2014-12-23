@@ -275,24 +275,20 @@ public class CreatorView extends Composite implements IView {
             return;
         }
 
-        CreateInquirerWidget inquirerWidget = new CreateInquirerWidget(
-                inquirerDTO.getId(), inquirerDTO.getName(),
-                inquirerDTO.getDescription(), inquirerDTO.isPublished());
+        CreateInquirerWidget inquirerWidget = new CreateInquirerWidget(inquirerDTO);
         inquirerPanel.add(inquirerWidget);
 
         List<QuestionDTO> questionDTOs = inquirerDTO.getQuestionsList();
         if (questionDTOs != null) {
             for (QuestionDTO questionDTO : questionDTOs) {
-                CreateQuestionWidget createQuestionWidget = new CreateQuestionWidget(
-                        questionDTO.getId(), questionDTO.getDescription(),
-                        questionDTO.getAnswerType());
+                CreateQuestionWidget createQuestionWidget =
+                        new CreateQuestionWidget(questionDTO);
                 inquirerWidget.getQuestionPanel().add(createQuestionWidget);
                 List<AnswerDTO> answerDTOs = questionDTO.getAnswersList();
                 if (answerDTOs != null) {
                     for (AnswerDTO answerDTO : answerDTOs) {
-                        createQuestionWidget.getAnswerPanel().add(new CreateAnswerWidget(
-                                answerDTO.getId(), answerDTO.getDescription(),
-                                answerDTO.isRightAnswer(),
+                        createQuestionWidget.getAnswerPanel().add(
+                                new CreateAnswerWidget(answerDTO,
                                 createQuestionWidget.getAnswerType()));
                     }
                 }

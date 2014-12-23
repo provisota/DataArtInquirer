@@ -1,5 +1,6 @@
 package com.dataart.inquirer.client.view.creator.widgets;
 
+import com.dataart.inquirer.shared.dto.InquirerDTO;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.FocusEvent;
@@ -25,13 +26,12 @@ public class CreateInquirerWidget extends Composite {
     private static CreateInquirerViewUiBinder ourUiBinder =
             GWT.create(CreateInquirerViewUiBinder.class);
 
-    public CreateInquirerWidget(Integer id, String inquirerName, String inquirerDescription,
-                                boolean isPublished) {
+    public CreateInquirerWidget(InquirerDTO inquirerDTO) {
         this();
-        this.id = id;
-        this.inquirerName.setText(inquirerName);
-        this.inquirerDescription.setText(inquirerDescription);
-        this.isPublished.setValue(isPublished);
+        this.id = inquirerDTO.getId();
+        this.inquirerName.setText(inquirerDTO.getName());
+        this.inquirerDescription.setText(inquirerDTO.getDescription());
+        this.isPublished.setValue(inquirerDTO.isPublished());
     }
 
     @UiConstructor

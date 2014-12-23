@@ -1,5 +1,6 @@
 package com.dataart.inquirer.client.view.creator.widgets;
 
+import com.dataart.inquirer.shared.dto.AnswerDTO;
 import com.dataart.inquirer.shared.enums.AnswerType;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -31,12 +32,11 @@ public class CreateAnswerWidget extends Composite {
     private static CreateAnswerViewUiBinder ourUiBinder =
             GWT.create(CreateAnswerViewUiBinder.class);
 
-    public CreateAnswerWidget(Integer id, String answerDescription,
-                              boolean isRightAnswer, AnswerType answerType) {
+    public CreateAnswerWidget(AnswerDTO answerDTO, AnswerType answerType) {
         this();
-        this.id = id;
-        this.answerDescription.setText(answerDescription);
-        this.isRightAnswerBox.setValue(isRightAnswer);
+        this.id = answerDTO.getId();
+        this.answerDescription.setText(answerDTO.getDescription());
+        this.isRightAnswerBox.setValue(answerDTO.isRightAnswer());
         this.answerType = answerType;
     }
 
