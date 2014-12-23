@@ -14,26 +14,26 @@
                         <b:Tooltip text="отобразить новые опросники"
                                    placement="TOP">
                             <b:Button type="PRIMARY" ui:field="newInquirerButton">
-                                Новые опросники
+                                Новые
                             </b:Button>
                         </b:Tooltip>
                         <b:Tooltip text="отобразить незаконченные опросники"
                                    placement="TOP">
                             <b:Button type="PRIMARY" ui:field="unfinishedInquirerButton">
-                                Незаконченные опросники
+                                Начатые
                             </b:Button>
                         </b:Tooltip>
                         <b:Tooltip text="отобразить законченные опросники"
                                    placement="TOP">
                             <b:Button type="PRIMARY" marginRight="4"
                                       ui:field="finishedInquirerButton">
-                                Законченные опросники
+                                Пройденные
                             </b:Button>
                         </b:Tooltip>
                     </b:ButtonGroup>
                     <b:InputGroup ui:field="searchInquirer">
                         <b:InputGroupAddon>Найти</b:InputGroupAddon>
-                        <b:TextBox width="209px"
+                        <b:TextBox width="210px"
                                    placeholder="название опросника"/>
                     </b:InputGroup>
                 </g:HorizontalPanel>

@@ -96,7 +96,6 @@ public class UserView extends Composite implements IView {
         if (getSelectedInquirer() == null) {
             return;
         }
-        //TODO отображаем выбранный опросник
         setPassInquirerButtonGroup();
         showInquirer(getSelectedInquirer());
     }
