@@ -26,6 +26,7 @@ body {
 .error-text-field{
     border: 2px solid red !important;
     border-radius: 4px !important;
+    border-collapse: initial;
 }
 
 .main-panel {

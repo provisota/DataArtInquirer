@@ -9,6 +9,12 @@
         input[type=radio], input[type=checkbox] {
             margin: 4px 10px 0 15px;
         }
+
+        select {
+            width: auto !important;
+            min-width: 30%;
+            max-width: 675px;
+        }
     </ui:style>
     <g:VerticalPanel>
         <g:cell horizontalAlignment="ALIGN_LEFT" verticalAlignment="ALIGN_TOP">

@@ -41,4 +41,8 @@ public class UserInquirerWidget extends Composite {
             questionNumber++;
         }
     }
+
+    public VerticalPanel getQuestionPanel() {
+        return questionPanel;
+    }
 }

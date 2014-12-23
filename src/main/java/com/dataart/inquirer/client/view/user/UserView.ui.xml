@@ -4,7 +4,14 @@
              xmlns:b.gwt='urn:import:org.gwtbootstrap3.client.ui.gwt'
              xmlns:my="urn:import:com.dataart.inquirer.client.view.inquirerDataGrid">
     <ui:style>
-
+        .modal-panel{
+            margin-top: 25px;
+            width: 250px;
+            height: 75px;
+            font-size: x-large;
+            font-weight: bold;
+            color: green;
+        }
     </ui:style>
     <g:VerticalPanel>
         <g:cell horizontalAlignment="ALIGN_CENTER" verticalAlignment="ALIGN_MIDDLE">
@@ -96,6 +103,17 @@
                         ПРОЙТИ
                     </b:Button>
                 </b:Tooltip>
+
+                <b:Modal width="300px" height="300px" title="ВАШ РЕЗУЛЬТАТ"
+                         closable="true" fade="true" dataKeyboard="false"
+                         dataBackdrop="TRUE"
+                         ui:field="resultModal">
+                    <b:ModalBody>
+                        <g:FlowPanel addStyleNames="{style.modal-panel}">
+                            <g:Label ui:field="modalLabel"/>
+                        </g:FlowPanel>
+                    </b:ModalBody>
+                </b:Modal>
             </b.gwt:HTMLPanel>
         </g:cell>
     </g:VerticalPanel>

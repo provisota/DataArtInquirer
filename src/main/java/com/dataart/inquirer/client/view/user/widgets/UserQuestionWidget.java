@@ -62,9 +62,12 @@ public class UserQuestionWidget extends Composite {
             @Override
             public void onBlur(BlurEvent event) {
                 selectedAnswersSet.clear();
-                selectedAnswersSet.add(textBox.getText());
+                if (!"".equals(textBox.getText())) {
+                    selectedAnswersSet.add(textBox.getText());
+                }
             }
         });
+        addFocusHandler(textBox);
         answerPanel.add(textBox);
     }
 
@@ -82,6 +85,7 @@ public class UserQuestionWidget extends Composite {
                     }
                 }
             });
+            addFocusHandler(checkBox);
             answerPanel.add(checkBox);
         }
     }
@@ -90,18 +94,20 @@ public class UserQuestionWidget extends Composite {
         answerPanel.addStyleName("user-answer-panel");
 
         final ListBox listBox = new ListBox();
-        listBox.setWidth("30%");
         listBox.addItem("");
         listBox.addChangeHandler(new ChangeHandler() {
             @Override
             public void onChange(ChangeEvent event) {
                 selectedAnswersSet.clear();
-                selectedAnswersSet.add(listBox.getSelectedItemText());
+                if (!"".equals(listBox.getSelectedItemText())) {
+                    selectedAnswersSet.add(listBox.getSelectedItemText());
+                }
             }
         });
         for (AnswerDTO answerDTO : answersList) {
             listBox.addItem(answerDTO.getDescription());
         }
+        addFocusHandler(listBox);
         answerPanel.add(listBox);
     }
 
@@ -118,7 +124,25 @@ public class UserQuestionWidget extends Composite {
                     selectedAnswersSet.add(radioButton.getText());
                 }
             });
+            addFocusHandler(radioButton);
             answerPanel.add(radioButton);
         }
+    }
+
+    private void addFocusHandler(FocusWidget widget){
+        widget.addFocusHandler(new FocusHandler() {
+            @Override
+            public void onFocus(FocusEvent event) {
+                answerPanel.removeStyleName("error-text-field");
+            }
+        });
+    }
+
+    public Set<String> getSelectedAnswersSet() {
+        return selectedAnswersSet;
+    }
+
+    public VerticalPanel getAnswerPanel() {
+        return answerPanel;
     }
 }

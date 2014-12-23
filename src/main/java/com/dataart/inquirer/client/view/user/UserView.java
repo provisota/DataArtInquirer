@@ -4,7 +4,10 @@ import com.dataart.inquirer.client.presenter.UserPresenter;
 import com.dataart.inquirer.client.view.IView;
 import com.dataart.inquirer.client.view.inquirerDataGrid.InquirerDataGridWidget;
 import com.dataart.inquirer.client.view.user.widgets.UserInquirerWidget;
+import com.dataart.inquirer.client.view.user.widgets.UserQuestionWidget;
+import com.dataart.inquirer.shared.dto.AnswerDTO;
 import com.dataart.inquirer.shared.dto.InquirerDTO;
+import com.dataart.inquirer.shared.dto.QuestionDTO;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.uibinder.client.UiBinder;
@@ -12,11 +15,14 @@ import com.google.gwt.uibinder.client.UiConstructor;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.user.client.ui.*;
 import org.gwtbootstrap3.client.ui.Button;
 import org.gwtbootstrap3.client.ui.ButtonGroup;
+import org.gwtbootstrap3.client.ui.Modal;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 
 /**
  * @author Alterovych Ilya
@@ -58,6 +64,25 @@ public class UserView extends Composite implements IView {
     Button saveButton;
     @UiField
     Button passInquirerButton;
+    @UiField
+    Modal resultModal;
+    @UiField
+    Label modalLabel;
+
+    @SuppressWarnings("UnusedParameters")
+    @UiHandler(value = {"passInquirerButton", "upperPassInquirerButton"})
+    public void onPassButton(ClickEvent event) {
+        if (Window.confirm("Вы уверены что хотите закончить?")) {
+            String inquirerResult = getInquirerResults();
+            if (inquirerResult == null){
+                Window.alert("Вы ответили ещё не на все вопросы!");
+                return;
+            }
+            modalLabel.setText(inquirerResult);
+            resultModal.show();
+            resetInquirerPanel();
+        }
+    }
 
     /**
      * Удаляет текуший опросник (из отображения)
@@ -98,6 +123,47 @@ public class UserView extends Composite implements IView {
         }
         setPassInquirerButtonGroup();
         showInquirer(getSelectedInquirer());
+    }
+
+    private String getInquirerResults() {
+        boolean isAllQuestionHasAnswers = true;
+        List<QuestionDTO> questionDTOs = getSelectedInquirer().getQuestionsList();
+        VerticalPanel questionPanel = ((UserInquirerWidget)inquirerPanel.getWidget(0))
+                .getQuestionPanel();
+        List<UserQuestionWidget> questionWidgets =  new ArrayList<>();
+        for (Widget widget : questionPanel){
+            if (widget instanceof UserQuestionWidget){
+                questionWidgets.add((UserQuestionWidget) widget);
+            }
+        }
+
+        int totalQuestionsCount = questionDTOs.size();
+        int rightQuestionCount = 0;
+
+        for (int i = 0; i < questionDTOs.size(); i++){
+            List<AnswerDTO> answerDTOs = questionDTOs.get(i).getAnswersList();
+            Set<String> answersSet = questionWidgets.get(i).getSelectedAnswersSet();
+            if (answersSet.isEmpty()){
+                questionWidgets.get(i).getAnswerPanel().addStyleName("error-text-field");
+                questionWidgets.get(i).getAnswerPanel().getElement().setPropertyString("borderRadius", "4px");
+                isAllQuestionHasAnswers = false;
+            }
+            boolean rightAnswer = true;
+            for(AnswerDTO answerDTO : answerDTOs){
+                if (answerDTO.isRightAnswer() &&
+                        !answersSet.contains(answerDTO.getDescription()) ||
+                        !answerDTO.isRightAnswer() &&
+                                answersSet.contains(answerDTO.getDescription())){
+                    rightAnswer = false;
+                }
+            }
+            if (rightAnswer){
+                rightQuestionCount++;
+            }
+        }
+        return isAllQuestionHasAnswers ? rightQuestionCount + "/" + totalQuestionsCount
+                + " (" + (int)((double)rightQuestionCount / (double)totalQuestionsCount
+                * 100) + "%)" : null;
     }
 
     private void showInquirer(InquirerDTO selectedInquirer) {
