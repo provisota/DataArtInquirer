@@ -1,6 +1,6 @@
 package com.dataart.inquirer.client.view.inquirerDataGrid.comparators;
 
-import com.dataart.inquirer.shared.dto.InquirerDTO;
+import com.dataart.inquirer.shared.dto.inquirer.InquirerDTO;
 
 import java.util.Comparator;
 

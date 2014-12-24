@@ -1,6 +1,6 @@
 package com.dataart.inquirer.client.view.admin.comparators;
 
-import com.dataart.inquirer.shared.dto.UserDTO;
+import com.dataart.inquirer.shared.dto.user.UserDTO;
 
 import java.util.Comparator;
 

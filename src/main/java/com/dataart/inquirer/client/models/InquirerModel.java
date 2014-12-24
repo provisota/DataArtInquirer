@@ -1,6 +1,6 @@
 package com.dataart.inquirer.client.models;
 
-import com.dataart.inquirer.shared.dto.InquirerDTO;
+import com.dataart.inquirer.shared.dto.inquirer.InquirerDTO;
 
 import java.util.ArrayList;
 

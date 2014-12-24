@@ -1,8 +1,10 @@
-package com.dataart.inquirer.shared.dto;
+package com.dataart.inquirer.shared.dto.user;
 
 import com.dataart.inquirer.shared.enums.Role;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Alterovych Ilya
@@ -15,6 +17,7 @@ public class UserDTO implements Serializable {
     private String email;
     private String password;
     private Role role;
+    private List<UserInquirerDTO> userInquirerList = new ArrayList<>();
 
     public UserDTO() {
     }
@@ -31,6 +34,18 @@ public class UserDTO implements Serializable {
         this.id = id;
     }
 
+    public UserDTO(int id, String username, String email, String password, Role role,
+                   List<UserInquirerDTO> userInquirerList) {
+        this(id, username, email, password, role);
+        this.userInquirerList = userInquirerList;
+    }
+
+    public UserDTO(String username, String email, String password, Role role,
+                   List<UserInquirerDTO> userInquirerList) {
+        this(username, email, password, role);
+        this.userInquirerList = userInquirerList;
+    }
+
     @Override
     public String toString() {
         return "UserDTO{" +
@@ -39,6 +54,7 @@ public class UserDTO implements Serializable {
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
                 ", role=" + role +
+                ", userInquirerList=" + userInquirerList +
                 "}\n";
     }
 
@@ -73,7 +89,7 @@ public class UserDTO implements Serializable {
     }
 
     public UserDTO cloneUserDTO(){
-        return new UserDTO(id, username, email, password, role);
+        return new UserDTO(id, username, email, password, role, userInquirerList);
     }
 
     //getters & setters
@@ -115,5 +131,13 @@ public class UserDTO implements Serializable {
 
     public void setRole(Role role) {
         this.role = role;
+    }
+
+    public List<UserInquirerDTO> getUserInquirerList() {
+        return userInquirerList;
+    }
+
+    public void setUserInquirerList(List<UserInquirerDTO> userInquirerList) {
+        this.userInquirerList = userInquirerList;
     }
 }

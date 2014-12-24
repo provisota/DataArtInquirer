@@ -1,6 +1,6 @@
-package com.dataart.inquirer.shared.entity;
+package com.dataart.inquirer.shared.entity.inquirer;
 
-import com.dataart.inquirer.shared.dto.AnswerDTO;
+import com.dataart.inquirer.shared.dto.inquirer.AnswerDTO;
 
 import javax.persistence.*;
 import java.io.Serializable;

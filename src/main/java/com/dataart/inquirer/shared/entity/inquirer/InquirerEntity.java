@@ -1,7 +1,8 @@
-package com.dataart.inquirer.shared.entity;
+package com.dataart.inquirer.shared.entity.inquirer;
 
-import com.dataart.inquirer.shared.dto.InquirerDTO;
-import com.dataart.inquirer.shared.dto.QuestionDTO;
+import com.dataart.inquirer.shared.dto.inquirer.InquirerDTO;
+import com.dataart.inquirer.shared.dto.inquirer.QuestionDTO;
+import com.dataart.inquirer.shared.entity.user.UserInquirerEntity;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
@@ -37,6 +38,11 @@ public class InquirerEntity implements Serializable {
             orphanRemoval = true)
     @OnDelete(action = OnDeleteAction.CASCADE)
     private List<QuestionEntity> questionsList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "inquirerEntity", cascade = {CascadeType.ALL},
+            orphanRemoval = true)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    private List<UserInquirerEntity> userInquirerList = new ArrayList<>();
 
     public InquirerEntity() {
     }
@@ -98,6 +104,14 @@ public class InquirerEntity implements Serializable {
         this.questionsList = questionsList;
     }
 
+    public List<UserInquirerEntity> getUserInquirerList() {
+        return userInquirerList;
+    }
+
+    public void setUserInquirerList(List<UserInquirerEntity> userInquirerList) {
+        this.userInquirerList = userInquirerList;
+    }
+
     @Override
     public String toString() {
         return "InquirerEntity{" +
@@ -106,6 +120,7 @@ public class InquirerEntity implements Serializable {
                 ", description='" + description + '\'' +
                 ", isPublished=" + isPublished +
                 ", questionsList=" + questionsList +
+                ", userInquirerList=" + userInquirerList +
                 "}\n";
     }
 

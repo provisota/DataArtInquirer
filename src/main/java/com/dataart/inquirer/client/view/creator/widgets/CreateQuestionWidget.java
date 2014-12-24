@@ -1,6 +1,6 @@
 package com.dataart.inquirer.client.view.creator.widgets;
 
-import com.dataart.inquirer.shared.dto.QuestionDTO;
+import com.dataart.inquirer.shared.dto.inquirer.QuestionDTO;
 import com.dataart.inquirer.shared.enums.AnswerType;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ChangeEvent;

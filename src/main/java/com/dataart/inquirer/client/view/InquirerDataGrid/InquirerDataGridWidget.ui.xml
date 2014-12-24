@@ -12,6 +12,14 @@
             width: 800px;
         }
 
+        .dataGrid td div {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            -o-text-overflow: ellipsis;
+            -ms-text-overflow: ellipsis;
+        }
+
     </ui:style>
     <g:VerticalPanel>
         <g:cell horizontalAlignment="CENTER" verticalAlignment="TOP">

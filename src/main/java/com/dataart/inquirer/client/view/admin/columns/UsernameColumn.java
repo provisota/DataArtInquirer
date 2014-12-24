@@ -1,7 +1,7 @@
 package com.dataart.inquirer.client.view.admin.columns;
 
 import com.dataart.inquirer.client.view.AbstractColumn;
-import com.dataart.inquirer.shared.dto.UserDTO;
+import com.dataart.inquirer.shared.dto.user.UserDTO;
 import org.gwtbootstrap3.client.ui.gwt.DataGrid;
 
 

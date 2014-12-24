@@ -6,8 +6,8 @@ import com.dataart.inquirer.client.models.UserModel;
 import com.dataart.inquirer.client.services.InquirerServiceAsync;
 import com.dataart.inquirer.client.services.UserServiceAsync;
 import com.dataart.inquirer.client.view.user.UserView;
-import com.dataart.inquirer.shared.dto.InquirerDTO;
-import com.dataart.inquirer.shared.dto.UserDTO;
+import com.dataart.inquirer.shared.dto.inquirer.InquirerDTO;
+import com.dataart.inquirer.shared.dto.user.UserDTO;
 import com.google.gwt.user.client.ui.Widget;
 
 import java.util.ArrayList;

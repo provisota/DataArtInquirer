@@ -1,4 +1,4 @@
-package com.dataart.inquirer.shared.dto;
+package com.dataart.inquirer.shared.dto.inquirer;
 
 import java.io.Serializable;
 

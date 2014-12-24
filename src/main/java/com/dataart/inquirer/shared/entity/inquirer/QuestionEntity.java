@@ -1,7 +1,7 @@
-package com.dataart.inquirer.shared.entity;
+package com.dataart.inquirer.shared.entity.inquirer;
 
-import com.dataart.inquirer.shared.dto.AnswerDTO;
-import com.dataart.inquirer.shared.dto.QuestionDTO;
+import com.dataart.inquirer.shared.dto.inquirer.AnswerDTO;
+import com.dataart.inquirer.shared.dto.inquirer.QuestionDTO;
 import com.dataart.inquirer.shared.enums.AnswerType;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;

@@ -5,7 +5,7 @@ import com.dataart.inquirer.client.resources.ImageResources;
 import com.dataart.inquirer.client.view.IView;
 import com.dataart.inquirer.client.view.admin.columns.ColumnsHolder;
 import com.dataart.inquirer.client.view.admin.comparators.ComparatorsHolder;
-import com.dataart.inquirer.shared.dto.UserDTO;
+import com.dataart.inquirer.shared.dto.user.UserDTO;
 import com.dataart.inquirer.shared.enums.Role;
 import com.google.gwt.cell.client.CheckboxCell;
 import com.google.gwt.core.client.GWT;

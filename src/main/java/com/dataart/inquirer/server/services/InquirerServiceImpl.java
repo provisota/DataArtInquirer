@@ -2,12 +2,12 @@ package com.dataart.inquirer.server.services;
 
 import com.dataart.inquirer.client.services.InquirerService;
 import com.dataart.inquirer.server.dao.InquirerRepository;
-import com.dataart.inquirer.shared.dto.AnswerDTO;
-import com.dataart.inquirer.shared.dto.InquirerDTO;
-import com.dataart.inquirer.shared.dto.QuestionDTO;
-import com.dataart.inquirer.shared.entity.AnswerEntity;
-import com.dataart.inquirer.shared.entity.InquirerEntity;
-import com.dataart.inquirer.shared.entity.QuestionEntity;
+import com.dataart.inquirer.shared.dto.inquirer.AnswerDTO;
+import com.dataart.inquirer.shared.dto.inquirer.InquirerDTO;
+import com.dataart.inquirer.shared.dto.inquirer.QuestionDTO;
+import com.dataart.inquirer.shared.entity.inquirer.AnswerEntity;
+import com.dataart.inquirer.shared.entity.inquirer.InquirerEntity;
+import com.dataart.inquirer.shared.entity.inquirer.QuestionEntity;
 import com.dataart.inquirer.shared.enums.AnswerType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

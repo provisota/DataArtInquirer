@@ -2,8 +2,8 @@ package com.dataart.inquirer.server.services;
 
 import com.dataart.inquirer.client.services.UserService;
 import com.dataart.inquirer.server.dao.UserRepository;
-import com.dataart.inquirer.shared.dto.UserDTO;
-import com.dataart.inquirer.shared.entity.UserEntity;
+import com.dataart.inquirer.shared.dto.user.UserDTO;
+import com.dataart.inquirer.shared.entity.user.UserEntity;
 import com.dataart.inquirer.shared.enums.Role;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -11,6 +11,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -97,7 +98,14 @@ public class UserServiceImpl implements UserService {
             System.out.println("Not logged in");
             return null;
         } else {
-            return findUserByUsername((String) authentication.getPrincipal());
+            String username = null;
+            try {
+                username = new String(((String) authentication.getPrincipal())
+                        .getBytes("ISO-8859-1"), "utf8");
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
+            return findUserByUsername(username);
         }
     }
 

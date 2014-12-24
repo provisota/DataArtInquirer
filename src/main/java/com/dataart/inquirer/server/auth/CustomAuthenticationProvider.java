@@ -1,7 +1,7 @@
 package com.dataart.inquirer.server.auth;
 
 import com.dataart.inquirer.client.services.UserService;
-import com.dataart.inquirer.shared.dto.UserDTO;
+import com.dataart.inquirer.shared.dto.user.UserDTO;
 import com.dataart.inquirer.shared.enums.Role;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationProvider;

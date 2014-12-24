@@ -1,6 +1,6 @@
 package com.dataart.inquirer.server.dao;
 
-import com.dataart.inquirer.shared.entity.InquirerEntity;
+import com.dataart.inquirer.shared.entity.inquirer.InquirerEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**

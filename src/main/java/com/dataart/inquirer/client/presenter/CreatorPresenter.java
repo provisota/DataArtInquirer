@@ -6,7 +6,7 @@ import com.dataart.inquirer.client.services.AuthoritiesServiceAsync;
 import com.dataart.inquirer.client.services.InquirerServiceAsync;
 import com.dataart.inquirer.client.view.AccessDeniedView;
 import com.dataart.inquirer.client.view.creator.CreatorView;
-import com.dataart.inquirer.shared.dto.InquirerDTO;
+import com.dataart.inquirer.shared.dto.inquirer.InquirerDTO;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Widget;
 

@@ -45,7 +45,7 @@
         <security:form-login login-processing-url="/static/j_spring_security_check"
                              login-page="/login.jsp"
                              authentication-failure-url="/login.jsp?message=invalid login
-                             or password"/>
+                             or password русский =)"/>
         <security:logout logout-success-url="/login.jsp"/>
     </security:http>
 

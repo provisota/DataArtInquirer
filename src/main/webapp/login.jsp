@@ -4,6 +4,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
     <!-- Bootstrap core CSS -->
     <%--<link href="<c:url value="bootstrap.min.css" />" rel="stylesheet">--%>
 </head>

@@ -1,10 +1,14 @@
-package com.dataart.inquirer.shared.entity;
+package com.dataart.inquirer.shared.entity.user;
 
-import com.dataart.inquirer.shared.dto.UserDTO;
+import com.dataart.inquirer.shared.dto.user.UserDTO;
 import com.dataart.inquirer.shared.enums.Role;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Alterovych Ilya
@@ -32,6 +36,11 @@ public class UserEntity implements Serializable{
     @Enumerated(EnumType.STRING)
     private Role role = Role.ROLE_USER; //set Role.ROLE_USER as default value
 
+    @OneToMany(mappedBy = "userEntity", cascade = {CascadeType.ALL},
+            orphanRemoval = true)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    private List<UserInquirerEntity> userInquirerList = new ArrayList<>();
+
     public UserEntity() {
     }
 
@@ -58,6 +67,7 @@ public class UserEntity implements Serializable{
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
                 ", role=" + role +
+                ", userInquirerList=" + userInquirerList +
                 '}';
     }
 
@@ -100,5 +110,13 @@ public class UserEntity implements Serializable{
 
     public void setRole(Role role) {
         this.role = role;
+    }
+
+    public List<UserInquirerEntity> getUserInquirerList() {
+        return userInquirerList;
+    }
+
+    public void setUserInquirerList(List<UserInquirerEntity> userInquirerList) {
+        this.userInquirerList = userInquirerList;
     }
 }

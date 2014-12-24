@@ -1,6 +1,6 @@
 package com.dataart.inquirer.client.services;
 
-import com.dataart.inquirer.shared.dto.UserDTO;
+import com.dataart.inquirer.shared.dto.user.UserDTO;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 import java.util.ArrayList;

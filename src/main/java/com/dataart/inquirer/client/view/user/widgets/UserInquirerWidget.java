@@ -1,7 +1,7 @@
 package com.dataart.inquirer.client.view.user.widgets;
 
-import com.dataart.inquirer.shared.dto.InquirerDTO;
-import com.dataart.inquirer.shared.dto.QuestionDTO;
+import com.dataart.inquirer.shared.dto.inquirer.InquirerDTO;
+import com.dataart.inquirer.shared.dto.inquirer.QuestionDTO;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiConstructor;
