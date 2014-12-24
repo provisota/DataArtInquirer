@@ -15,10 +15,10 @@ public class ColumnsHolder {
 
     public ColumnsHolder(DataGrid<InquirerDTO> dataGrid) {
         idColumn = new IdColumn(dataGrid, "Id", "Id опросника", 6, true);
-        nameColumn = new NameColumn(dataGrid, "Название", "название опросника", 20,
+        nameColumn = new NameColumn(dataGrid, "Название", "название опросника", 25,
                 false);
         descriptionColumn = new DescriptionColumn(dataGrid, "Описание",
-                "описание опросника", 45, false);
+                "описание опросника", 40, false);
         questionColumn = new QuestionColumn(dataGrid, "Кол-во вопросов",
                 "количество вопросов", 10, true);
         publishedColumn = new PublishedColumn(dataGrid, "Опубликован",

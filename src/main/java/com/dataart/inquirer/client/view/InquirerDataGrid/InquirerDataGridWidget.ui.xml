@@ -13,7 +13,7 @@
         }
 
         .dataGrid td div {
-            white-space: nowrap;
+            /*white-space: nowrap;*/ /*содержимое будет обрезаться после одной строки*/
             overflow: hidden;
             text-overflow: ellipsis;
             -o-text-overflow: ellipsis;
