@@ -11,6 +11,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
+import java.io.UnsupportedEncodingException;
+
 public class CustomAuthenticationProvider implements AuthenticationProvider {
 
     @Autowired
@@ -21,7 +23,14 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
         //add test user & admin records (remove for production)
         userService.addTestUsers();
 
-        String username = (String) authentication.getPrincipal();
+        String username = null;
+        try {
+            username = new String(((String) authentication.getPrincipal())
+                    .getBytes("ISO-8859-1"), "utf8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        System.out.println(username);
         String password = (String) authentication.getCredentials();
         //check existing of username
         UserDTO existingUser = userService.findUserByUsername(username);
