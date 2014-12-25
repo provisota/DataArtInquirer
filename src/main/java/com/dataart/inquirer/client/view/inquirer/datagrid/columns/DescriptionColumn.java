@@ -1,4 +1,4 @@
-package com.dataart.inquirer.client.view.inquirerDataGrid.columns;
+package com.dataart.inquirer.client.view.inquirer.datagrid.columns;
 
 import com.dataart.inquirer.client.view.AbstractColumn;
 import com.dataart.inquirer.shared.dto.inquirer.InquirerDTO;
@@ -7,7 +7,7 @@ import org.gwtbootstrap3.client.ui.gwt.DataGrid;
 /**
  * @author Alterovych Ilya
  */
-public class IdColumn extends AbstractColumn<InquirerDTO, String> {
+public class DescriptionColumn extends AbstractColumn<InquirerDTO, String> {
     /**
      * конструктор класса
      *
@@ -17,13 +17,13 @@ public class IdColumn extends AbstractColumn<InquirerDTO, String> {
      * @param width       ширина колонки
      * @param alignCenter выровнять содержимое по центру?
      */
-    public IdColumn(DataGrid<InquirerDTO> dataGrid, String name, String title, int width,
-                    boolean alignCenter) {
+    public DescriptionColumn(DataGrid<InquirerDTO> dataGrid, String name, String title,
+                             int width, boolean alignCenter) {
         super(dataGrid, name, title, width, alignCenter);
     }
 
     @Override
     public String getValue(InquirerDTO inquirerDTO) {
-        return String.valueOf(inquirerDTO.getId());
+        return inquirerDTO.getDescription();
     }
 }

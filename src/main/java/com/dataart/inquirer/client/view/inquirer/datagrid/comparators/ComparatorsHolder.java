@@ -1,4 +1,4 @@
-package com.dataart.inquirer.client.view.inquirerDataGrid.comparators;
+package com.dataart.inquirer.client.view.inquirer.datagrid.comparators;
 
 /**
  * @author Alterovych Ilya

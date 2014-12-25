@@ -1,10 +1,10 @@
-package com.dataart.inquirer.client.view.inquirerDataGrid;
+package com.dataart.inquirer.client.view.inquirer.datagrid;
 
 import com.dataart.inquirer.client.models.InquirerModel;
 import com.dataart.inquirer.client.resources.ImageResources;
 import com.dataart.inquirer.client.view.IView;
-import com.dataart.inquirer.client.view.inquirerDataGrid.columns.ColumnsHolder;
-import com.dataart.inquirer.client.view.inquirerDataGrid.comparators.ComparatorsHolder;
+import com.dataart.inquirer.client.view.inquirer.datagrid.columns.ColumnsHolder;
+import com.dataart.inquirer.client.view.inquirer.datagrid.comparators.ComparatorsHolder;
 import com.dataart.inquirer.shared.dto.inquirer.InquirerDTO;
 import com.google.gwt.cell.client.CheckboxCell;
 import com.google.gwt.core.client.GWT;
@@ -36,6 +36,7 @@ public class InquirerDataGridWidget extends Composite implements IView {
     private static InquirerDataGridWidgetUiBinder ourUiBinder =
             GWT.create(InquirerDataGridWidgetUiBinder.class);
     private InquirerModel model;
+    private boolean isAdminDataGrid;
     private SingleSelectionModel<InquirerDTO> selectionModel;
     private ArrayList<InquirerDTO> inquirerList;
     private ColumnSortEvent.ListHandler<InquirerDTO> sortHandler;
@@ -46,8 +47,16 @@ public class InquirerDataGridWidget extends Composite implements IView {
     public InquirerDataGridWidget() {
     }
 
-    public InquirerDataGridWidget(InquirerModel model) {
+    /**
+     * @param model модель которую будет отображать таблица
+     * @param isAdminDataGrid true - если таблица для админа
+     *                        (будет отображаться колонка "опубликован")<br>
+     *                        false - усли таблица для юзера
+     *                        (не будет отображаться колонка "опубликован")
+     */
+    public InquirerDataGridWidget(InquirerModel model, boolean isAdminDataGrid) {
         this.model = model;
+        this.isAdminDataGrid = isAdminDataGrid;
     }
 
     private void setupDataGrid() {
@@ -74,7 +83,7 @@ public class InquirerDataGridWidget extends Composite implements IView {
     }
 
     private void initDataGridColumns() {
-        ColumnsHolder columnsHolder = new ColumnsHolder(dataGrid);
+        ColumnsHolder columnsHolder = new ColumnsHolder(dataGrid, isAdminDataGrid);
         ComparatorsHolder comparatorsHolder = new ComparatorsHolder();
 
         sortHandler.setComparator(columnsHolder.getIdColumn(),
@@ -160,5 +169,9 @@ public class InquirerDataGridWidget extends Composite implements IView {
         dataGrid.setRowData(0, inquirerList);
         dataGrid.redraw();
 //        Window.alert(String.valueOf(model.getInquirerDTOs()));
+    }
+
+    public DataGrid<InquirerDTO> getDataGrid() {
+        return dataGrid;
     }
 }

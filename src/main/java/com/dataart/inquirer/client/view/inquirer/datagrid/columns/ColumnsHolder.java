@@ -1,4 +1,4 @@
-package com.dataart.inquirer.client.view.inquirerDataGrid.columns;
+package com.dataart.inquirer.client.view.inquirer.datagrid.columns;
 
 import com.dataart.inquirer.shared.dto.inquirer.InquirerDTO;
 import org.gwtbootstrap3.client.ui.gwt.DataGrid;
@@ -13,7 +13,7 @@ public class ColumnsHolder {
     private QuestionColumn questionColumn;
     private PublishedColumn publishedColumn;
 
-    public ColumnsHolder(DataGrid<InquirerDTO> dataGrid) {
+    public ColumnsHolder(DataGrid<InquirerDTO> dataGrid, boolean isAdminDataGrid) {
         idColumn = new IdColumn(dataGrid, "Id", "Id опросника", 6, true);
         nameColumn = new NameColumn(dataGrid, "Название", "название опросника", 25,
                 false);
@@ -21,8 +21,10 @@ public class ColumnsHolder {
                 "описание опросника", 40, false);
         questionColumn = new QuestionColumn(dataGrid, "Кол-во вопросов",
                 "количество вопросов", 10, true);
-        publishedColumn = new PublishedColumn(dataGrid, "Опубликован",
-                "опубликован или нет", 15, true);
+        if (isAdminDataGrid) {
+            publishedColumn = new PublishedColumn(dataGrid, "Опубликован",
+                    "опубликован или нет", 15, true);
+        }
     }
 
     public IdColumn getIdColumn() {

@@ -5,7 +5,7 @@ import com.dataart.inquirer.client.view.IView;
 import com.dataart.inquirer.client.view.creator.widgets.CreateAnswerWidget;
 import com.dataart.inquirer.client.view.creator.widgets.CreateInquirerWidget;
 import com.dataart.inquirer.client.view.creator.widgets.CreateQuestionWidget;
-import com.dataart.inquirer.client.view.inquirerDataGrid.InquirerDataGridWidget;
+import com.dataart.inquirer.client.view.inquirer.datagrid.InquirerDataGridWidget;
 import com.dataart.inquirer.shared.dto.inquirer.AnswerDTO;
 import com.dataart.inquirer.shared.dto.inquirer.InquirerDTO;
 import com.dataart.inquirer.shared.dto.inquirer.QuestionDTO;
@@ -362,7 +362,7 @@ public class CreatorView extends Composite implements IView {
     @UiConstructor
     public CreatorView(CreatorPresenter presenter) {
         this.presenter = presenter;
-        dataGrid = new InquirerDataGridWidget(presenter.getModel());
+        dataGrid = new InquirerDataGridWidget(presenter.getModel(), true);
     }
 
     @Override

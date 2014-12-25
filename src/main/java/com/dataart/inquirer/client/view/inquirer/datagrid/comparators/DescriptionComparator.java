@@ -1,4 +1,4 @@
-package com.dataart.inquirer.client.view.inquirerDataGrid.comparators;
+package com.dataart.inquirer.client.view.inquirer.datagrid.comparators;
 
 import com.dataart.inquirer.shared.dto.inquirer.InquirerDTO;
 

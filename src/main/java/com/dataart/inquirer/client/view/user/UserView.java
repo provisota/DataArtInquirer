@@ -2,7 +2,7 @@ package com.dataart.inquirer.client.view.user;
 
 import com.dataart.inquirer.client.presenter.UserPresenter;
 import com.dataart.inquirer.client.view.IView;
-import com.dataart.inquirer.client.view.inquirerDataGrid.InquirerDataGridWidget;
+import com.dataart.inquirer.client.view.inquirer.datagrid.InquirerDataGridWidget;
 import com.dataart.inquirer.client.view.user.widgets.UserInquirerWidget;
 import com.dataart.inquirer.client.view.user.widgets.UserQuestionWidget;
 import com.dataart.inquirer.shared.dto.inquirer.AnswerDTO;
@@ -204,7 +204,7 @@ public class UserView extends Composite implements IView {
     @UiConstructor
     public UserView(UserPresenter presenter) {
         this.presenter = presenter;
-        dataGrid = new InquirerDataGridWidget(presenter.getInquirerModel());
+        dataGrid = new InquirerDataGridWidget(presenter.getInquirerModel(), false);
     }
 
     @Override
