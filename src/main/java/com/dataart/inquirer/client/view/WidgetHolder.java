@@ -11,6 +11,7 @@ import org.gwtbootstrap3.client.ui.constants.ButtonType;
 import org.gwtbootstrap3.client.ui.constants.Placement;
 
 import java.util.Map;
+import java.util.Set;
 
 /**
  * @author Alterovych Ilya
@@ -44,6 +45,19 @@ public class WidgetHolder extends DockPanel {
         setCellHorizontalAlignment(horizontalPanel, HasHorizontalAlignment.ALIGN_CENTER);
         setCellVerticalAlignment(horizontalPanel, HasVerticalAlignment.ALIGN_MIDDLE);
         setUpHandlers();
+
+        Set<String> adminAuthoritiesSet = ((AdminPresenter)presenterMap.
+                get(AdminPresenter.class)).getAuthoritiesSet();
+        /*TODO ВАЖНО!!! для получения доступа к функциям админа в GWTSuperDevMode
+        раскоментировать следующую строку, при тестировании в деплой моде на
+        томкате нужно её соответственно закоментить, иначе не будет работать
+        авторизация Spring Security*/
+        adminAuthoritiesSet.add("ROLE_ADMIN");
+
+        if (!adminAuthoritiesSet.contains("ROLE_ADMIN")) {
+            adminButton.setVisible(false);
+            creatorButton.setVisible(false);
+        }
     }
 
     public void onFirstLoad() {
@@ -62,10 +76,12 @@ public class WidgetHolder extends DockPanel {
         adminButton = new Button("Пользователи");
         adminButton.setType(ButtonType.PRIMARY);
         adminButton.setWidth("180px");
+        adminButton.setMarginBottom(10);
 
         creatorButton = new Button("Создать опросник");
         creatorButton.setType(ButtonType.PRIMARY);
         creatorButton.setWidth("180px");
+        creatorButton.setMarginBottom(10);
 
         statisticButton = new Button("Статистика (Графики)");
         statisticButton.setType(ButtonType.PRIMARY);
@@ -81,9 +97,7 @@ public class WidgetHolder extends DockPanel {
         mainButtonsPanel.add(userButton);
         mainButtonsPanel.add(new HTML("<p></p>"));
         mainButtonsPanel.add(adminButton);
-        mainButtonsPanel.add(new HTML("<p></p>"));
         mainButtonsPanel.add(creatorButton);
-        mainButtonsPanel.add(new HTML("<p></p>"));
         mainButtonsPanel.add(statisticButton);
         mainButtonsPanel.add(new HTML("<p></p>"));
         mainButtonsPanel.add(logoutButton);
@@ -148,5 +162,13 @@ public class WidgetHolder extends DockPanel {
         centerHolder.add(widget);
         centerHolder.setCellVerticalAlignment(widget, HasVerticalAlignment.ALIGN_MIDDLE);
         return centerHolder;
+    }
+
+    public Button getAdminButton() {
+        return adminButton;
+    }
+
+    public Button getCreatorButton() {
+        return creatorButton;
     }
 }

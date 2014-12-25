@@ -6,13 +6,15 @@
             height: 300px !important;
             width: 800px !important;
             text-align: center !important;
-            font-weight: bold;
+        }
+        .image {
+            margin-right: 250px;
         }
     </ui:style>
     <ui:with field='res' type="com.dataart.inquirer.client.resources.ImageResources"/>
     <g:VerticalPanel styleName="{style.main-panel}">
         <g:cell horizontalAlignment="ALIGN_CENTER" verticalAlignment="ALIGN_MIDDLE">
-            <g:Image resource="{res.accessDenied}"/>
+            <g:Image styleName="{style.image}" resource="{res.accessDenied}"/>
         </g:cell>
     </g:VerticalPanel>
 </ui:UiBinder>

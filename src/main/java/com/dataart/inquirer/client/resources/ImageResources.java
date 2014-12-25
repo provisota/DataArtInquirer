@@ -15,7 +15,7 @@ public interface ImageResources extends ClientBundle {
      * (i.e. in target/ or webapp/);
      */
 
-    @Source("icons/access_denied.jpg")
+    @Source("icons/access_denied.png")
     ImageResource accessDenied();
     @Source("icons/no-data.png")
     ImageResource noData();
