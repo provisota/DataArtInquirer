@@ -4,10 +4,13 @@ import com.dataart.inquirer.client.callback.CommonAsyncCallback;
 import com.dataart.inquirer.client.models.InquirerModel;
 import com.dataart.inquirer.client.models.UserModel;
 import com.dataart.inquirer.client.services.InquirerServiceAsync;
+import com.dataart.inquirer.client.services.UserInquirerServiceAsync;
 import com.dataart.inquirer.client.services.UserServiceAsync;
 import com.dataart.inquirer.client.view.user.UserView;
 import com.dataart.inquirer.shared.dto.inquirer.InquirerDTO;
 import com.dataart.inquirer.shared.dto.user.UserDTO;
+import com.dataart.inquirer.shared.dto.user.UserInquirerDTO;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Widget;
 
 import java.util.ArrayList;
@@ -19,14 +22,19 @@ public final class UserPresenter implements IPresenter {
     private UserView view;
     private InquirerServiceAsync inquirerServiceAsync;
     private UserServiceAsync userServiceAsync;
+    private UserInquirerServiceAsync userInquirerServiceAsync;
     private UserModel userModel;
     private InquirerModel inquirerModel;
 
-    public UserPresenter(InquirerServiceAsync inquirerServiceAsync, UserServiceAsync userServiceAsync, UserModel userModel,
+    public UserPresenter(InquirerServiceAsync inquirerServiceAsync,
+                         UserServiceAsync userServiceAsync,
+                         UserInquirerServiceAsync userInquirerServiceAsync,
+                         UserModel userModel,
                          InquirerModel inquirerModel) {
 
         this.inquirerServiceAsync = inquirerServiceAsync;
         this.userServiceAsync = userServiceAsync;
+        this.userInquirerServiceAsync = userInquirerServiceAsync;
         this.userModel = userModel;
         this.inquirerModel = inquirerModel;
         setLoggedInUser();
@@ -40,6 +48,39 @@ public final class UserPresenter implements IPresenter {
             @Override
             public void onSuccess(UserDTO userDTO) {
                 userModel.setLoggedInUserDTO(userDTO);
+            }
+        });
+    }
+
+    public void getExistingUserInquirerId(){
+        userInquirerServiceAsync.getExistingUserInquirer(
+                userModel.getLoggedInUserDTO().getId(),
+                inquirerModel.getSelectedInquirerDTO().getId(),
+                new CommonAsyncCallback<UserInquirerDTO>() {
+                    @Override
+                    public void onSuccess(UserInquirerDTO result) {
+                        if (result != null) {
+                            addNewUserInquirer(view.createUserInquirerDTO(result));
+                        } else {
+                            addNewUserInquirer(view.createUserInquirerDTO());
+                        }
+                    }
+                });
+    }
+
+    public void addNewUserInquirer(UserInquirerDTO userInquirerDTO){
+        userInquirerServiceAsync.addUserInquirer(userInquirerDTO, new CommonAsyncCallback<UserInquirerDTO>() {
+            @Override
+            public void onSuccess(UserInquirerDTO result) {
+                Window.alert(String.valueOf(result));
+                getUserModel().getNewInquirerDTOs().remove(result.getInquirerDTO());
+                if (result.isFinished()) {
+                    getUserModel().getFinishedInquirerDTOs().add(result.getInquirerDTO());
+                } else {
+                    getUserModel().getUnfinishedInquirerDTOs()
+                            .add(result.getInquirerDTO());
+                }
+                initUpdateView();
             }
         });
     }

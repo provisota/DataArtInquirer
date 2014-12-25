@@ -1,5 +1,7 @@
 package com.dataart.inquirer.shared.dto.inquirer;
 
+import com.dataart.inquirer.shared.dto.user.UserInquirerDTO;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,13 +17,15 @@ public class InquirerDTO implements Serializable {
     private String description;
     private boolean isPublished;
     private List<QuestionDTO> questionsList = new ArrayList<>();
+    private List<UserInquirerDTO> userInquirerList = new ArrayList<>();
 
     public InquirerDTO() {
     }
 
     public InquirerDTO(int id, String name, String description,
-                       boolean isPublished, List<QuestionDTO> questionsList) {
-        this(name, description, isPublished, questionsList);
+                       boolean isPublished, List<QuestionDTO> questionsList,
+                       List<UserInquirerDTO> userInquirerList) {
+        this(name, description, isPublished, questionsList, userInquirerList);
         this.id = id;
     }
 
@@ -37,9 +41,11 @@ public class InquirerDTO implements Serializable {
     }
 
     public InquirerDTO(String name, String description,
-                       boolean isPublished, List<QuestionDTO> questionsList) {
+                       boolean isPublished, List<QuestionDTO> questionsList,
+                       List<UserInquirerDTO> userInquirerList) {
         this(name, description, isPublished);
         this.questionsList = questionsList;
+        this.userInquirerList = userInquirerList;
     }
 
     public int getId() {
@@ -82,6 +88,14 @@ public class InquirerDTO implements Serializable {
         this.questionsList = questionsList;
     }
 
+    public List<UserInquirerDTO> getUserInquirerList() {
+        return userInquirerList;
+    }
+
+    public void setUserInquirerList(List<UserInquirerDTO> userInquirerList) {
+        this.userInquirerList = userInquirerList;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -108,6 +122,7 @@ public class InquirerDTO implements Serializable {
                 ", description='" + description + '\'' +
                 ", isPublished=" + isPublished +
                 ", questionsList=" + questionsList +
+                ", userInquirerList=" + userInquirerList +
                 '}';
     }
 }

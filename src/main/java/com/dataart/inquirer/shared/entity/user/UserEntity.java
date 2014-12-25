@@ -1,6 +1,7 @@
 package com.dataart.inquirer.shared.entity.user;
 
 import com.dataart.inquirer.shared.dto.user.UserDTO;
+import com.dataart.inquirer.shared.dto.user.UserInquirerDTO;
 import com.dataart.inquirer.shared.enums.Role;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
@@ -57,6 +58,10 @@ public class UserEntity implements Serializable{
         this.email = userDTO.getEmail();
         this.password = userDTO.getPassword();
         this.role = userDTO.getRole();
+        List<UserInquirerDTO> userInquirerDTOList = userDTO.getUserInquirerList();
+        for (UserInquirerDTO userInquirerDTO : userInquirerDTOList){
+            userInquirerList.add(new UserInquirerEntity(userInquirerDTO, this));
+        }
     }
 
     @Override

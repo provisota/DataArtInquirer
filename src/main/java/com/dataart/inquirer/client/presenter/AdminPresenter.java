@@ -30,11 +30,6 @@ public final class AdminPresenter implements IPresenter {
         this.model = model;
         updateAuthorities();
         addTestUsers();
-         /*TODO ВАЖНО!!! для получения доступа к функциям админа в GWTSuperDevMode
-        раскоментировать следующую строку, при тестировании в деплой моде на
-        томкате нужно её соответственно закоментить, иначе не будет работать
-        авторизация Spring Security*/
-        authoritiesSet.add("ROLE_ADMIN");
     }
 
     //add test user & admin records (remove for production)
@@ -66,7 +61,7 @@ public final class AdminPresenter implements IPresenter {
         });
     }
 
-    private void updateAuthorities() {
+    public void updateAuthorities() {
         authoritiesServiceAsync.getAuthorities(new CommonAsyncCallback<Set<String>>() {
             @Override
             public void onSuccess(Set<String> result) {
@@ -77,11 +72,6 @@ public final class AdminPresenter implements IPresenter {
 
     @Override
     public Widget getView() {
-        /*TODO ВАЖНО!!! для получения доступа к функциям админа в GWTSuperDevMode
-        раскоментировать следующую строку, при тестировании в деплой моде на
-        томкате нужно её соответственно закоментить, иначе не будет работать
-        авторизация Spring Security*/
-        authoritiesSet.add("ROLE_ADMIN");
         if (authoritiesSet.contains("ROLE_ADMIN")) {
             updateUserList();
             return view.asWidget();
@@ -109,5 +99,9 @@ public final class AdminPresenter implements IPresenter {
 
     public Set<String> getAuthoritiesSet() {
         return authoritiesSet;
+    }
+
+    public AuthoritiesServiceAsync getAuthoritiesServiceAsync() {
+        return authoritiesServiceAsync;
     }
 }

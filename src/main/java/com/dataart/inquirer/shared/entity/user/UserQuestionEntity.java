@@ -1,5 +1,6 @@
 package com.dataart.inquirer.shared.entity.user;
 
+import com.dataart.inquirer.shared.dto.user.UserAnswerDTO;
 import com.dataart.inquirer.shared.dto.user.UserQuestionDTO;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
@@ -38,8 +39,12 @@ public class UserQuestionEntity implements Serializable {
 
     public UserQuestionEntity(UserQuestionDTO questionDTO,
                               UserInquirerEntity userInquirerEntity) {
-        //TODO реализовать
+        this.id = questionDTO.getId();
         this.userInquirerEntity = userInquirerEntity;
+        List<UserAnswerDTO> answerDTOList = questionDTO.getAnswersList();
+        for (UserAnswerDTO answerDTO : answerDTOList){
+            answersList.add(new UserAnswerEntity(answerDTO, this));
+        }
     }
 
     public int getId() {

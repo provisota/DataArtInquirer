@@ -1,5 +1,6 @@
 package com.dataart.inquirer.client.view;
 
+import com.dataart.inquirer.client.callback.CommonAsyncCallback;
 import com.dataart.inquirer.client.presenter.*;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -45,23 +46,25 @@ public class WidgetHolder extends DockPanel {
         setCellHorizontalAlignment(horizontalPanel, HasHorizontalAlignment.ALIGN_CENTER);
         setCellVerticalAlignment(horizontalPanel, HasVerticalAlignment.ALIGN_MIDDLE);
         setUpHandlers();
-
-        Set<String> adminAuthoritiesSet = ((AdminPresenter)presenterMap.
-                get(AdminPresenter.class)).getAuthoritiesSet();
-        /*TODO ВАЖНО!!! для получения доступа к функциям админа в GWTSuperDevMode
-        раскоментировать следующую строку, при тестировании в деплой моде на
-        томкате нужно её соответственно закоментить, иначе не будет работать
-        авторизация Spring Security*/
-        adminAuthoritiesSet.add("ROLE_ADMIN");
-
-        if (!adminAuthoritiesSet.contains("ROLE_ADMIN")) {
-            adminButton.setVisible(false);
-            creatorButton.setVisible(false);
-        }
     }
 
     public void onFirstLoad() {
         initCenterHolder(presenterMap.get(StartPagePresenter.class).getView());
+        disableAdminButtons();
+    }
+
+    private void disableAdminButtons() {
+        ((AdminPresenter) presenterMap.get(AdminPresenter.class))
+                .getAuthoritiesServiceAsync()
+                .getAuthorities(new CommonAsyncCallback<Set<String>>() {
+                    @Override
+                    public void onSuccess(Set<String> adminAuthoritiesSet) {
+                        if (adminAuthoritiesSet.contains("ROLE_ADMIN")) {
+                            adminButton.setVisible(true);
+                            creatorButton.setVisible(true);
+                        }
+                    }
+                });
     }
 
     private Widget initMenuBar() {
@@ -77,11 +80,13 @@ public class WidgetHolder extends DockPanel {
         adminButton.setType(ButtonType.PRIMARY);
         adminButton.setWidth("180px");
         adminButton.setMarginBottom(10);
+        adminButton.setVisible(false);
 
         creatorButton = new Button("Создать опросник");
         creatorButton.setType(ButtonType.PRIMARY);
         creatorButton.setWidth("180px");
         creatorButton.setMarginBottom(10);
+        creatorButton.setVisible(false);
 
         statisticButton = new Button("Статистика (Графики)");
         statisticButton.setType(ButtonType.PRIMARY);

@@ -1,6 +1,7 @@
 package com.dataart.inquirer.shared.entity.user;
 
 import com.dataart.inquirer.shared.dto.user.UserInquirerDTO;
+import com.dataart.inquirer.shared.dto.user.UserQuestionDTO;
 import com.dataart.inquirer.shared.entity.inquirer.InquirerEntity;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
@@ -55,9 +56,33 @@ public class UserInquirerEntity implements Serializable{
 
     public UserInquirerEntity(UserInquirerDTO inquirerDTO, UserEntity userEntity,
                               InquirerEntity inquirerEntity) {
-        //TODO реализовать
-        this.userEntity = userEntity;
+        this(inquirerDTO);
         this.inquirerEntity = inquirerEntity;
+        this.userEntity = userEntity;
+    }
+
+    public UserInquirerEntity(UserInquirerDTO inquirerDTO, UserEntity userEntity) {
+        this(inquirerDTO);
+        this.userEntity = userEntity;
+    }
+
+    public UserInquirerEntity(UserInquirerDTO inquirerDTO,
+                              InquirerEntity inquirerEntity) {
+        this(inquirerDTO);
+        this.inquirerEntity = inquirerEntity;
+    }
+
+    public UserInquirerEntity(UserInquirerDTO userInquirerDTO) {
+        this.id = userInquirerDTO.getId();
+        this.isFinished = userInquirerDTO.isFinished();
+        this.bestResult = userInquirerDTO.getBestResult();
+        this.userEntity = new UserEntity(userInquirerDTO.getUserDTO());
+        this.inquirerEntity = new InquirerEntity(userInquirerDTO.getInquirerDTO());
+
+        List<UserQuestionDTO> questionsList = userInquirerDTO.getQuestionsList();
+        for (UserQuestionDTO userQuestionDTO : questionsList){
+            this.questionsList.add(new UserQuestionEntity(userQuestionDTO, this));
+        }
     }
 
     public int getId() {

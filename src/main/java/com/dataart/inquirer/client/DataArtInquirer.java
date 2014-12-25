@@ -23,6 +23,8 @@ public class DataArtInquirer implements EntryPoint {
         AuthoritiesServiceAsync authServiceAsync = GWT.create(AuthoritiesService.class);
         UserServiceAsync userServiceAsync = GWT.create(UserService.class);
         InquirerServiceAsync inquirerServiceAsync = GWT.create(InquirerService.class);
+        UserInquirerServiceAsync userInquirerServiceAsync =
+                GWT.create(UserInquirerService.class);
 
         InquirerModel inquirerModel = new InquirerModel();
         /*кладём все презентеры в словарь, в котором ключь - класс реализующий интерфейс
@@ -30,9 +32,11 @@ public class DataArtInquirer implements EntryPoint {
          */
 
         Map<Class<? extends IPresenter>, IPresenter> presenterMap = new HashMap<>();
-        presenterMap.put(StartPagePresenter.class, new StartPagePresenter(authServiceAsync));
+        presenterMap.put(StartPagePresenter.class,
+                new StartPagePresenter(authServiceAsync));
         presenterMap.put(UserPresenter.class, new UserPresenter(inquirerServiceAsync,
-                userServiceAsync, new UserModel(), inquirerModel));
+                userServiceAsync, userInquirerServiceAsync, new UserModel(),
+                inquirerModel));
         presenterMap.put(AdminPresenter.class, new AdminPresenter(authServiceAsync,
                 userServiceAsync, new AdminModel()));
         presenterMap.put(CreatorPresenter.class, new CreatorPresenter(authServiceAsync,

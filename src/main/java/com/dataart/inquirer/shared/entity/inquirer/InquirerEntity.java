@@ -2,6 +2,7 @@ package com.dataart.inquirer.shared.entity.inquirer;
 
 import com.dataart.inquirer.shared.dto.inquirer.InquirerDTO;
 import com.dataart.inquirer.shared.dto.inquirer.QuestionDTO;
+import com.dataart.inquirer.shared.dto.user.UserInquirerDTO;
 import com.dataart.inquirer.shared.entity.user.UserInquirerEntity;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
@@ -61,6 +62,10 @@ public class InquirerEntity implements Serializable {
         List<QuestionDTO> questionDTOList = inquirerDTO.getQuestionsList();
         for (QuestionDTO questionDTO : questionDTOList){
             questionsList.add(new QuestionEntity(questionDTO, this));
+        }
+        List<UserInquirerDTO> userInquirerDTOList = inquirerDTO.getUserInquirerList();
+        for (UserInquirerDTO userInquirerDTO : userInquirerDTOList){
+            userInquirerList.add(new UserInquirerEntity(userInquirerDTO, this));
         }
     }
 

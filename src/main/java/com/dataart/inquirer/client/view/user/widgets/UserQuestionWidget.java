@@ -11,9 +11,8 @@ import com.google.gwt.user.client.ui.*;
 import org.gwtbootstrap3.client.ui.ListBox;
 import org.gwtbootstrap3.client.ui.TextBox;
 
-import java.util.HashSet;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 /**
  * @author Alterovych Ilya
@@ -27,7 +26,7 @@ public class UserQuestionWidget extends Composite {
     Label questionDescription;
     @UiField
     VerticalPanel answerPanel;
-    private Set<String> selectedAnswersSet = new HashSet<>();
+    private List<String> selectedAnswersList = new ArrayList<>();
 
     public UserQuestionWidget() {
         initWidget(ourUiBinder.createAndBindUi(this));
@@ -61,9 +60,9 @@ public class UserQuestionWidget extends Composite {
         textBox.addBlurHandler(new BlurHandler() {
             @Override
             public void onBlur(BlurEvent event) {
-                selectedAnswersSet.clear();
+                selectedAnswersList.clear();
                 if (!"".equals(textBox.getText())) {
-                    selectedAnswersSet.add(textBox.getText());
+                    selectedAnswersList.add(textBox.getText());
                 }
             }
         });
@@ -79,9 +78,9 @@ public class UserQuestionWidget extends Composite {
                 @Override
                 public void onClick(ClickEvent event) {
                     if (checkBox.getValue()) {
-                        selectedAnswersSet.add(checkBox.getText());
+                        selectedAnswersList.add(checkBox.getText());
                     } else {
-                        selectedAnswersSet.remove(checkBox.getText());
+                        selectedAnswersList.remove(checkBox.getText());
                     }
                 }
             });
@@ -98,9 +97,9 @@ public class UserQuestionWidget extends Composite {
         listBox.addChangeHandler(new ChangeHandler() {
             @Override
             public void onChange(ChangeEvent event) {
-                selectedAnswersSet.clear();
+                selectedAnswersList.clear();
                 if (!"".equals(listBox.getSelectedItemText())) {
-                    selectedAnswersSet.add(listBox.getSelectedItemText());
+                    selectedAnswersList.add(listBox.getSelectedItemText());
                 }
             }
         });
@@ -120,8 +119,8 @@ public class UserQuestionWidget extends Composite {
             radioButton.addClickHandler(new ClickHandler() {
                 @Override
                 public void onClick(ClickEvent event) {
-                    selectedAnswersSet.clear();
-                    selectedAnswersSet.add(radioButton.getText());
+                    selectedAnswersList.clear();
+                    selectedAnswersList.add(radioButton.getText());
                 }
             });
             addFocusHandler(radioButton);
@@ -138,8 +137,8 @@ public class UserQuestionWidget extends Composite {
         });
     }
 
-    public Set<String> getSelectedAnswersSet() {
-        return selectedAnswersSet;
+    public List<String> getSelectedAnswersList() {
+        return selectedAnswersList;
     }
 
     public VerticalPanel getAnswerPanel() {

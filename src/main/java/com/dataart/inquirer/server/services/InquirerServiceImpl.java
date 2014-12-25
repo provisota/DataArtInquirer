@@ -2,12 +2,12 @@ package com.dataart.inquirer.server.services;
 
 import com.dataart.inquirer.client.services.InquirerService;
 import com.dataart.inquirer.server.dao.InquirerRepository;
+import com.dataart.inquirer.server.services.utils.EntityDTOConverter;
 import com.dataart.inquirer.shared.dto.inquirer.AnswerDTO;
 import com.dataart.inquirer.shared.dto.inquirer.InquirerDTO;
 import com.dataart.inquirer.shared.dto.inquirer.QuestionDTO;
-import com.dataart.inquirer.shared.entity.inquirer.AnswerEntity;
+import com.dataart.inquirer.shared.dto.user.UserInquirerDTO;
 import com.dataart.inquirer.shared.entity.inquirer.InquirerEntity;
-import com.dataart.inquirer.shared.entity.inquirer.QuestionEntity;
 import com.dataart.inquirer.shared.enums.AnswerType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -56,8 +56,10 @@ public class InquirerServiceImpl implements InquirerService {
         questionDTOs.add(new QuestionDTO("вопрос№2", AnswerType.RADIO_BUTTON, answerDTOs));
         questionDTOs.add(new QuestionDTO("вопрос№3", AnswerType.TEXT_BOX, answerDTOs));
 
+        List<UserInquirerDTO> userInquirerDTOs = new ArrayList<>();
+
         InquirerDTO inquirerDTO = new InquirerDTO("inquirer", "test inquirer",
-                false, questionDTOs);
+                false, questionDTOs, userInquirerDTOs);
         return (addInquirer(inquirerDTO));
     }
 
@@ -72,34 +74,6 @@ public class InquirerServiceImpl implements InquirerService {
     }
 
     private InquirerDTO createInquirerDTO(InquirerEntity inquirerEntity) {
-        List<QuestionEntity> questionEntities = inquirerEntity.getQuestionsList();
-        List<QuestionDTO> questionDTOs =
-                new ArrayList<>(questionEntities != null ? questionEntities.size() : 0);
-        if (questionEntities != null) {
-            for (QuestionEntity questionEntity : questionEntities) {
-                questionDTOs.add(createQuestionDTO(questionEntity));
-            }
-        }
-        return new InquirerDTO(inquirerEntity.getId(), inquirerEntity.getName(),
-                inquirerEntity.getDescription(), inquirerEntity.isPublished(),
-                questionDTOs);
-    }
-
-    private QuestionDTO createQuestionDTO(QuestionEntity questionEntity) {
-        List<AnswerEntity> answerEntities = questionEntity.getAnswersList();
-        List<AnswerDTO> answerDTOs =
-                new ArrayList<>(answerEntities != null ? answerEntities.size() : 0);
-        if(answerEntities != null){
-            for (AnswerEntity answerEntity : answerEntities){
-                answerDTOs.add(createAnswerDTO(answerEntity));
-            }
-        }
-        return new QuestionDTO(questionEntity.getId(), questionEntity.getDescription(),
-                questionEntity.getAnswerType(), answerDTOs);
-    }
-
-    private AnswerDTO createAnswerDTO(AnswerEntity answerEntity) {
-        return new AnswerDTO(answerEntity.getId(), answerEntity.getDescription(),
-                answerEntity.isRightAnswer());
+        return EntityDTOConverter.getInstance().createInquirerDTO(inquirerEntity);
     }
 }

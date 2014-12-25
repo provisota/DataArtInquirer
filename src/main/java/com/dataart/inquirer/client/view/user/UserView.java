@@ -8,6 +8,9 @@ import com.dataart.inquirer.client.view.user.widgets.UserQuestionWidget;
 import com.dataart.inquirer.shared.dto.inquirer.AnswerDTO;
 import com.dataart.inquirer.shared.dto.inquirer.InquirerDTO;
 import com.dataart.inquirer.shared.dto.inquirer.QuestionDTO;
+import com.dataart.inquirer.shared.dto.user.UserAnswerDTO;
+import com.dataart.inquirer.shared.dto.user.UserInquirerDTO;
+import com.dataart.inquirer.shared.dto.user.UserQuestionDTO;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.uibinder.client.UiBinder;
@@ -20,9 +23,7 @@ import org.gwtbootstrap3.client.ui.Button;
 import org.gwtbootstrap3.client.ui.ButtonGroup;
 import org.gwtbootstrap3.client.ui.Modal;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * @author Alterovych Ilya
@@ -68,10 +69,12 @@ public class UserView extends Composite implements IView {
     Modal resultModal;
     @UiField
     Label modalLabel;
+    //TODO этот костыль потом переделать!!!
+    private Set<String> checkAsRightAnswersSet = new HashSet<>();
 
     @SuppressWarnings("UnusedParameters")
-    @UiHandler(value = {"passInquirerButton", "upperPassInquirerButton"})
-    public void onPassButton(ClickEvent event) {
+      @UiHandler(value = {"passInquirerButton", "upperPassInquirerButton"})
+      public void onPassButton(ClickEvent event) {
         if (Window.confirm("Вы уверены что хотите закончить?")) {
             String inquirerResult = getInquirerResults();
             if (inquirerResult == null){
@@ -80,10 +83,66 @@ public class UserView extends Composite implements IView {
             }
             modalLabel.setText(inquirerResult);
             resultModal.show();
+//            presenter.getExistingUserInquirerId();
             resetInquirerPanel();
         }
     }
 
+    @SuppressWarnings("UnusedParameters")
+    @UiHandler(value = {"saveButton", "upperSaveButton"})
+    public void onSaveButton(ClickEvent event) {
+//        TODO здесь остановился
+//        if (Window.confirm("Вы уверены?")) {
+//            presenter.getExistingUserInquirerId();
+//            resetInquirerPanel();
+//        }
+    }
+
+    public UserInquirerDTO createUserInquirerDTO(UserInquirerDTO userInquirer){
+        getInquirerResults();
+        UserInquirerWidget userInquirerWidget = (UserInquirerWidget)
+                inquirerPanel.getWidget(0);
+        UserInquirerDTO userInquirerDTO = new UserInquirerDTO(userInquirer.getId(),
+                false, 0, presenter.getUserModel().getLoggedInUserDTO(),
+                presenter.getInquirerModel().getSelectedInquirerDTO());
+        for (Widget nextQuestion : userInquirerWidget.getQuestionPanel()){
+            if (nextQuestion instanceof UserQuestionWidget){
+                UserQuestionWidget userQuestionWidget = (UserQuestionWidget) nextQuestion;
+                UserQuestionDTO userQuestionDTO = new UserQuestionDTO(
+                        userInquirer.getId());
+
+                for (String answer : userQuestionWidget.getSelectedAnswersList()){
+                    userQuestionDTO.getAnswersList().add(
+                            new UserAnswerDTO(userInquirer.getId(),
+                                    checkAsRightAnswersSet.contains(answer)));
+                }
+            }
+        }
+
+        return userInquirerDTO;
+    }
+
+    public UserInquirerDTO createUserInquirerDTO() {
+        getInquirerResults();
+        UserInquirerWidget userInquirerWidget = (UserInquirerWidget)
+                inquirerPanel.getWidget(0);
+        UserInquirerDTO userInquirerDTO = new UserInquirerDTO(
+                false, 0, presenter.getUserModel().getLoggedInUserDTO(),
+                presenter.getInquirerModel().getSelectedInquirerDTO());
+        for (Widget nextQuestion : userInquirerWidget.getQuestionPanel()){
+            if (nextQuestion instanceof UserQuestionWidget){
+                UserQuestionWidget userQuestionWidget = (UserQuestionWidget) nextQuestion;
+                UserQuestionDTO userQuestionDTO = new UserQuestionDTO();
+
+                for (String answer : userQuestionWidget.getSelectedAnswersList()){
+                    userQuestionDTO.getAnswersList().add(
+                            new UserAnswerDTO(checkAsRightAnswersSet.contains(answer)));
+                }
+            }
+        }
+
+        return userInquirerDTO;
+    }
     /**
      * Удаляет текуший опросник (из отображения)
      *
@@ -126,6 +185,7 @@ public class UserView extends Composite implements IView {
     }
 
     private String getInquirerResults() {
+        checkAsRightAnswersSet.clear();
         boolean isAllQuestionHasAnswers = true;
         List<QuestionDTO> questionDTOs = getSelectedInquirer().getQuestionsList();
         VerticalPanel questionPanel = ((UserInquirerWidget)inquirerPanel.getWidget(0))
@@ -142,18 +202,21 @@ public class UserView extends Composite implements IView {
 
         for (int i = 0; i < questionDTOs.size(); i++){
             List<AnswerDTO> answerDTOs = questionDTOs.get(i).getAnswersList();
-            Set<String> answersSet = questionWidgets.get(i).getSelectedAnswersSet();
-            if (answersSet.isEmpty()){
+            List<String> answersList = questionWidgets.get(i).getSelectedAnswersList();
+            if (answersList.isEmpty()){
                 questionWidgets.get(i).getAnswerPanel().addStyleName("error-text-field");
                 questionWidgets.get(i).getAnswerPanel().getElement().setPropertyString("borderRadius", "4px");
                 isAllQuestionHasAnswers = false;
             }
             boolean rightAnswer = true;
             for(AnswerDTO answerDTO : answerDTOs){
+                if (answersList.contains(answerDTO.getDescription())){
+                    checkAsRightAnswersSet.add(answerDTO.getDescription());
+                }
                 if (answerDTO.isRightAnswer() &&
-                        !answersSet.contains(answerDTO.getDescription()) ||
+                        !answersList.contains(answerDTO.getDescription()) ||
                         !answerDTO.isRightAnswer() &&
-                                answersSet.contains(answerDTO.getDescription())){
+                                answersList.contains(answerDTO.getDescription())){
                     rightAnswer = false;
                 }
             }

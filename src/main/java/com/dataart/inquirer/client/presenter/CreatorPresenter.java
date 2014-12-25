@@ -38,7 +38,6 @@ public final class CreatorPresenter implements IPresenter {
             @Override
             public void onSuccess(Set<String> result) {
                 authoritiesSet = result;
-//                Window.confirm("authoritiesSet: " + result);
             }
         });
     }
@@ -76,11 +75,6 @@ public final class CreatorPresenter implements IPresenter {
 
     @Override
     public Widget getView() {
-        /*TODO ВАЖНО!!! для получения доступа к функциям админа в GWTSuperDevMode
-        раскоментировать следующую строку, при тестировании в деплой моде на
-        томкате нужно её соответственно закоментить, иначе не будет работать
-        авторизация Spring Security*/
-        authoritiesSet.add("ROLE_ADMIN");
         if (authoritiesSet.contains("ROLE_ADMIN")) {
             updateInquirerList();
             initUpdateView();

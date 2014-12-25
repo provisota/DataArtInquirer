@@ -36,7 +36,8 @@ public class UserAnswerEntity implements Serializable {
 
     public UserAnswerEntity(UserAnswerDTO answerDTO,
                             UserQuestionEntity userQuestionEntity) {
-        //TODO реализовать
+        this.id = answerDTO.getId();
+        this.isMarkAsRight = answerDTO.isMarkAsRight();
         this.userQuestionEntity = userQuestionEntity;
     }
 
