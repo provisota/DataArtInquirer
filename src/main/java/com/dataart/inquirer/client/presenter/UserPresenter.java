@@ -10,7 +10,6 @@ import com.dataart.inquirer.client.view.user.UserView;
 import com.dataart.inquirer.shared.dto.inquirer.InquirerDTO;
 import com.dataart.inquirer.shared.dto.user.UserDTO;
 import com.dataart.inquirer.shared.dto.user.UserInquirerDTO;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Widget;
 
 import java.util.ArrayList;
@@ -67,8 +66,8 @@ public final class UserPresenter implements IPresenter {
                 new CommonAsyncCallback<UserInquirerDTO>() {
                     @Override
                     public void onSuccess(UserInquirerDTO result) {
-                        Window.confirm(String.valueOf("уже существующий в БД опросник\n" +
-                                result));
+//                        Window.confirm(String.valueOf("уже существующий в БД опросник\n" +
+//                                result));
                         if (result != null) {
                             result.setFinished(isFinished);
                             addUserInquirer(view.createUserInquirerDTO(result));
@@ -80,14 +79,14 @@ public final class UserPresenter implements IPresenter {
     }
 
     private void addUserInquirer(final UserInquirerDTO userInquirerDTO) {
+//        Window.confirm(String.valueOf("созданный опросник\n" +
+//                userInquirerDTO));
         userInquirerServiceAsync.addUserInquirer(userInquirerDTO,
                 new CommonAsyncCallback<UserInquirerDTO>() {
                     @Override
                     public void onSuccess(UserInquirerDTO result) {
-                        Window.confirm(String.valueOf("созданный опросник\n" +
-                                userInquirerDTO));
-                        Window.confirm(String.valueOf("сохранённый опросник\n" +
-                                result));
+//                        Window.confirm(String.valueOf("сохранённый опросник\n" +
+//                                result));
                         view.resetInquirerPanel();
                         initUpdateView();
                     }

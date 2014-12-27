@@ -11,13 +11,15 @@ import com.google.gwt.user.client.ui.*;
 import org.gwtbootstrap3.client.ui.ListBox;
 import org.gwtbootstrap3.client.ui.TextBox;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author Alterovych Ilya
  */
 public class UserQuestionWidget extends Composite {
+
     interface UserQuestionWidgetUiBinder extends UiBinder<VerticalPanel, UserQuestionWidget> {
     }
 
@@ -26,7 +28,8 @@ public class UserQuestionWidget extends Composite {
     Label questionDescription;
     @UiField
     VerticalPanel answerPanel;
-    private List<String> selectedAnswersList = new ArrayList<>();
+    private Map<String, Boolean> answersMap = new HashMap<>();
+    private QuestionDTO questionDTO;
 
     public UserQuestionWidget() {
         initWidget(ourUiBinder.createAndBindUi(this));
@@ -34,6 +37,10 @@ public class UserQuestionWidget extends Composite {
 
     public UserQuestionWidget(int questionNumber, QuestionDTO questionDTO) {
         this();
+        this.questionDTO = questionDTO;
+        if (questionDTO.getAnswerType() != AnswerType.TEXT_BOX) {
+            resetAnswersMap();
+        }
         this.questionDescription.setText(questionNumber + ". " +
                 questionDTO.getDescription());
         AnswerType answerType = questionDTO.getAnswerType();
@@ -51,6 +58,12 @@ public class UserQuestionWidget extends Composite {
         }
     }
 
+    private void resetAnswersMap() {
+        for (AnswerDTO answerDTO : questionDTO.getAnswersList()) {
+            answersMap.put(answerDTO.getDescription(), false);
+        }
+    }
+
     private void addTextBoxAnswer() {
         answerPanel.addStyleName("user-answer-panel");
 
@@ -60,9 +73,9 @@ public class UserQuestionWidget extends Composite {
         textBox.addBlurHandler(new BlurHandler() {
             @Override
             public void onBlur(BlurEvent event) {
-                selectedAnswersList.clear();
+                answersMap.clear();
                 if (!"".equals(textBox.getText())) {
-                    selectedAnswersList.add(textBox.getText());
+                    answersMap.put(textBox.getText(), true);
                 }
             }
         });
@@ -77,11 +90,7 @@ public class UserQuestionWidget extends Composite {
             checkBox.addClickHandler(new ClickHandler() {
                 @Override
                 public void onClick(ClickEvent event) {
-                    if (checkBox.getValue()) {
-                        selectedAnswersList.add(checkBox.getText());
-                    } else {
-                        selectedAnswersList.remove(checkBox.getText());
-                    }
+                    answersMap.put(checkBox.getText(), checkBox.getValue());
                 }
             });
             addFocusHandler(checkBox);
@@ -97,9 +106,9 @@ public class UserQuestionWidget extends Composite {
         listBox.addChangeHandler(new ChangeHandler() {
             @Override
             public void onChange(ChangeEvent event) {
-                selectedAnswersList.clear();
+                resetAnswersMap();
                 if (!"".equals(listBox.getSelectedItemText())) {
-                    selectedAnswersList.add(listBox.getSelectedItemText());
+                    answersMap.put(listBox.getSelectedItemText(), true);
                 }
             }
         });
@@ -119,8 +128,8 @@ public class UserQuestionWidget extends Composite {
             radioButton.addClickHandler(new ClickHandler() {
                 @Override
                 public void onClick(ClickEvent event) {
-                    selectedAnswersList.clear();
-                    selectedAnswersList.add(radioButton.getText());
+                    resetAnswersMap();
+                    answersMap.put(radioButton.getText(), true);
                 }
             });
             addFocusHandler(radioButton);
@@ -128,7 +137,7 @@ public class UserQuestionWidget extends Composite {
         }
     }
 
-    private void addFocusHandler(FocusWidget widget){
+    private void addFocusHandler(FocusWidget widget) {
         widget.addFocusHandler(new FocusHandler() {
             @Override
             public void onFocus(FocusEvent event) {
@@ -137,8 +146,8 @@ public class UserQuestionWidget extends Composite {
         });
     }
 
-    public List<String> getSelectedAnswersList() {
-        return selectedAnswersList;
+    public Map<String, Boolean> getAnswersMap() {
+        return answersMap;
     }
 
     public VerticalPanel getAnswerPanel() {

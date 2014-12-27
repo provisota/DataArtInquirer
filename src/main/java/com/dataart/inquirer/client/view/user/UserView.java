@@ -23,10 +23,7 @@ import org.gwtbootstrap3.client.ui.Button;
 import org.gwtbootstrap3.client.ui.ButtonGroup;
 import org.gwtbootstrap3.client.ui.Modal;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * @author Alterovych Ilya
@@ -72,8 +69,6 @@ public class UserView extends Composite implements IView {
     Modal resultModal;
     @UiField
     Label modalLabel;
-    //TODO этот костыль потом переделать!!!
-    private Set<String> checkAsRightAnswersSet = new HashSet<>();
 
     @SuppressWarnings("UnusedParameters")
       @UiHandler(value = {"passInquirerButton", "upperPassInquirerButton"})
@@ -114,18 +109,21 @@ public class UserView extends Composite implements IView {
     @SuppressWarnings("UnusedParameters")
     @UiHandler("newInquirerButton")
     public void onShowNewInquirers(ClickEvent event){
+        startInquirerButton.setText("ПРОЙТИ");
         dataGrid.refresh(presenter.getUserModel().getNewInquirerDTOs());
     }
 
     @SuppressWarnings("UnusedParameters")
     @UiHandler("unfinishedInquirerButton")
     public void onShowUnfinishedInquirers(ClickEvent event){
+        startInquirerButton.setText("ПРОДОЛЖИТЬ");
         dataGrid.refresh(presenter.getUserModel().getUnfinishedInquirerDTOs());
     }
 
     @SuppressWarnings("UnusedParameters")
     @UiHandler("finishedInquirerButton")
     public void onShowFinishedInquirers(ClickEvent event){
+        startInquirerButton.setText("ПРОЙТИ ЗАНОВО");
         dataGrid.refresh(presenter.getUserModel().getFinishedInquirerDTOs());
     }
 
@@ -150,25 +148,28 @@ public class UserView extends Composite implements IView {
                 inquirerPanel.getWidget(0);
 
         List<UserQuestionDTO> userQuestionDTOs = new ArrayList<>();
+        int questionIndex = 0;
         for (Widget nextQuestion : userInquirerWidget.getQuestionPanel()){
             if (nextQuestion instanceof UserQuestionWidget){
                 UserQuestionWidget userQuestionWidget = (UserQuestionWidget) nextQuestion;
                 UserQuestionDTO userQuestionDTO = new UserQuestionDTO(
                         userInquirer.getId());
 
-                for (String answer : userQuestionWidget.getSelectedAnswersList()){
-                    userQuestionDTO.getAnswersList().add(
-                            new UserAnswerDTO(userInquirer.getId(),
-                                    checkAsRightAnswersSet.contains(answer)));
+                for (AnswerDTO answerDTO : getSelectedInquirer()
+                        .getQuestionsList().get(questionIndex).getAnswersList()){
+                    userQuestionDTO.getAnswersList().add(new UserAnswerDTO(
+                            userInquirer.getId(), userQuestionWidget.getAnswersMap()
+                            .get(answerDTO.getDescription())));
                 }
                 userQuestionDTOs.add(userQuestionDTO);
+                ++questionIndex;
             }
         }
 
         return new UserInquirerDTO(userInquirer.getId(), userInquirer.isFinished(),
-                bestResult, userQuestionDTOs,
-                presenter.getUserModel().getLoggedInUserDTO(),
-                presenter.getInquirerModel().getSelectedInquirerDTO());
+        bestResult, userQuestionDTOs,
+        presenter.getUserModel().getLoggedInUserDTO(),
+        presenter.getInquirerModel().getSelectedInquirerDTO());
     }
 
     public UserInquirerDTO createUserInquirerDTO(boolean isFinished) {
@@ -183,26 +184,29 @@ public class UserView extends Composite implements IView {
                 inquirerPanel.getWidget(0);
 
         List<UserQuestionDTO> userQuestionDTOs = new ArrayList<>();
+        int questionIndex = 0;
         for (Widget nextQuestion : userInquirerWidget.getQuestionPanel()){
             if (nextQuestion instanceof UserQuestionWidget){
                 UserQuestionWidget userQuestionWidget = (UserQuestionWidget) nextQuestion;
                 UserQuestionDTO userQuestionDTO = new UserQuestionDTO();
 
-                for (String answer : userQuestionWidget.getSelectedAnswersList()){
+                for (AnswerDTO answerDTO : getSelectedInquirer()
+                        .getQuestionsList().get(questionIndex).getAnswersList()){
                     userQuestionDTO.getAnswersList().add(
-                            new UserAnswerDTO(checkAsRightAnswersSet.contains(answer)));
+                            new UserAnswerDTO(userQuestionWidget.getAnswersMap()
+                                    .get(answerDTO.getDescription())));
                 }
                 userQuestionDTOs.add(userQuestionDTO);
+                ++questionIndex;
             }
         }
 
         return new UserInquirerDTO(isFinished, bestResult, userQuestionDTOs,
-                presenter.getUserModel().getLoggedInUserDTO(),
-                presenter.getInquirerModel().getSelectedInquirerDTO());
+        presenter.getUserModel().getLoggedInUserDTO(),
+        presenter.getInquirerModel().getSelectedInquirerDTO());
     }
 
     private String getInquirerResults() {
-        checkAsRightAnswersSet.clear();
         boolean isAllQuestionHasAnswers = true;
         List<QuestionDTO> questionDTOs = getSelectedInquirer().getQuestionsList();
         VerticalPanel questionPanel = ((UserInquirerWidget)inquirerPanel.getWidget(0))
@@ -217,27 +221,26 @@ public class UserView extends Composite implements IView {
         int totalQuestionsCount = questionDTOs.size();
         int rightQuestionCount = 0;
 
-        for (int i = 0; i < questionDTOs.size(); i++){
+        for (int i = 0; i < questionDTOs.size(); i++) {
             List<AnswerDTO> answerDTOs = questionDTOs.get(i).getAnswersList();
-            List<String> answersList = questionWidgets.get(i).getSelectedAnswersList();
-            if (answersList.isEmpty()){
+            Map<String, Boolean> answersMap = questionWidgets.get(i).getAnswersMap();
+            if (answersMap.isEmpty()){
                 questionWidgets.get(i).getAnswerPanel().addStyleName("error-text-field");
-                questionWidgets.get(i).getAnswerPanel().getElement().setPropertyString("borderRadius", "4px");
+                questionWidgets.get(i).getAnswerPanel().getElement()
+                        .setPropertyString("borderRadius", "4px");
                 isAllQuestionHasAnswers = false;
+                continue;
             }
-            boolean rightAnswer = true;
+
+            boolean isRightAnswer = true;
             for(AnswerDTO answerDTO : answerDTOs){
-                if (answersList.contains(answerDTO.getDescription())){
-                    checkAsRightAnswersSet.add(answerDTO.getDescription());
+                if (answerDTO.isRightAnswer() ==
+                        answersMap.get(answerDTO.getDescription())){
+                    continue;
                 }
-                if (answerDTO.isRightAnswer() &&
-                        !answersList.contains(answerDTO.getDescription()) ||
-                        !answerDTO.isRightAnswer() &&
-                                answersList.contains(answerDTO.getDescription())){
-                    rightAnswer = false;
-                }
+                isRightAnswer = false;
             }
-            if (rightAnswer){
+            if (isRightAnswer){
                 rightQuestionCount++;
             }
         }
