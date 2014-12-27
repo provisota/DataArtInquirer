@@ -168,12 +168,4 @@ public class WidgetHolder extends DockPanel {
         centerHolder.setCellVerticalAlignment(widget, HasVerticalAlignment.ALIGN_MIDDLE);
         return centerHolder;
     }
-
-    public Button getAdminButton() {
-        return adminButton;
-    }
-
-    public Button getCreatorButton() {
-        return creatorButton;
-    }
 }

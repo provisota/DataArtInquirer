@@ -10,7 +10,4 @@ public interface UserInquirerRepository extends
         JpaRepository<UserInquirerEntity, Integer> {
         UserInquirerEntity findByUserEntityIdAndInquirerEntityId(
                 int FK_userEntityId, int FK_inquirerEntityId);
-//
-//        UserInquirerEntity findByUserEntityIdAndInquirerEntity(
-//                int FK_userEntityId, int FK_inquirerEntityId);
 }

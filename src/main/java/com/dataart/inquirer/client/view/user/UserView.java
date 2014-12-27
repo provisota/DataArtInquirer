@@ -23,7 +23,10 @@ import org.gwtbootstrap3.client.ui.Button;
 import org.gwtbootstrap3.client.ui.ButtonGroup;
 import org.gwtbootstrap3.client.ui.Modal;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  * @author Alterovych Ilya
@@ -83,66 +86,18 @@ public class UserView extends Composite implements IView {
             }
             modalLabel.setText(inquirerResult);
             resultModal.show();
-//            presenter.getExistingUserInquirerId();
-            resetInquirerPanel();
+            presenter.saveFinishedUserInquirer();
         }
     }
 
     @SuppressWarnings("UnusedParameters")
     @UiHandler(value = {"saveButton", "upperSaveButton"})
     public void onSaveButton(ClickEvent event) {
-//        TODO здесь остановился
-//        if (Window.confirm("Вы уверены?")) {
-//            presenter.getExistingUserInquirerId();
-//            resetInquirerPanel();
-//        }
-    }
-
-    public UserInquirerDTO createUserInquirerDTO(UserInquirerDTO userInquirer){
-        getInquirerResults();
-        UserInquirerWidget userInquirerWidget = (UserInquirerWidget)
-                inquirerPanel.getWidget(0);
-        UserInquirerDTO userInquirerDTO = new UserInquirerDTO(userInquirer.getId(),
-                false, 0, presenter.getUserModel().getLoggedInUserDTO(),
-                presenter.getInquirerModel().getSelectedInquirerDTO());
-        for (Widget nextQuestion : userInquirerWidget.getQuestionPanel()){
-            if (nextQuestion instanceof UserQuestionWidget){
-                UserQuestionWidget userQuestionWidget = (UserQuestionWidget) nextQuestion;
-                UserQuestionDTO userQuestionDTO = new UserQuestionDTO(
-                        userInquirer.getId());
-
-                for (String answer : userQuestionWidget.getSelectedAnswersList()){
-                    userQuestionDTO.getAnswersList().add(
-                            new UserAnswerDTO(userInquirer.getId(),
-                                    checkAsRightAnswersSet.contains(answer)));
-                }
-            }
+        if (Window.confirm("Вы уверены?")) {
+            presenter.saveUnfinishedUserInquirer();
         }
-
-        return userInquirerDTO;
     }
 
-    public UserInquirerDTO createUserInquirerDTO() {
-        getInquirerResults();
-        UserInquirerWidget userInquirerWidget = (UserInquirerWidget)
-                inquirerPanel.getWidget(0);
-        UserInquirerDTO userInquirerDTO = new UserInquirerDTO(
-                false, 0, presenter.getUserModel().getLoggedInUserDTO(),
-                presenter.getInquirerModel().getSelectedInquirerDTO());
-        for (Widget nextQuestion : userInquirerWidget.getQuestionPanel()){
-            if (nextQuestion instanceof UserQuestionWidget){
-                UserQuestionWidget userQuestionWidget = (UserQuestionWidget) nextQuestion;
-                UserQuestionDTO userQuestionDTO = new UserQuestionDTO();
-
-                for (String answer : userQuestionWidget.getSelectedAnswersList()){
-                    userQuestionDTO.getAnswersList().add(
-                            new UserAnswerDTO(checkAsRightAnswersSet.contains(answer)));
-                }
-            }
-        }
-
-        return userInquirerDTO;
-    }
     /**
      * Удаляет текуший опросник (из отображения)
      *
@@ -182,6 +137,68 @@ public class UserView extends Composite implements IView {
         }
         setPassInquirerButtonGroup();
         showInquirer(getSelectedInquirer());
+    }
+
+    public UserInquirerDTO createUserInquirerDTO(UserInquirerDTO userInquirer){
+        String passResults = getInquirerResults();
+        int thisResult = passResults == null ? 0 :
+                Integer.parseInt(passResults.substring(0, passResults.indexOf('/')));
+        int bestResult = thisResult > userInquirer.getBestResult() ?
+                thisResult : userInquirer.getBestResult();
+
+        UserInquirerWidget userInquirerWidget = (UserInquirerWidget)
+                inquirerPanel.getWidget(0);
+
+        List<UserQuestionDTO> userQuestionDTOs = new ArrayList<>();
+        for (Widget nextQuestion : userInquirerWidget.getQuestionPanel()){
+            if (nextQuestion instanceof UserQuestionWidget){
+                UserQuestionWidget userQuestionWidget = (UserQuestionWidget) nextQuestion;
+                UserQuestionDTO userQuestionDTO = new UserQuestionDTO(
+                        userInquirer.getId());
+
+                for (String answer : userQuestionWidget.getSelectedAnswersList()){
+                    userQuestionDTO.getAnswersList().add(
+                            new UserAnswerDTO(userInquirer.getId(),
+                                    checkAsRightAnswersSet.contains(answer)));
+                }
+                userQuestionDTOs.add(userQuestionDTO);
+            }
+        }
+
+        return new UserInquirerDTO(userInquirer.getId(), userInquirer.isFinished(),
+                bestResult, userQuestionDTOs,
+                presenter.getUserModel().getLoggedInUserDTO(),
+                presenter.getInquirerModel().getSelectedInquirerDTO());
+    }
+
+    public UserInquirerDTO createUserInquirerDTO(boolean isFinished) {
+        String passResults = getInquirerResults();
+        int bestResult = 0;
+        if (isFinished) {
+            bestResult = passResults == null ? 0 :
+                    Integer.parseInt(passResults.substring(0, passResults.indexOf('/')));
+        }
+
+        UserInquirerWidget userInquirerWidget = (UserInquirerWidget)
+                inquirerPanel.getWidget(0);
+
+        List<UserQuestionDTO> userQuestionDTOs = new ArrayList<>();
+        for (Widget nextQuestion : userInquirerWidget.getQuestionPanel()){
+            if (nextQuestion instanceof UserQuestionWidget){
+                UserQuestionWidget userQuestionWidget = (UserQuestionWidget) nextQuestion;
+                UserQuestionDTO userQuestionDTO = new UserQuestionDTO();
+
+                for (String answer : userQuestionWidget.getSelectedAnswersList()){
+                    userQuestionDTO.getAnswersList().add(
+                            new UserAnswerDTO(checkAsRightAnswersSet.contains(answer)));
+                }
+                userQuestionDTOs.add(userQuestionDTO);
+            }
+        }
+
+        return new UserInquirerDTO(isFinished, bestResult, userQuestionDTOs,
+                presenter.getUserModel().getLoggedInUserDTO(),
+                presenter.getInquirerModel().getSelectedInquirerDTO());
     }
 
     private String getInquirerResults() {
@@ -233,7 +250,7 @@ public class UserView extends Composite implements IView {
         inquirerPanel.add(new UserInquirerWidget(selectedInquirer));
     }
 
-    private void resetInquirerPanel() {
+    public void resetInquirerPanel() {
         presenter.initUpdateView();
 
         passInquirerButtonGroup.setVisible(false);

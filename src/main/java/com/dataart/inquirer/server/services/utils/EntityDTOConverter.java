@@ -106,10 +106,18 @@ public class EntityDTOConverter {
                 userQuestionDTOs.add(createUserQuestionDTO(userQuestionEntity));
             }
         }
-        return new UserInquirerDTO(userInquirerEntity.getId(),
+        UserEntity userEntity = userInquirerEntity.getUserEntity();
+        UserDTO userDTO = new UserDTO(userEntity.getId(), userEntity.getUsername(),
+                userEntity.getEmail(), userEntity.getPassword(), userEntity.getRole());
+
+        InquirerEntity inquirerEntity = userInquirerEntity.getInquirerEntity();
+        InquirerDTO inquirerDTO = new InquirerDTO(inquirerEntity.getId(),
+                inquirerEntity.getName(),inquirerEntity.getDescription(),
+                inquirerEntity.isPublished());
+
+         return new UserInquirerDTO(userInquirerEntity.getId(),
                 userInquirerEntity.isFinished(), userInquirerEntity.getBestResult(),
-                userQuestionDTOs, createUserDTO(userInquirerEntity.getUserEntity()),
-                createInquirerDTO(userInquirerEntity.getInquirerEntity()));
+                userQuestionDTOs, userDTO, inquirerDTO);
     }
 
     private UserQuestionDTO createUserQuestionDTO(UserQuestionEntity userQuestionEntity) {

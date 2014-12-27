@@ -52,37 +52,46 @@ public final class UserPresenter implements IPresenter {
         });
     }
 
-    public void getExistingUserInquirerId(){
+    public void saveUnfinishedUserInquirer() {
+        getUserInquirerIfExists(false);
+    }
+
+    public void saveFinishedUserInquirer() {
+        getUserInquirerIfExists(true);
+    }
+
+    public void getUserInquirerIfExists(final boolean isFinished) {
         userInquirerServiceAsync.getExistingUserInquirer(
                 userModel.getLoggedInUserDTO().getId(),
                 inquirerModel.getSelectedInquirerDTO().getId(),
                 new CommonAsyncCallback<UserInquirerDTO>() {
                     @Override
                     public void onSuccess(UserInquirerDTO result) {
+                        Window.confirm(String.valueOf("уже существующий в БД опросник\n" +
+                                result));
                         if (result != null) {
-                            addNewUserInquirer(view.createUserInquirerDTO(result));
+                            result.setFinished(isFinished);
+                            addUserInquirer(view.createUserInquirerDTO(result));
                         } else {
-                            addNewUserInquirer(view.createUserInquirerDTO());
+                            addUserInquirer(view.createUserInquirerDTO(isFinished));
                         }
                     }
                 });
     }
 
-    public void addNewUserInquirer(UserInquirerDTO userInquirerDTO){
-        userInquirerServiceAsync.addUserInquirer(userInquirerDTO, new CommonAsyncCallback<UserInquirerDTO>() {
-            @Override
-            public void onSuccess(UserInquirerDTO result) {
-                Window.alert(String.valueOf(result));
-                getUserModel().getNewInquirerDTOs().remove(result.getInquirerDTO());
-                if (result.isFinished()) {
-                    getUserModel().getFinishedInquirerDTOs().add(result.getInquirerDTO());
-                } else {
-                    getUserModel().getUnfinishedInquirerDTOs()
-                            .add(result.getInquirerDTO());
-                }
-                initUpdateView();
-            }
-        });
+    private void addUserInquirer(final UserInquirerDTO userInquirerDTO) {
+        userInquirerServiceAsync.addUserInquirer(userInquirerDTO,
+                new CommonAsyncCallback<UserInquirerDTO>() {
+                    @Override
+                    public void onSuccess(UserInquirerDTO result) {
+                        Window.confirm(String.valueOf("созданный опросник\n" +
+                                userInquirerDTO));
+                        Window.confirm(String.valueOf("сохранённый опросник\n" +
+                                result));
+                        view.resetInquirerPanel();
+                        initUpdateView();
+                    }
+                });
     }
 
     private void updateInquirerList() {
@@ -90,16 +99,49 @@ public final class UserPresenter implements IPresenter {
             @Override
             public void onSuccess(ArrayList<InquirerDTO> inquirerDTOs) {
                 inquirerModel.setInquirerDTOs(inquirerDTOs);
+
                 userModel.getNewInquirerDTOs().clear();
+                userModel.getUnfinishedInquirerDTOs().clear();
+                userModel.getFinishedInquirerDTOs().clear();
+
                 for (InquirerDTO inquirerDTO : inquirerDTOs) {
-                    //TODO реализовать сортировку опросников на новые, начатые и пройденные
                     if (inquirerDTO.isPublished()) {
-                        userModel.getNewInquirerDTOs().add(inquirerDTO);
+                        if (isInquirerUnfinishedForThisUser(inquirerDTO,
+                                userModel.getLoggedInUserDTO())) {
+                            userModel.getUnfinishedInquirerDTOs().add(inquirerDTO);
+                        } else if (isInquirerFinishedForThisUser(inquirerDTO,
+                                userModel.getLoggedInUserDTO())) {
+                            userModel.getFinishedInquirerDTOs().add(inquirerDTO);
+                        } else {
+                            userModel.getNewInquirerDTOs().add(inquirerDTO);
+                        }
                     }
                 }
                 view.refresh();
             }
         });
+    }
+
+    private boolean isInquirerFinishedForThisUser(InquirerDTO inquirerDTO,
+                                                  UserDTO loggedInUserDTO) {
+        for (UserInquirerDTO userInquirerDTO : inquirerDTO.getUserInquirerList()) {
+            if (userInquirerDTO.getUserDTO().equals(loggedInUserDTO) &&
+                    userInquirerDTO.isFinished()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private boolean isInquirerUnfinishedForThisUser(InquirerDTO inquirerDTO,
+                                                    UserDTO loggedInUserDTO) {
+        for (UserInquirerDTO userInquirerDTO : inquirerDTO.getUserInquirerList()) {
+            if (userInquirerDTO.getUserDTO().equals(loggedInUserDTO) &&
+                    !userInquirerDTO.isFinished()) {
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override
@@ -118,6 +160,7 @@ public final class UserPresenter implements IPresenter {
             view.init();
         } else {
             //update view
+            updateInquirerList();
             view.refresh();
         }
     }

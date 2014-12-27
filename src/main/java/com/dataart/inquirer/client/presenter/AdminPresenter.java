@@ -97,10 +97,6 @@ public final class AdminPresenter implements IPresenter {
         return model;
     }
 
-    public Set<String> getAuthoritiesSet() {
-        return authoritiesSet;
-    }
-
     public AuthoritiesServiceAsync getAuthoritiesServiceAsync() {
         return authoritiesServiceAsync;
     }

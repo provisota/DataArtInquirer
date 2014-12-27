@@ -49,6 +49,14 @@ public class UserInquirerDTO implements Serializable {
         this.id = id;
     }
 
+    public UserInquirerDTO(int id, boolean isFinished, int bestResult,
+                           List<UserQuestionDTO> questionsList) {
+        this.id = id;
+        this.isFinished = isFinished;
+        this.bestResult = bestResult;
+        this.questionsList = questionsList;
+    }
+
     public int getId() {
         return id;
     }
@@ -132,6 +140,6 @@ public class UserInquirerDTO implements Serializable {
                 ", questionsList=" + questionsList +
                 ", userDTOId=" + userDTO.getId() +
                 ", inquirerDTOId=" + inquirerDTO.getId() +
-                '}';
+                "}\n";
     }
 }
