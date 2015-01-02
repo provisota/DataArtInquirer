@@ -71,7 +71,7 @@ public class UserDTO implements Serializable {
             return false;
         if (password != null ? !password.equals(userDTO.password) : userDTO.password != null)
             return false;
-        if (role != userDTO.role) return false;
+//        if (role != userDTO.role) return false;
         if (username != null ? !username.equals(userDTO.username) : userDTO.username != null)
             return false;
 
@@ -84,7 +84,7 @@ public class UserDTO implements Serializable {
         result = 31 * result + (username != null ? username.hashCode() : 0);
         result = 31 * result + (email != null ? email.hashCode() : 0);
         result = 31 * result + (password != null ? password.hashCode() : 0);
-        result = 31 * result + (role != null ? role.hashCode() : 0);
+//        result = 31 * result + (role != null ? role.hashCode() : 0);
         return result;
     }
 

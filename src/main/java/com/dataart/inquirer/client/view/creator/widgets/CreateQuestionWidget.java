@@ -169,6 +169,10 @@ public class CreateQuestionWidget extends Composite {
     }
 
     public void blockCheckBoxes() {
+        if (answerType == AnswerType.TEXT_BOX){
+            addAnswerButton.setEnabled(false);
+            return;
+        }
         for (Widget widget : answerPanel) {
             if (widget instanceof CreateAnswerWidget) {
                 CreateAnswerWidget answerWidget = (CreateAnswerWidget) widget;

@@ -6,7 +6,8 @@
 <head>
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
     <!-- Bootstrap core CSS -->
-    <%--<link href="<c:url value="bootstrap.min.css" />" rel="stylesheet">--%>
+    <link type="text/css" href="<c:url value="resources/css/bootstrap.min.css" />"
+          rel="stylesheet">
 </head>
 <style>
     form {
@@ -27,10 +28,11 @@
     <form method="post" action="${authUrl}">
         <fieldset>
             <p style="color: red">${param.message}</p>
-            <table cellspacing="0">
+            <table>
                 <tr>
                     <th><label for="username_or_email">Имя пользователя </label></th>
-                    <td><input class="form-control" id="username_or_email"
+                    <td><input style="margin-bottom: 5px"
+                               class="form-control" id="username_or_email"
 
                                name="j_username"
                                type="text"/> <!-- Поле ввода имени пользователя -->
@@ -54,7 +56,7 @@
                 </tr>
                 <tr>
                     <th></th>
-                    <td><button class="btn btn-lg btn-primary btn-block" name="commit"
+                    <td><button class="btn btn-primary btn-block" name="commit"
                                 type="submit">Войти</button></td>
                 </tr>
             </table>

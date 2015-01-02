@@ -28,19 +28,22 @@
     <context:property-placeholder location="classpath:config.properties"
                                   system-properties-mode="OVERRIDE"/>
 
-    <security:http auto-config="true" use-expressions="false">
+    <security:http auto-config="true" use-expressions="true">
         <!-- TODO ВАЖНО!!! Для тестирования приложения в GWT DevMode или GWT SuperDevMode
         закоментировать все строки с тегом 'intercept-url' -->
 
-        <!--<security:intercept-url pattern="/login.jsp*"
-                                access="IS_AUTHENTICATED_ANONYMOUSLY"/>
+        <!--<security:intercept-url pattern="/resources/css/bootstrap.min.css"
+                                access="permitAll"/>
+        <security:intercept-url pattern="/login.jsp*"
+                                access="isAnonymous()"/>
         <security:intercept-url pattern="/dataartinquirer/**"
-                                access="ROLE_USER, ROLE_ADMIN"/>
+                                access="hasAnyRole('ROLE_USER, ROLE_ADMIN')"/>
         <security:intercept-url pattern="/dataartinquirer**"
-                                access="ROLE_USER, ROLE_ADMIN"/>
+                                access="hasAnyRole('ROLE_USER, ROLE_ADMIN')"/>
         <security:intercept-url pattern="/DataArtInquirer.html*"
-                                access="ROLE_USER, ROLE_ADMIN"/>
-        <security:intercept-url pattern="/**" access="ROLE_USER, ROLE_ADMIN"/>-->
+                                access="hasAnyRole('ROLE_USER, ROLE_ADMIN')"/>
+        <security:intercept-url pattern="/**"
+                                access="hasAnyRole('ROLE_USER, ROLE_ADMIN')"/>-->
 
         <security:form-login login-processing-url="/static/j_spring_security_check"
                              login-page="/login.jsp"

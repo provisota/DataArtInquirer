@@ -18,6 +18,7 @@ import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.cellview.client.ColumnSortEvent;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -80,8 +81,25 @@ public class AdminView extends Composite implements IView {
         for (UserDTO userDTO : selectedUsers) {
             userDTO.setRole(role);
         }
-        presenter.updateUserRoles(selectedUsers);
-        selectionModel.clear();
+        if (hasAtLeastOneAdmin(selectedUsers)) {
+            presenter.updateUserRoles(selectedUsers);
+            selectionModel.clear();
+        }
+    }
+
+    private boolean hasAtLeastOneAdmin(Set<UserDTO> selectedUsers) {
+        Set<UserDTO> updatedUserSet = new HashSet<>(selectedUsers);
+        updatedUserSet.addAll(userList);
+
+        for (UserDTO userDTO : updatedUserSet){
+            if(userDTO.getRole() == Role.ROLE_ADMIN){
+                return true;
+            }
+        }
+
+        Window.alert("в системе должен обязательно остаться по крайней мере ОДИН " +
+                "пользователь с уровнем доступа \"адмистратор\"");
+        return false;
     }
 
     private void setupDataGrid() {
