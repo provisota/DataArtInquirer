@@ -1,5 +1,7 @@
 package com.dataart.inquirer.client.view.inquirer.datagrid.comparators;
 
+import com.dataart.inquirer.shared.dto.user.UserDTO;
+
 /**
  * @author Alterovych Ilya
  */
@@ -9,6 +11,14 @@ public class ComparatorsHolder {
     private DescriptionComparator descriptionComparator = new DescriptionComparator();
     private QuestionComparator questionComparator = new QuestionComparator();
     private PublishedComparator publishedComparator = new PublishedComparator();
+    private BestResultComparator bestResultComparator;
+
+    public ComparatorsHolder() {
+    }
+
+    public ComparatorsHolder(UserDTO loggedInUserDTO) {
+        bestResultComparator = new BestResultComparator(loggedInUserDTO);
+    }
 
     public IdComparator getIdComparator() {
         return idComparator;
@@ -28,5 +38,9 @@ public class ComparatorsHolder {
 
     public PublishedComparator getPublishedComparator() {
         return publishedComparator;
+    }
+
+    public BestResultComparator getBestResultComparator() {
+        return bestResultComparator;
     }
 }

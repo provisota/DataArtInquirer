@@ -97,7 +97,6 @@ public final class UserPresenter implements IPresenter {
         inquirerServiceAsync.getAll(new CommonAsyncCallback<ArrayList<InquirerDTO>>() {
             @Override
             public void onSuccess(ArrayList<InquirerDTO> inquirerDTOs) {
-                inquirerModel.setInquirerDTOs(inquirerDTOs);
 
                 userModel.getNewInquirerDTOs().clear();
                 userModel.getUnfinishedInquirerDTOs().clear();
@@ -116,6 +115,7 @@ public final class UserPresenter implements IPresenter {
                         }
                     }
                 }
+                inquirerModel.setInquirerDTOs(userModel.getNewInquirerDTOs());
                 view.refresh();
             }
         });

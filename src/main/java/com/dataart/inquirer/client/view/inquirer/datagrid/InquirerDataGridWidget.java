@@ -6,6 +6,7 @@ import com.dataart.inquirer.client.view.IView;
 import com.dataart.inquirer.client.view.inquirer.datagrid.columns.ColumnsHolder;
 import com.dataart.inquirer.client.view.inquirer.datagrid.comparators.ComparatorsHolder;
 import com.dataart.inquirer.shared.dto.inquirer.InquirerDTO;
+import com.dataart.inquirer.shared.dto.user.UserDTO;
 import com.google.gwt.cell.client.CheckboxCell;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style;
@@ -37,9 +38,11 @@ public class InquirerDataGridWidget extends Composite implements IView {
             GWT.create(InquirerDataGridWidgetUiBinder.class);
     private InquirerModel model;
     private boolean isAdminDataGrid;
+    private UserDTO loggedInUserDTO;
     private SingleSelectionModel<InquirerDTO> selectionModel;
     private ArrayList<InquirerDTO> inquirerList;
     private ColumnSortEvent.ListHandler<InquirerDTO> sortHandler;
+    private ComparatorsHolder comparatorsHolder;
     @UiField(provided = true)
     DataGrid<InquirerDTO> dataGrid;
 
@@ -57,6 +60,12 @@ public class InquirerDataGridWidget extends Composite implements IView {
     public InquirerDataGridWidget(InquirerModel model, boolean isAdminDataGrid) {
         this.model = model;
         this.isAdminDataGrid = isAdminDataGrid;
+    }
+
+    public InquirerDataGridWidget(InquirerModel model, boolean isAdminDataGrid,
+                                  UserDTO loggedInUserDTO) {
+        this(model, isAdminDataGrid);
+        this.loggedInUserDTO = loggedInUserDTO;
     }
 
     private void setupDataGrid() {
@@ -83,8 +92,15 @@ public class InquirerDataGridWidget extends Composite implements IView {
     }
 
     private void initDataGridColumns() {
-        ColumnsHolder columnsHolder = new ColumnsHolder(dataGrid, isAdminDataGrid);
-        ComparatorsHolder comparatorsHolder = new ComparatorsHolder();
+        ColumnsHolder columnsHolder = new ColumnsHolder(this);
+
+        if (isAdminDataGrid){
+            comparatorsHolder = new ComparatorsHolder();
+        } else {
+            comparatorsHolder = new ComparatorsHolder(loggedInUserDTO);
+            sortHandler.setComparator(columnsHolder.getBestResultColumn(),
+                    comparatorsHolder.getBestResultComparator());
+        }
 
         sortHandler.setComparator(columnsHolder.getIdColumn(),
                 comparatorsHolder.getIdComparator());
@@ -173,5 +189,15 @@ public class InquirerDataGridWidget extends Composite implements IView {
 
     public DataGrid<InquirerDTO> getDataGrid() {
         return dataGrid;
+    }
+
+
+
+    public boolean isAdminDataGrid() {
+        return isAdminDataGrid;
+    }
+
+    public UserDTO getLoggedInUserDTO() {
+        return loggedInUserDTO;
     }
 }

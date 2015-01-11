@@ -74,6 +74,7 @@ public final class AdminPresenter implements IPresenter {
     public Widget getView() {
         if (authoritiesSet.contains("ROLE_ADMIN")) {
             updateUserList();
+            initUpdateView();
             return view.asWidget();
         } else {
             return AccessDeniedView.getInstance().asWidget();

@@ -14,6 +14,7 @@ public final class StatisticPresenter implements IPresenter {
 
     @Override
     public Widget getView() {
+        initUpdateView();
         return view.asWidget();
     }
 

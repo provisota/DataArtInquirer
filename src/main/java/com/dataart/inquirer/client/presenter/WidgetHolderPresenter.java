@@ -17,15 +17,23 @@ public class WidgetHolderPresenter {
 
     public void loadProject() {
         if (holder == null) {
-            initViews();
-
+//            initViews();
+            presenterMap.get(StartPagePresenter.class).initUpdateView();
             holder = new WidgetHolder(this);
             holder.onFirstLoad();
         }
     }
 
+    /**
+     * @deprecated
+     * Метод для предварительной инициализации всех отображений.
+     */
+    @SuppressWarnings("UnusedDeclaration")
     private void initViews() {
         for (Class<? extends IPresenter> presenterClass : presenterMap.keySet()){
+            if (presenterClass == UserPresenter.class){
+                continue;
+            }
             presenterMap.get(presenterClass).initUpdateView();
         }
     }

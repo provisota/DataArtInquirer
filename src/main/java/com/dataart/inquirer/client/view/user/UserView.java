@@ -110,21 +110,27 @@ public class UserView extends Composite implements IView {
     @UiHandler("newInquirerButton")
     public void onShowNewInquirers(ClickEvent event){
         startInquirerButton.setText("ПРОЙТИ");
-        dataGrid.refresh(presenter.getUserModel().getNewInquirerDTOs());
+        presenter.getInquirerModel().
+                setInquirerDTOs(presenter.getUserModel().getNewInquirerDTOs());
+        dataGrid.refresh();
     }
 
     @SuppressWarnings("UnusedParameters")
     @UiHandler("unfinishedInquirerButton")
     public void onShowUnfinishedInquirers(ClickEvent event){
         startInquirerButton.setText("ПРОДОЛЖИТЬ");
-        dataGrid.refresh(presenter.getUserModel().getUnfinishedInquirerDTOs());
+        presenter.getInquirerModel().
+                setInquirerDTOs(presenter.getUserModel().getUnfinishedInquirerDTOs());
+        dataGrid.refresh();
     }
 
     @SuppressWarnings("UnusedParameters")
     @UiHandler("finishedInquirerButton")
     public void onShowFinishedInquirers(ClickEvent event){
         startInquirerButton.setText("ПРОЙТИ ЗАНОВО");
-        dataGrid.refresh(presenter.getUserModel().getFinishedInquirerDTOs());
+        presenter.getInquirerModel().
+                setInquirerDTOs(presenter.getUserModel().getFinishedInquirerDTOs());
+        dataGrid.refresh();
     }
 
     @SuppressWarnings("UnusedParameters")
@@ -287,7 +293,8 @@ public class UserView extends Composite implements IView {
     @UiConstructor
     public UserView(UserPresenter presenter) {
         this.presenter = presenter;
-        dataGrid = new InquirerDataGridWidget(presenter.getInquirerModel(), false);
+        dataGrid = new InquirerDataGridWidget(presenter.getInquirerModel(), false,
+                presenter.getUserModel().getLoggedInUserDTO());
     }
 
     @Override
