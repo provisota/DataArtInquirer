@@ -36,14 +36,18 @@
                                 access="permitAll"/>
         <security:intercept-url pattern="/login.jsp*"
                                 access="isAnonymous()"/>
+        <security:intercept-url pattern="/registration.jsp*"
+                                access="isAnonymous()"/>
+        <security:intercept-url pattern="/register*"
+                                access="isAnonymous()"/>
         <security:intercept-url pattern="/dataartinquirer/**"
-                                access="hasAnyRole('ROLE_USER, ROLE_ADMIN')"/>
+                                access="isAuthenticated()"/>
         <security:intercept-url pattern="/dataartinquirer**"
-                                access="hasAnyRole('ROLE_USER, ROLE_ADMIN')"/>
+                                access="isAuthenticated()"/>
         <security:intercept-url pattern="/DataArtInquirer.html*"
-                                access="hasAnyRole('ROLE_USER, ROLE_ADMIN')"/>
+                                access="isAuthenticated()"/>
         <security:intercept-url pattern="/**"
-                                access="hasAnyRole('ROLE_USER, ROLE_ADMIN')"/>-->
+                                access="isAuthenticated()"/>-->
 
         <security:form-login login-processing-url="/static/j_spring_security_check"
                              login-page="/login.jsp"

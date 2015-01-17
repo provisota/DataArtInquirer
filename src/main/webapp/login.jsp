@@ -4,6 +4,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <title>Авторизация</title>
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
     <!-- Bootstrap core CSS -->
     <link type="text/css" href="<c:url value="resources/css/bootstrap.min.css" />"
@@ -15,10 +16,12 @@
         margin-top: 100px !important;
 
     }
+
     fieldset {
         border-radius: 4px
     }
 </style>
+<body>
 <div align="center">
     <h2>Добро пожаловать в DataArtInquirer</h2>
 
@@ -52,12 +55,23 @@
                                name="_spring_security_remember_me"
                                type="checkbox"/> <!-- Флажок "запомнить меня" -->
                         <label for="remember_me"
-                               class="inline">запомнить меня</label></td>
+                               class="inline">запомнить меня</label>
+                    </td>
                 </tr>
                 <tr>
-                    <th></th>
-                    <td><button class="btn btn-primary btn-block" name="commit"
-                                type="submit">Войти</button></td>
+                    <td colspan="2">
+                        <button style="width: 200px; margin: auto auto 5px;"
+                                class="btn btn-primary btn-block" name="commit"
+                                type="submit">Войти
+                        </button>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <a style="width: 200px; margin: auto auto 5px;"
+                           class="btn btn-success btn-block"
+                           href="registration.jsp">Зарегестрироваться</a>
+                    </td>
                 </tr>
             </table>
         </fieldset>
@@ -66,4 +80,5 @@
         document.getElementById('username_or_email').focus();
     </script>
 </div>
+</body>
 </html>
