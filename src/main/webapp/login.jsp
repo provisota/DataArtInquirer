@@ -18,12 +18,15 @@
     }
 
     fieldset {
+        border: 1px solid lightgray;
         border-radius: 4px
     }
 </style>
 <body>
 <div align="center">
-    <h2>Добро пожаловать в DataArtInquirer</h2>
+    <h2>Добро пожаловать в
+        <a title="на домашнюю страницу" href="/dataartinquirer/">DataArtInquirer</a>
+    </h2>
 
     <p></p>
     <!-- Путь к фильтру аутентификации -->

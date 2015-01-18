@@ -17,32 +17,30 @@ public class UserDTO implements Serializable {
     private String email;
     private String password;
     private Role role;
+    private Boolean isConfirmed;
     private List<UserInquirerDTO> userInquirerList = new ArrayList<>();
 
     public UserDTO() {
     }
 
-    public UserDTO(String username, String email, String password, Role role) {
+    public UserDTO(String username, String email, String password,
+                   Role role, Boolean isConfirmed) {
         this.username = username;
         this.email = email;
         this.password = password;
         this.role = role;
+        this.isConfirmed = isConfirmed;
     }
 
-    public UserDTO(int id, String username, String email, String password, Role role) {
-        this(username, email, password, role);
+    public UserDTO(int id, String username, String email, String password, Role role,
+                   Boolean isConfirmed) {
+        this(username, email, password, role, isConfirmed);
         this.id = id;
     }
 
     public UserDTO(int id, String username, String email, String password, Role role,
-                   List<UserInquirerDTO> userInquirerList) {
-        this(id, username, email, password, role);
-        this.userInquirerList = userInquirerList;
-    }
-
-    public UserDTO(String username, String email, String password, Role role,
-                   List<UserInquirerDTO> userInquirerList) {
-        this(username, email, password, role);
+                   List<UserInquirerDTO> userInquirerList, Boolean isConfirmed) {
+        this(id, username, email, password, role, isConfirmed);
         this.userInquirerList = userInquirerList;
     }
 
@@ -54,6 +52,7 @@ public class UserDTO implements Serializable {
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
                 ", role=" + role +
+                ", isConfirmed=" + isConfirmed +
                 ", userInquirerList=" + userInquirerList +
                 "}\n";
     }
@@ -89,7 +88,8 @@ public class UserDTO implements Serializable {
     }
 
     public UserDTO cloneUserDTO(){
-        return new UserDTO(id, username, email, password, role, userInquirerList);
+        return new UserDTO(id, username, email, password, role,
+                userInquirerList, isConfirmed);
     }
 
     //getters & setters
@@ -139,5 +139,13 @@ public class UserDTO implements Serializable {
 
     public void setUserInquirerList(List<UserInquirerDTO> userInquirerList) {
         this.userInquirerList = userInquirerList;
+    }
+
+    public Boolean getIsConfirmed() {
+        return isConfirmed;
+    }
+
+    public void setIsConfirmed(Boolean isConfirmed) {
+        this.isConfirmed = isConfirmed;
     }
 }

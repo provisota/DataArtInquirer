@@ -32,7 +32,7 @@
         <!-- TODO ВАЖНО!!! Для тестирования приложения в GWT DevMode или GWT SuperDevMode
         закоментировать все строки с тегом 'intercept-url' -->
 
-        <!--<security:intercept-url pattern="/resources/css/bootstrap.min.css"
+        <!--<security:intercept-url pattern="/resources/css/bootstrap.min.css*"
                                 access="permitAll"/>
         <security:intercept-url pattern="/login.jsp*"
                                 access="isAnonymous()"/>

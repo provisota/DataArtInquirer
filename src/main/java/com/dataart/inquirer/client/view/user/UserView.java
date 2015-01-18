@@ -147,7 +147,8 @@ public class UserView extends Composite implements IView {
         String passResults = getInquirerResults();
         int thisResult = passResults == null ? 0 :
                 Integer.parseInt(passResults.substring(0, passResults.indexOf('/')));
-        int bestResult = thisResult > userInquirer.getBestResult() ?
+        int bestResult = userInquirer.isFinished() &&
+                thisResult > userInquirer.getBestResult() ?
                 thisResult : userInquirer.getBestResult();
 
         UserInquirerWidget userInquirerWidget = (UserInquirerWidget)

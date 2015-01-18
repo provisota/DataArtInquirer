@@ -18,49 +18,96 @@
     }
 
     fieldset {
+        border: 1px solid lightgray;
         border-radius: 4px
     }
 </style>
 <body>
 <div align="center">
-    <h2>Регистрация в DataArtInquirer</h2>
+    <h2>Регистрация в
+        <a title="на домашнюю страницу" href="/dataartinquirer/">DataArtInquirer</a>
+    </h2>
 
     <p></p>
-    <c:url var="regUrl" value="/register"/>
-    <form method="post" action="${regUrl}">
+    <c:url var="regUrl" value="register.do"/>
+    <form action="${regUrl}" method="post">
+        <p style="color: green; font-size: medium">${requestScope.success_message}</p>
         <fieldset>
-            <p style="color: red">${param.message}</p>
+            <p></p>
             <table>
                 <tr>
                     <th><label for="username">Имя пользователя </label></th>
                     <td><input style="margin-bottom: 5px"
+                               title="может содержать только цифры и буквы лат. алфавита
+                               (6 - 15 символов)"
                                class="form-control" id="username"
                                name="username" placeholder="введите имя пользователя"
-                               type="text"/> <!-- Поле ввода имени пользователя -->
+                               type="text" value="${requestScope.username}"/>
+                        <!-- Поле ввода имени пользователя -->
+                    </td>
+                </tr>
+                <tr>
+                    <th></th>
+                    <td>
+                        <p style="color: red; margin: auto auto 5px">
+                            ${requestScope.error_username}
+                        </p>
                     </td>
                 </tr>
                 <tr>
                     <th><label for="email">E-mail </label></th>
                     <td><input style="margin-bottom: 5px"
+                               title="введите реальный email для подтверждения регистрации"
                                class="form-control" id="email"
-                               name="email" placeholder="введите пароль"
-                               type="text"/> <!-- Поле ввода эл.почты -->
+                               name="email" placeholder="введите эл.почту"
+                               type="text" value="${requestScope.email}"/>
+                        <!-- Поле ввода эл.почты -->
+                    </td>
+                </tr>
+                <tr>
+                    <th></th>
+                    <td>
+                        <p style="color: red; margin: auto auto 5px">
+                            ${requestScope.error_email}
+                        </p>
                     </td>
                 </tr>
                 <tr>
                     <th><label for="password">Пароль </label></th>
                     <td><input style="margin-bottom: 5px"
+                               title="должен содержать и цифры и буквы лат. алфавита
+                               (6 - 15 символов)"
                                class="form-control" id="password"
                                name="password" placeholder="введите пароль"
-                               type="password"/> <!-- Поле ввода пароля -->
+                               type="password" value="${requestScope.password}"/>
+                        <!-- Поле ввода пароля -->
+                    </td>
+                </tr>
+                <tr>
+                    <th></th>
+                    <td>
+                        <p style="color: red; margin: auto auto 5px">
+                            ${requestScope.error_password}
+                        </p>
                     </td>
                 </tr>
                 <tr>
                     <th><label for="password">Подтвердите пароль </label></th>
                     <td><input style="margin-bottom: 5px"
+                               title="должен содержать и цифры и буквы лат. алфавита
+                               (6 - 15 символов)"
                                class="form-control" id="confirm_password"
                                name="confirm_password" placeholder="подтвердите пароль"
-                               type="password"/> <!-- Подтверждение пароля -->
+                               type="password" value="${requestScope.confirm_password}"/>
+                        <!-- Подтверждение пароля -->
+                    </td>
+                </tr>
+                <tr>
+                    <th></th>
+                    <td>
+                        <p style="color: red; margin: auto auto 5px">
+                            ${requestScope.error_confirm_password}
+                        </p>
                     </td>
                 </tr>
                 <tr>

@@ -6,13 +6,15 @@
 		 http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">
     <context-param>
         <param-name>contextConfigLocation</param-name>
-        <param-value>classpath:applicationContext.xml</param-value>
+        <param-value>classpath:applicationContext.xml,
+            WEB-INF/springMVC/dispatcher-servlet.xml</param-value>
     </context-param>
 
     <!--Filter for forced disabling browser caching of nocache.js files-->
     <filter>
         <filter-name>gwtCacheControlFilter</filter-name>
-        <filter-class>com.dataart.inquirer.shared.utils.GWTCacheControlFilter</filter-class>
+        <filter-class>com.dataart.inquirer.shared.utils.GWTCacheControlFilter
+        </filter-class>
     </filter>
 
     <filter-mapping>
@@ -50,11 +52,29 @@
         <servlet-name>springGwtRemoteServiceServlet</servlet-name>
         <!--suppress WebProperties -->
         <servlet-class>org.spring4gwt.server.SpringGwtRemoteServiceServlet</servlet-class>
-        <load-on-startup>1</load-on-startup>
+        <load-on-startup>2</load-on-startup>
     </servlet>
     <servlet-mapping>
         <servlet-name>springGwtRemoteServiceServlet</servlet-name>
         <url-pattern>/dataartinquirer/springGwtServices/*</url-pattern>
+    </servlet-mapping>
+
+    <!-- Spring Dispatcher Servlet -->
+    <servlet>
+        <servlet-name>dispatcher</servlet-name>
+        <servlet-class>
+            org.springframework.web.servlet.DispatcherServlet
+        </servlet-class>
+        <init-param>
+            <param-name>contextConfigLocation</param-name>
+            <param-value>/WEB-INF/springMVC/dispatcher-servlet.xml</param-value>
+        </init-param>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>dispatcher</servlet-name>
+        <url-pattern>*.do</url-pattern>
     </servlet-mapping>
 
     <!-- Default page to serve -->

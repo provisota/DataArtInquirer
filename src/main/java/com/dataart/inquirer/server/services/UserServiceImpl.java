@@ -29,7 +29,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public ArrayList<UserDTO> getAll() {
         ArrayList<UserDTO> userDTOs = new ArrayList<>();
-        List<UserEntity> userEntities = userRepository.findAll();
+        List<UserEntity> userEntities = userRepository.findByIsConfirmed(true);
         for (UserEntity userEntity : userEntities){
             userDTOs.add(createDTO(userEntity));
         }
@@ -78,15 +78,16 @@ public class UserServiceImpl implements UserService {
     @Override
     public void addTestUsers() {
         if (!checkNameExist("user") && !checkEmailExist("user@mail.com")) {
-            addUser(new UserDTO("user", "user@mail.com", "user", Role.ROLE_USER));
+            addUser(new UserDTO("user", "user@mail.com", "user", Role.ROLE_USER, true));
         }
         if (!checkNameExist("admin") && !checkEmailExist("admin@mail.com")) {
-            addUser(new UserDTO("admin", "admin@mail.com", "admin", Role.ROLE_ADMIN));
+            addUser(new UserDTO("admin", "admin@mail.com", "admin",
+                    Role.ROLE_ADMIN, true));
         }
         if (!checkNameExist("anonymousUser") &&
                 !checkEmailExist("anonymousUser@mail.com")) {
             addUser(new UserDTO("anonymousUser", "anonymousUser@mail.com", "admin",
-                    Role.ROLE_ADMIN));
+                    Role.ROLE_ADMIN, true));
         }
     }
 

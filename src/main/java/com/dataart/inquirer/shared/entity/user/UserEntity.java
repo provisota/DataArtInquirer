@@ -37,19 +37,24 @@ public class UserEntity implements Serializable{
     @Enumerated(EnumType.STRING)
     private Role role = Role.ROLE_USER; //set Role.ROLE_USER as default value
 
+    @Column(name = "is_confirmed", nullable = false)
+    private Boolean isConfirmed = false; //set false as default value
+
     @OneToMany(mappedBy = "userEntity", cascade = {CascadeType.ALL},
-            orphanRemoval = true)
+            orphanRemoval = true, fetch = FetchType.EAGER)
     @OnDelete(action = OnDeleteAction.CASCADE)
     private List<UserInquirerEntity> userInquirerList = new ArrayList<>();
 
     public UserEntity() {
     }
 
-    public UserEntity(String username, String email, String password, Role role) {
+    public UserEntity(String username, String email, String password,
+                      Role role, Boolean isConfirmed) {
         this.username = username;
         this.email = email;
         this.password = password;
         this.role = role;
+        this.isConfirmed = isConfirmed;
     }
 
     public UserEntity(UserDTO userDTO) {
@@ -58,6 +63,7 @@ public class UserEntity implements Serializable{
         this.email = userDTO.getEmail();
         this.password = userDTO.getPassword();
         this.role = userDTO.getRole();
+        this.isConfirmed = userDTO.getIsConfirmed();
         List<UserInquirerDTO> userInquirerDTOList = userDTO.getUserInquirerList();
         for (UserInquirerDTO userInquirerDTO : userInquirerDTOList){
             userInquirerList.add(new UserInquirerEntity(userInquirerDTO, this));
@@ -72,6 +78,7 @@ public class UserEntity implements Serializable{
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
                 ", role=" + role +
+                ", isConfirmed=" + isConfirmed +
                 ", userInquirerList=" + userInquirerList +
                 '}';
     }
@@ -123,5 +130,13 @@ public class UserEntity implements Serializable{
 
     public void setUserInquirerList(List<UserInquirerEntity> userInquirerList) {
         this.userInquirerList = userInquirerList;
+    }
+
+    public Boolean getIsConfirmed() {
+        return isConfirmed;
+    }
+
+    public void setIsConfirmed(Boolean isConfirmed) {
+        this.isConfirmed = isConfirmed;
     }
 }

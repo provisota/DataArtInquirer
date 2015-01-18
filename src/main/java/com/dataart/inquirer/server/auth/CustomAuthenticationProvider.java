@@ -34,7 +34,7 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
         String password = (String) authentication.getCredentials();
         //check existing of username
         UserDTO existingUser = userService.findUserByUsername(username);
-        if (existingUser == null) {
+        if (existingUser == null || !existingUser.getIsConfirmed()) {
             throw new UsernameNotFoundException("User not found");
         }
 
