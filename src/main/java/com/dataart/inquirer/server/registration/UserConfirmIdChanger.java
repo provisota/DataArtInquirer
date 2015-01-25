@@ -1,4 +1,4 @@
-package com.dataart.inquirer.server.services.utils.registration;
+package com.dataart.inquirer.server.registration;
 
 import com.dataart.inquirer.client.services.UserService;
 import com.dataart.inquirer.shared.dto.user.UserDTO;

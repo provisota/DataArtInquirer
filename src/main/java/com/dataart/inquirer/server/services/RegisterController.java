@@ -1,8 +1,9 @@
 package com.dataart.inquirer.server.services;
 
 import com.dataart.inquirer.client.services.UserService;
-import com.dataart.inquirer.server.services.utils.registration.UserConfirmIdChanger;
-import com.dataart.inquirer.server.services.utils.registration.UserRegistrator;
+import com.dataart.inquirer.server.registration.UserConfirmIdChanger;
+import com.dataart.inquirer.server.registration.UserPasswordResender;
+import com.dataart.inquirer.server.registration.UserRegistrator;
 import com.dataart.inquirer.shared.dto.user.UserDTO;
 import com.dataart.inquirer.shared.enums.Role;
 import com.dataart.inquirer.shared.utils.RegExpPatterns;
@@ -64,6 +65,24 @@ public class RegisterController {
         return "registration";
     }
 
+    @RequestMapping(value = "/resend.do", method = RequestMethod.POST)
+    public String resendPassword(@RequestParam("email") String email,
+                                 Model model) {
+        model.addAttribute("email", email);
+        if (!isValidEmail(model, email)) {
+            return "resend";
+        }
+        model.addAttribute("success_message",
+                "на вашу почту выслано письмо с подтвержением");
+
+        UserDTO confirmedUser = userService.findUserByEmail(email);
+        if (confirmedUser == null) {
+            return "login";
+        }
+        new UserPasswordResender(confirmedUser, getBaseUrl());
+        return "login";
+    }
+
     @RequestMapping(value = "/confirm.do", method = RequestMethod.GET)
     public String confirmUser(@RequestParam("confirm_id") String confirmId,
                               @RequestParam("is_resend") boolean isResendConfirm,
@@ -74,14 +93,45 @@ public class RegisterController {
             model.addAttribute("error_message",
                     "Такой аккаунт не существует, зарегестрируйтесь пожалуйста");
             return "registration";
-        } else {
-            confirmedUser.setConfirmed(true);
-            userService.editUser(confirmedUser);
-            new UserConfirmIdChanger(confirmedUser, userService);
-            model.addAttribute("success_message",
-                    "Ваш аккаунт успешно подтверждён, теперь вы можете авторизоваться");
-            return "login";
         }
+
+        model.addAttribute("confirm_id", confirmId);
+        if (isResendConfirm) {
+            return "change_password";
+        }
+
+        confirmedUser.setConfirmed(true);
+        userService.editUser(confirmedUser);
+        new UserConfirmIdChanger(confirmedUser, userService);
+        model.addAttribute("success_message",
+                "Ваш аккаунт успешно подтверждён, теперь вы можете авторизоваться");
+        return "login";
+    }
+
+    @RequestMapping(value = "change_password", method = RequestMethod.POST)
+    public String changePassword(@RequestParam("confirm_id") String confirmId,
+                                 @RequestParam("password") final String password,
+                                 @RequestParam("confirm_password") final
+                                 String confirmPassword,
+                                 Model model) {
+        model.addAttribute("confirm_id", confirmId);
+        if (!isValidPassword(model, password) |
+                !isValidConfirmPassword(model, password, confirmPassword)) {
+            return "change_password";
+        }
+
+        UserDTO confirmedUser = userService.findUserByConfirmId(confirmId);
+        if (confirmedUser == null) {
+            model.addAttribute("error_message",
+                    "Такой аккаунт не существует, зарегестрируйтесь пожалуйста");
+            return "registration";
+        }
+        confirmedUser.setPassword(password);
+        userService.editUser(confirmedUser);
+        model.addAttribute("success_message",
+                "Ваш пароль успешно изменён, теперь вы можете авторизоваться");
+        new UserConfirmIdChanger(confirmedUser, userService);
+        return "login";
     }
 
     private void resetForm(Model model) {

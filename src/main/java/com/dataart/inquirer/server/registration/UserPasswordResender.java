@@ -1,40 +1,33 @@
-package com.dataart.inquirer.server.services.utils.registration;
+package com.dataart.inquirer.server.registration;
 
-import com.dataart.inquirer.client.services.UserService;
 import com.dataart.inquirer.shared.dto.user.UserDTO;
 
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import java.util.Properties;
-import java.util.UUID;
 
 /**
  * @author Alterovych Ilya
  */
-public class UserRegistrator extends Thread {
+public class UserPasswordResender extends Thread{
 
     private UserDTO userDTO;
-    private UserService userService;
     private String baseUrl;
 
-    public UserRegistrator(UserDTO userDTO, UserService userService, String baseUrl) {
+    public UserPasswordResender(UserDTO userDTO, String baseUrl) {
         this.userDTO = userDTO;
-        this.userService = userService;
         this.baseUrl = baseUrl;
         start();
     }
 
     @Override
     public void run() {
-        String uuid = UUID.randomUUID().toString();
-        userDTO.setConfirmId(uuid);
-        userService.addUser(userDTO);
 
         String to = userDTO.getEmail();
         String from = "dataartinquirer@gmail.com";
-        String localHostConfirmationLink = baseUrl + "confirm.do?confirm_id=" +
-                uuid + "&is_resend=false";
+        String confirmationLink = baseUrl + "confirm.do?confirm_id=" +
+                userDTO.getConfirmId() + "&is_resend=true";
         final String username = "mailsender2015@gmail.com";
         final String password = "mmmm1978";
 
@@ -57,19 +50,20 @@ public class UserRegistrator extends Thread {
             MimeMessage message = new MimeMessage(session);
             message.setFrom(new InternetAddress(from));
             message.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
-            message.setSubject("Please confirm your registration.");
+            message.setSubject("Password recover.");
             message.setContent(
-                    "<h1>Пожалуйста подтвердите свою регистрацию.</h1>" +
+                    "<h1>Восстановление пароля.</h1>" +
                             "<a style=\"border: 1px solid lightblue; " +
                             "border-radius: 4px; padding: 7px; margin-bottom: 10px; " +
                             "background-color: whitesmoke; font-size: large;\" href=" +
-                            "\"" + localHostConfirmationLink + "\">" +
-                            "Подтвердить регистрацию</a><br/><br/>" +
-                            "or copy this link:<br/> " + localHostConfirmationLink +
+                            "\"" + confirmationLink + "\">" +
+                            "Восстановить пароль</a><br/><br/>" +
+                            "or copy this link:<br/> " + confirmationLink +
                             " <br/>and paste it to browser address bar.",
                     "text/html; charset=utf-8");
             Transport.send(message);
-            System.out.println("Sent message successfully.... UUID = " + uuid);
+            System.out.println("Sent message successfully.... UUID = " +
+                    userDTO.getConfirmId());
         } catch (MessagingException mex) {
             mex.printStackTrace();
         }
