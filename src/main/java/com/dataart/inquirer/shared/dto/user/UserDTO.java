@@ -17,30 +17,33 @@ public class UserDTO implements Serializable {
     private String email;
     private String password;
     private Role role;
-    private Boolean isConfirmed;
+    private boolean isConfirmed;
+    private String confirmId;
     private List<UserInquirerDTO> userInquirerList = new ArrayList<>();
 
     public UserDTO() {
     }
 
     public UserDTO(String username, String email, String password,
-                   Role role, Boolean isConfirmed) {
+                   Role role, boolean isConfirmed, String confirmId) {
         this.username = username;
         this.email = email;
         this.password = password;
         this.role = role;
         this.isConfirmed = isConfirmed;
+        this.confirmId = confirmId;
     }
 
     public UserDTO(int id, String username, String email, String password, Role role,
-                   Boolean isConfirmed) {
-        this(username, email, password, role, isConfirmed);
+                   Boolean isConfirmed, String confirmId) {
+        this(username, email, password, role, isConfirmed, confirmId);
         this.id = id;
     }
 
     public UserDTO(int id, String username, String email, String password, Role role,
-                   List<UserInquirerDTO> userInquirerList, Boolean isConfirmed) {
-        this(id, username, email, password, role, isConfirmed);
+                   List<UserInquirerDTO> userInquirerList, Boolean isConfirmed,
+                   String confirmId) {
+        this(id, username, email, password, role, isConfirmed, confirmId);
         this.userInquirerList = userInquirerList;
     }
 
@@ -58,6 +61,7 @@ public class UserDTO implements Serializable {
     }
 
     //equals & hashCode
+    @SuppressWarnings("RedundantIfStatement")
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -89,7 +93,7 @@ public class UserDTO implements Serializable {
 
     public UserDTO cloneUserDTO(){
         return new UserDTO(id, username, email, password, role,
-                userInquirerList, isConfirmed);
+                userInquirerList, isConfirmed, confirmId);
     }
 
     //getters & setters
@@ -141,11 +145,19 @@ public class UserDTO implements Serializable {
         this.userInquirerList = userInquirerList;
     }
 
-    public Boolean getIsConfirmed() {
+    public boolean isConfirmed() {
         return isConfirmed;
     }
 
-    public void setIsConfirmed(Boolean isConfirmed) {
+    public void setConfirmed(boolean isConfirmed) {
         this.isConfirmed = isConfirmed;
+    }
+
+    public String getConfirmId() {
+        return confirmId;
+    }
+
+    public void setConfirmId(String confirmId) {
+        this.confirmId = confirmId;
     }
 }

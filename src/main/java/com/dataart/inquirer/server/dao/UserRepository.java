@@ -11,5 +11,6 @@ import java.util.List;
 public interface UserRepository extends JpaRepository<UserEntity, Integer> {
     UserEntity findByUsername(String username);
     UserEntity findByEmail(String email);
+    UserEntity findByConfirmId(String confirmId);
     List<UserEntity> findByIsConfirmed(Boolean isConfirmed);
 }

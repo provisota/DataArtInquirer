@@ -13,16 +13,20 @@ import java.util.Set;
 @RemoteServiceRelativePath("springGwtServices/user")
 public interface UserService extends RemoteService {
     ArrayList<UserDTO> getAll();
+
     UserDTO editUser(UserDTO userDTO);
-    /**
-     * Добавляет нового юзера в БД
-     * @param userDTO юзер для сохранения
-     * @return возвращает сохранённого юзера
-     */
+
     UserDTO addUser(UserDTO userDTO);
-    ArrayList<UserDTO> addUserBatch (Set<UserDTO> userDTOs);
-    UserDTO findUserByUsername (String username);
-    UserDTO findUserByEmail (String email);
+
+    ArrayList<UserDTO> addUserBatch(Set<UserDTO> userDTOs);
+
+    UserDTO findUserByUsername(String username);
+
+    UserDTO findUserByEmail(String email);
+
+    UserDTO findUserByConfirmId(String confirmId);
+
     void addTestUsers();
+
     UserDTO getLoggedInUser();
 }

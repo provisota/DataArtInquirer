@@ -25,7 +25,7 @@
 <body>
 <div align="center">
     <h2>Добро пожаловать в
-        <a title="на домашнюю страницу" href="/dataartinquirer/">DataArtInquirer</a>
+        <a title="на домашнюю страницу" href="DataArtInquirer.html">DataArtInquirer</a>
     </h2>
 
     <p></p>
@@ -33,23 +33,29 @@
     <c:url var="authUrl" value="/static/j_spring_security_check"/>
     <form method="post" action="${authUrl}">
         <fieldset>
-            <p style="color: red">${param.message}</p>
+            <p style="color: red">
+                <c:if test="${param.error != null}">
+                    <c:out value="Неправильные логин и/или пароль"/>
+                </c:if>
+            </p>
+            <p style="color: green">${requestScope.success_message}</p>
             <table>
                 <tr>
                     <th><label for="username_or_email">Имя пользователя </label></th>
                     <td><input style="margin-bottom: 5px"
                                class="form-control" id="username_or_email"
-
-                               name="j_username"
-                               type="text"/> <!-- Поле ввода имени пользователя -->
+                               name="j_username" value="${requestScope.username}"
+                               placeholder="введите имя пользователя" type="text"/>
+                        <!-- Поле ввода имени пользователя -->
                     </td>
                 </tr>
                 <tr>
                     <th><label for="password">Пароль </label></th>
                     <td><input class="form-control" id="password"
-                               name="j_password"
-                               type="password"/> <!-- Поле ввода пароля -->
-                        <small><a href="/account/resend_password">Забыли?</a></small>
+                               name="j_password" value="${requestScope.password}"
+                               placeholder="введите пароль" type="password"/>
+                        <!-- Поле ввода пароля -->
+                        <small><a href="resend.jsp">Забыли пароль?</a></small>
                     </td>
                 </tr>
                 <tr>

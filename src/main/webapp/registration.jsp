@@ -25,12 +25,13 @@
 <body>
 <div align="center">
     <h2>Регистрация в
-        <a title="на домашнюю страницу" href="/dataartinquirer/">DataArtInquirer</a>
+        <a title="на домашнюю страницу" href="DataArtInquirer.html">DataArtInquirer</a>
     </h2>
 
     <p></p>
     <c:url var="regUrl" value="register.do"/>
     <form action="${regUrl}" method="post">
+        <p style="color: red; font-size: medium">${requestScope.error_message}</p>
         <p style="color: green; font-size: medium">${requestScope.success_message}</p>
         <fieldset>
             <p></p>

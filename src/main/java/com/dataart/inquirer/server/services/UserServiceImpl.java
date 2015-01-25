@@ -76,18 +76,27 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public UserDTO findUserByConfirmId(String confirmId) {
+        return createDTO(userRepository.findByConfirmId(confirmId));
+    }
+
+    /**
+     * Add test users with fake E-mail and fake confirmID
+     */
+    @Override
     public void addTestUsers() {
         if (!checkNameExist("user") && !checkEmailExist("user@mail.com")) {
-            addUser(new UserDTO("user", "user@mail.com", "user", Role.ROLE_USER, true));
+            addUser(new UserDTO("user", "user@mail.com", "user", Role.ROLE_USER, true,
+                    "8ed68572-f8eb-4126-9ec3-aca8b3e22d2b"));
         }
         if (!checkNameExist("admin") && !checkEmailExist("admin@mail.com")) {
             addUser(new UserDTO("admin", "admin@mail.com", "admin",
-                    Role.ROLE_ADMIN, true));
+                    Role.ROLE_ADMIN, true, "ab575892-c92f-4838-ab0e-c0517c54ddc9"));
         }
         if (!checkNameExist("anonymousUser") &&
                 !checkEmailExist("anonymousUser@mail.com")) {
             addUser(new UserDTO("anonymousUser", "anonymousUser@mail.com", "admin",
-                    Role.ROLE_ADMIN, true));
+                    Role.ROLE_ADMIN, true, "cfc5d8fb-7c99-42f5-8295-fc5ec1f9fcbd"));
         }
     }
 

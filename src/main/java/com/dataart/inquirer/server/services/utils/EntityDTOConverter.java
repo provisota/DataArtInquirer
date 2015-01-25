@@ -46,7 +46,7 @@ public class EntityDTOConverter {
         }
         return new UserDTO(userEntity.getId(), userEntity.getUsername(),
                 userEntity.getEmail(), userEntity.getPassword(), userEntity.getRole(),
-                userInquirerDTOs, userEntity.getIsConfirmed());
+                userInquirerDTOs, userEntity.isConfirmed(), userEntity.getConfirmId());
     }
 
     public InquirerDTO createInquirerDTO(InquirerEntity inquirerEntity){
@@ -109,7 +109,7 @@ public class EntityDTOConverter {
         UserEntity userEntity = userInquirerEntity.getUserEntity();
         UserDTO userDTO = new UserDTO(userEntity.getId(), userEntity.getUsername(),
                 userEntity.getEmail(), userEntity.getPassword(), userEntity.getRole(),
-                userEntity.getIsConfirmed());
+                userEntity.isConfirmed(), userEntity.getConfirmId());
 
         InquirerEntity inquirerEntity = userInquirerEntity.getInquirerEntity();
         InquirerDTO inquirerDTO = new InquirerDTO(inquirerEntity.getId(),

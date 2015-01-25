@@ -41,6 +41,9 @@
 
         <!-- Logging -->
         <log4j.version>1.2.17</log4j.version>
+
+        <!-- JavaEE -->
+        <javaEE.version>7.0</javaEE.version>
     </properties>
 
     <dependencyManagement>
@@ -118,6 +121,7 @@
             <version>${jstl.version}</version>
         </dependency>
 
+        <!-- Spring Security -->
         <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-web</artifactId>
@@ -141,6 +145,7 @@
             <artifactId>spring-security-taglibs</artifactId>
             <version>${spring.securiry}</version>
         </dependency>
+
         <!-- GWT -->
         <dependency>
             <groupId>com.google.gwt</groupId>
@@ -167,6 +172,7 @@
             <version>${gwt.version}</version>
             <scope>provided</scope>
         </dependency>
+
         <!-- GWT Bootstrap3 -->
         <dependency>
             <groupId>org.gwtbootstrap3</groupId>
@@ -174,12 +180,20 @@
             <version>${gwt-bootstrap3.version}</version>
             <scope>provided</scope>
         </dependency>
+
         <!-- log4j -->
         <dependency>
             <groupId>log4j</groupId>
             <artifactId>log4j</artifactId>
             <version>${log4j.version}</version>
             <scope>runtime</scope>
+        </dependency>
+
+        <!-- JavaEE -->
+        <dependency>
+            <groupId>javax</groupId>
+            <artifactId>javaee-api</artifactId>
+            <version>${javaEE.version}</version>
         </dependency>
     </dependencies>
     <build>

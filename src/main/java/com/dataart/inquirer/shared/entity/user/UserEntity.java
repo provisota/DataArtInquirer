@@ -38,23 +38,18 @@ public class UserEntity implements Serializable{
     private Role role = Role.ROLE_USER; //set Role.ROLE_USER as default value
 
     @Column(name = "is_confirmed", nullable = false)
-    private Boolean isConfirmed = false; //set false as default value
+    private boolean isConfirmed = false; //set false as default value
+
+    @Column(name = "confirm_id", nullable = false)
+    private String confirmId;
 
     @OneToMany(mappedBy = "userEntity", cascade = {CascadeType.ALL},
             orphanRemoval = true, fetch = FetchType.EAGER)
     @OnDelete(action = OnDeleteAction.CASCADE)
     private List<UserInquirerEntity> userInquirerList = new ArrayList<>();
 
+    @SuppressWarnings("UnusedDeclaration")
     public UserEntity() {
-    }
-
-    public UserEntity(String username, String email, String password,
-                      Role role, Boolean isConfirmed) {
-        this.username = username;
-        this.email = email;
-        this.password = password;
-        this.role = role;
-        this.isConfirmed = isConfirmed;
     }
 
     public UserEntity(UserDTO userDTO) {
@@ -63,7 +58,8 @@ public class UserEntity implements Serializable{
         this.email = userDTO.getEmail();
         this.password = userDTO.getPassword();
         this.role = userDTO.getRole();
-        this.isConfirmed = userDTO.getIsConfirmed();
+        this.isConfirmed = userDTO.isConfirmed();
+        this.confirmId = userDTO.getConfirmId();
         List<UserInquirerDTO> userInquirerDTOList = userDTO.getUserInquirerList();
         for (UserInquirerDTO userInquirerDTO : userInquirerDTOList){
             userInquirerList.add(new UserInquirerEntity(userInquirerDTO, this));
@@ -132,11 +128,19 @@ public class UserEntity implements Serializable{
         this.userInquirerList = userInquirerList;
     }
 
-    public Boolean getIsConfirmed() {
+    public boolean isConfirmed() {
         return isConfirmed;
     }
 
-    public void setIsConfirmed(Boolean isConfirmed) {
+    public void setConfirmed(boolean isConfirmed) {
         this.isConfirmed = isConfirmed;
+    }
+
+    public String getConfirmId() {
+        return confirmId;
+    }
+
+    public void setConfirmId(String confirmId) {
+        this.confirmId = confirmId;
     }
 }

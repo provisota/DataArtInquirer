@@ -23,4 +23,6 @@ public interface UserServiceAsync {
     void addTestUsers(AsyncCallback<Void> async);
 
     void getLoggedInUser(AsyncCallback<UserDTO> async);
+
+    void findUserByConfirmId(String confirmId, AsyncCallback<UserDTO> async);
 }
