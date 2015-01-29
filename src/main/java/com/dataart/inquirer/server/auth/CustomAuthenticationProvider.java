@@ -17,11 +17,16 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
 
     @Autowired
     private UserService userService;
+    private boolean testUsersAdded;
 
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
-        //add test user & admin records (remove for production)
-        userService.addTestUsers();
+
+        if (!testUsersAdded) {
+            //add test user & admin records (remove for production)
+            userService.addTestUsers();
+        }
+        testUsersAdded = true;
 
         String username = null;
         try {
