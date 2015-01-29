@@ -9,6 +9,7 @@
     <!-- Bootstrap core CSS -->
     <link type="text/css" href="<c:url value="resources/css/bootstrap.min.css" />"
           rel="stylesheet">
+    <script src='https://www.google.com/recaptcha/api.js'></script>
 </head>
 <style>
     form {
@@ -32,6 +33,7 @@
     <c:url var="resendUrl" value="resend.do"/>
     <form action="${resendUrl}" method="post">
         <p style="color: red; font-size: medium">${requestScope.error_message}</p>
+
         <p style="color: green; font-size: medium">${requestScope.success_message}</p>
         <fieldset>
             <p></p>
@@ -54,17 +56,14 @@
                         </p>
                     </td>
                 </tr>
-                <tr>
-                    <th></th>
-                    <td>
-                        <button style="width: 200px; margin: auto auto 5px;"
-                                class="btn btn-success btn-block" name="commit"
-                                type="submit">Отправить
-                        </button>
-                    </td>
-                </tr>
             </table>
-            <%-- TODO Здесь будет капча --%>
+            <div class="g-recaptcha"
+                 data-sitekey="6Ld-ogATAAAAAOzGjMIoTkptzJ_NomGP8HfApVfk"></div>
+            <p></p>
+            <button style="width: 200px; margin: auto auto 5px;"
+                    class="btn btn-success btn-block" name="commit"
+                    type="submit">Отправить
+            </button>
         </fieldset>
     </form>
     <script type="text/javascript">

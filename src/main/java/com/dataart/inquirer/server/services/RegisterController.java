@@ -7,6 +7,8 @@ import com.dataart.inquirer.server.registration.UserRegistrator;
 import com.dataart.inquirer.shared.dto.user.UserDTO;
 import com.dataart.inquirer.shared.enums.Role;
 import com.dataart.inquirer.shared.utils.RegExpPatterns;
+import org.apache.log4j.Logger;
+import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,6 +19,12 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.util.HashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -26,6 +34,7 @@ import java.util.regex.Pattern;
 @SuppressWarnings("SpringMVCViewInspection")
 @Controller
 public class RegisterController {
+    private static final Logger logger = Logger.getLogger(RegisterController.class);
     private Pattern pattern;
     private Matcher matcher;
 
@@ -67,14 +76,17 @@ public class RegisterController {
 
     @RequestMapping(value = "/resend.do", method = RequestMethod.POST)
     public String resendPassword(@RequestParam("email") String email,
+                                 @RequestParam("g-recaptcha-response") String recaptcha,
                                  Model model) {
+        String requestUrl = "https://www.google.com/recaptcha/api/siteverify?" +
+                "secret=6Ld-ogATAAAAAKC11Ld3w80Eeu4dLSeJAmuXbEL1&response=" + recaptcha;
         model.addAttribute("email", email);
-        if (!isValidEmail(model, email)) {
+        if (!isValidEmail(model, email) || !checkRecaptcha(model, requestUrl)) {
             return "resend";
         }
+
         model.addAttribute("success_message",
                 "на вашу почту выслано письмо с подтвержением");
-
         UserDTO confirmedUser = userService.findUserByEmail(email);
         if (confirmedUser == null) {
             return "login";
@@ -139,6 +151,45 @@ public class RegisterController {
         model.addAttribute("email", "");
         model.addAttribute("password", "");
         model.addAttribute("confirm_password", "");
+    }
+
+    private boolean checkRecaptcha(Model model, String requestUrl) {
+        BufferedReader in = null;
+        boolean response = false;
+        try {
+            URL url = new URL(requestUrl);
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod("GET");
+
+            int responseCode = connection.getResponseCode();
+            String responseMessage = connection.getResponseMessage();
+
+            logger.debug("Sending 'GET' request to recaptcha URL : " + url);
+            logger.debug("Response code : " + responseCode + " " + responseMessage);
+
+            in = new BufferedReader(
+                    new InputStreamReader(connection.getInputStream()));
+
+            HashMap recaptchaResponse = new ObjectMapper().readValue(in, HashMap.class);
+            response = (boolean) recaptchaResponse.get("success");
+            logger.debug("recaptcha response: " + response);
+        } catch (IOException e) {
+            logger.error("Something wrong with recaptcha");
+            e.printStackTrace();
+        } finally {
+            try {
+                if (in != null) {
+                    in.close();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        if (!response){
+            model.addAttribute("error_message",
+                    "Пожалуйста, подтвердите что вы не робот.");
+        }
+        return response;
     }
 
     private String getBaseUrl() {
