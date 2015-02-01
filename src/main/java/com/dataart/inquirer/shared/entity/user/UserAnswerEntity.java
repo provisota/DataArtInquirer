@@ -19,6 +19,9 @@ public class UserAnswerEntity implements Serializable {
     @Column(name = "id", nullable = false, unique = true)
     private int id;
 
+    @Column(name = "description", nullable = false)
+    String description;
+
     @Column(name = "is_mark_as_right")
     private boolean isMarkAsRight;
 
@@ -30,13 +33,10 @@ public class UserAnswerEntity implements Serializable {
     public UserAnswerEntity() {
     }
 
-    public UserAnswerEntity(boolean isMarkAsRight) {
-        this.isMarkAsRight = isMarkAsRight;
-    }
-
     public UserAnswerEntity(UserAnswerDTO answerDTO,
                             UserQuestionEntity userQuestionEntity) {
         this.id = answerDTO.getId();
+        this.description = answerDTO.getDescription();
         this.isMarkAsRight = answerDTO.isMarkAsRight();
         this.userQuestionEntity = userQuestionEntity;
     }
@@ -47,6 +47,14 @@ public class UserAnswerEntity implements Serializable {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public boolean isMarkAsRight() {
@@ -69,6 +77,7 @@ public class UserAnswerEntity implements Serializable {
     public String toString() {
         return "UserAnswerEntity{" +
                 "id=" + id +
+                ", description=" + description +
                 ", isMarkAsRight=" + isMarkAsRight +
                 ", userQuestionEntityId=" + userQuestionEntity.getId() +
                 "}\n";

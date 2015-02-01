@@ -130,10 +130,12 @@ public class EntityDTOConverter {
                 userAnswerDTOs.add(createUserAnswerDTO(answerEntity));
             }
         }
-        return new UserQuestionDTO(userQuestionEntity.getId(), userAnswerDTOs);
+        return new UserQuestionDTO(userQuestionEntity.getId(),
+                userQuestionEntity.getDescription(), userAnswerDTOs);
     }
 
     private UserAnswerDTO createUserAnswerDTO(UserAnswerEntity answerEntity) {
-        return new UserAnswerDTO(answerEntity.getId(), answerEntity.isMarkAsRight());
+        return new UserAnswerDTO(answerEntity.getId(), answerEntity.getDescription(),
+                answerEntity.isMarkAsRight());
     }
 }

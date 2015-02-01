@@ -24,6 +24,9 @@ public class UserQuestionEntity implements Serializable {
     @Column(name = "id", nullable = false, unique = true)
     private int id;
 
+    @Column(name = "description", nullable = false)
+    private String description;
+
     @ManyToOne
     @JoinColumn(name = "FK_userInquirerId", nullable = false,
             referencedColumnName = "id")
@@ -40,6 +43,7 @@ public class UserQuestionEntity implements Serializable {
     public UserQuestionEntity(UserQuestionDTO questionDTO,
                               UserInquirerEntity userInquirerEntity) {
         this.id = questionDTO.getId();
+        this.description = questionDTO.getDescription();
         this.userInquirerEntity = userInquirerEntity;
         List<UserAnswerDTO> answerDTOList = questionDTO.getAnswersList();
         for (UserAnswerDTO answerDTO : answerDTOList){
@@ -53,6 +57,14 @@ public class UserQuestionEntity implements Serializable {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public UserInquirerEntity getUserInquirerEntity() {
@@ -75,6 +87,7 @@ public class UserQuestionEntity implements Serializable {
     public String toString() {
         return "UserQuestionEntity{" +
                 "id=" + id +
+                ", description=" + description +
                 ", userInquirerEntityId=" + userInquirerEntity.getId() +
                 ", answersList=" + answersList +
                 "}\n";

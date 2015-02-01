@@ -153,4 +153,8 @@ public class UserQuestionWidget extends Composite {
     public VerticalPanel getAnswerPanel() {
         return answerPanel;
     }
+
+    public String getQuestionDescription() {
+        return questionDTO.getDescription();
+    }
 }

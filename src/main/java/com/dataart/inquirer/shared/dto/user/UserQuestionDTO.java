@@ -10,21 +10,20 @@ import java.util.List;
 public class UserQuestionDTO implements Serializable {
     private static final long serialVersionUID = 4711429049055676069L;
     private int id;
+    private String description;
     private List<UserAnswerDTO> answersList = new ArrayList<>();
 
+    @SuppressWarnings("UnusedDeclaration")
     public UserQuestionDTO() {
     }
 
-    public UserQuestionDTO(int id) {
-        this.id = id;
+    public UserQuestionDTO(String description) {
+        this.description = description;
     }
 
-    public UserQuestionDTO(List<UserAnswerDTO> answersList) {
-        this.answersList = answersList;
-    }
-
-    public UserQuestionDTO(int id, List<UserAnswerDTO> answersList) {
+    public UserQuestionDTO(int id, String description, List<UserAnswerDTO> answersList) {
         this.id = id;
+        this.description = description;
         this.answersList = answersList;
     }
 
@@ -34,6 +33,14 @@ public class UserQuestionDTO implements Serializable {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public List<UserAnswerDTO> getAnswersList() {
@@ -46,8 +53,9 @@ public class UserQuestionDTO implements Serializable {
 
     @Override
     public String toString() {
-        return "UserQuestionDTO{" +
+        return "\n\nUserQuestionDTO{" +
                 "id=" + id +
+                ", description=" + description +
                 ", answersList=" + answersList +
                 '}';
     }
@@ -59,6 +67,7 @@ public class UserQuestionDTO implements Serializable {
 
         UserQuestionDTO that = (UserQuestionDTO) o;
 
+        //noinspection RedundantIfStatement
         if (id != that.id) return false;
 
         return true;

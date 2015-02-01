@@ -8,18 +8,22 @@ import java.io.Serializable;
 public class UserAnswerDTO implements Serializable {
     private static final long serialVersionUID = 4797654395800070760L;
     private int id;
+    private String description;
     private boolean isMarkAsRight;
 
+    @SuppressWarnings("UnusedDeclaration")
     public UserAnswerDTO() {
     }
 
-    public UserAnswerDTO(int id, boolean isMarkAsRight) {
+    public UserAnswerDTO(int id, String description, boolean isMarkAsRight) {
         this.id = id;
+        this.description = description;
         this.isMarkAsRight = isMarkAsRight;
     }
 
-    public UserAnswerDTO(boolean isMarkAsRight) {
+    public UserAnswerDTO(boolean isMarkAsRight, String description) {
         this.isMarkAsRight = isMarkAsRight;
+        this.description = description;
     }
 
     public int getId() {
@@ -28,6 +32,14 @@ public class UserAnswerDTO implements Serializable {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public boolean isMarkAsRight() {
@@ -40,8 +52,9 @@ public class UserAnswerDTO implements Serializable {
 
     @Override
     public String toString() {
-        return "UserAnswerDTO{" +
+        return "\nUserAnswerDTO{" +
                 "id=" + id +
+                ", description=" + description +
                 ", isMarkAsRight=" + isMarkAsRight +
                 '}';
     }
@@ -54,6 +67,7 @@ public class UserAnswerDTO implements Serializable {
         UserAnswerDTO answerDTO = (UserAnswerDTO) o;
 
         if (id != answerDTO.id) return false;
+        //noinspection RedundantIfStatement
         if (isMarkAsRight != answerDTO.isMarkAsRight) return false;
 
         return true;
