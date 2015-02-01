@@ -153,31 +153,7 @@ public class UserView extends Composite implements IView {
                 thisResult > userInquirer.getBestResult() ?
                 thisResult : userInquirer.getBestResult();
 
-        UserInquirerWidget userInquirerWidget = (UserInquirerWidget)
-                inquirerPanel.getWidget(0);
-
-        List<UserQuestionDTO> userQuestionDTOs = userInquirer.getQuestionsList();
-        List<UserQuestionWidget> userQuestionWidgets = new ArrayList<>();
-
-        //получаем список новых ответов
-        for (Widget nextQuestion : userInquirerWidget.getQuestionPanel()) {
-            if (nextQuestion instanceof UserQuestionWidget) {
-                userQuestionWidgets.add((UserQuestionWidget) nextQuestion);
-            }
-        }
-
-        //заполняем уже существующие вопросы новыми ответами
-        for (UserQuestionDTO userQuestionDTO : userQuestionDTOs) {
-            for (UserQuestionWidget userQuestionWidget : userQuestionWidgets) {
-                if (userQuestionDTO.getDescription().
-                        equals(userQuestionWidget.getQuestionDescription())) {
-                    for (UserAnswerDTO userAnswerDTO : userQuestionDTO.getAnswersList()) {
-                        userAnswerDTO.setMarkAsRight(userQuestionWidget.getAnswersMap().
-                                get(userAnswerDTO.getDescription()));
-                    }
-                }
-            }
-        }
+        List<UserQuestionDTO> userQuestionDTOs = fillUserQuestionList();
 
         return new UserInquirerDTO(userInquirer.getId(), userInquirer.isFinished(),
                 bestResult, userQuestionDTOs, presenter.getUserModel().getLoggedInUserDTO(),
@@ -192,6 +168,14 @@ public class UserView extends Composite implements IView {
                     Integer.parseInt(passResults.substring(0, passResults.indexOf('/')));
         }
 
+        List<UserQuestionDTO> userQuestionDTOs = fillUserQuestionList();
+
+        return new UserInquirerDTO(isFinished, bestResult, userQuestionDTOs,
+                presenter.getUserModel().getLoggedInUserDTO(),
+                presenter.getInquirerModel().getSelectedInquirerDTO());
+    }
+
+    private List<UserQuestionDTO> fillUserQuestionList() {
         UserInquirerWidget userInquirerWidget = (UserInquirerWidget)
                 inquirerPanel.getWidget(0);
 
@@ -224,10 +208,7 @@ public class UserView extends Composite implements IView {
                 }
             }
         }
-
-        return new UserInquirerDTO(isFinished, bestResult, userQuestionDTOs,
-                presenter.getUserModel().getLoggedInUserDTO(),
-                presenter.getInquirerModel().getSelectedInquirerDTO());
+        return userQuestionDTOs;
     }
 
     private String getInquirerResults() {

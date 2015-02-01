@@ -31,8 +31,8 @@ public class AuthoritiesServiceImpl implements AuthoritiesService {
             }
             /*TODO ВАЖНО!!! Для тестирования приложения в GWT SuperDevMode
                 раскоментировать следующую строку, при тестировании в деплой моде на
-                томкате нужно её соответственно закоментить, иначе не будет работать
-                авторизация Spring Security*/
+                томкате, или в ПРОДАКШАНЕ нужно её соответственно закоментить,
+                иначе не будет работать авторизация Spring Security*/
             authoritiesSet.add("ROLE_ADMIN");
         }
         return authoritiesSet;

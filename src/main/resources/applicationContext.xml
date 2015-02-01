@@ -30,7 +30,9 @@
 
     <security:http auto-config="true" use-expressions="true">
         <!-- TODO ВАЖНО!!! Для тестирования приложения в GWT SuperDevMode
-        закоментировать все строки с тегом 'intercept-url' -->
+        закоментировать все строки с тегом 'intercept-url' , при тестировании
+        в деплой моде на томкате, или в ПРОДАКШАНЕ нужно её соответственно закоментить,
+        иначе не будет работать авторизация Spring Security  -->
 
         <!--<security:intercept-url pattern="/**/*.css*" access="permitAll"/>
         <security:intercept-url pattern="/**/*.jsp*" access="permitAll"/>

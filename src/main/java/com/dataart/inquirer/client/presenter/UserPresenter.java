@@ -8,8 +8,10 @@ import com.dataart.inquirer.client.services.UserInquirerServiceAsync;
 import com.dataart.inquirer.client.services.UserServiceAsync;
 import com.dataart.inquirer.client.view.user.UserView;
 import com.dataart.inquirer.shared.dto.inquirer.InquirerDTO;
+import com.dataart.inquirer.shared.dto.user.UserAnswerDTO;
 import com.dataart.inquirer.shared.dto.user.UserDTO;
 import com.dataart.inquirer.shared.dto.user.UserInquirerDTO;
+import com.dataart.inquirer.shared.dto.user.UserQuestionDTO;
 import com.google.gwt.user.client.ui.Widget;
 
 import java.util.ArrayList;
@@ -81,6 +83,13 @@ public final class UserPresenter implements IPresenter {
     private void addUserInquirer(final UserInquirerDTO userInquirerDTO) {
 //        Window.confirm(String.valueOf("созданный опросник\n" +
 //                userInquirerDTO));
+        if (userInquirerDTO.isFinished()) {
+            for (UserQuestionDTO userQuestionDTO : userInquirerDTO.getQuestionsList()) {
+                for (UserAnswerDTO userAnswerDTO : userQuestionDTO.getAnswersList()) {
+                    userAnswerDTO.setMarkAsRight(false);
+                }
+            }
+        }
         userInquirerServiceAsync.addUserInquirer(userInquirerDTO,
                 new CommonAsyncCallback<UserInquirerDTO>() {
                     @Override
