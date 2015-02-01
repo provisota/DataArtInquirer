@@ -2,6 +2,8 @@ package com.dataart.inquirer.client.view.user.widgets;
 
 import com.dataart.inquirer.shared.dto.inquirer.AnswerDTO;
 import com.dataart.inquirer.shared.dto.inquirer.QuestionDTO;
+import com.dataart.inquirer.shared.dto.user.UserAnswerDTO;
+import com.dataart.inquirer.shared.dto.user.UserQuestionDTO;
 import com.dataart.inquirer.shared.enums.AnswerType;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.*;
@@ -30,14 +32,19 @@ public class UserQuestionWidget extends Composite {
     VerticalPanel answerPanel;
     private Map<String, Boolean> answersMap = new HashMap<>();
     private QuestionDTO questionDTO;
+    private List<UserAnswerDTO> userAnswerList;
 
     public UserQuestionWidget() {
         initWidget(ourUiBinder.createAndBindUi(this));
     }
 
-    public UserQuestionWidget(int questionNumber, QuestionDTO questionDTO) {
+    public UserQuestionWidget(int questionNumber, QuestionDTO questionDTO,
+                              UserQuestionDTO userQuestionDTO) {
         this();
         this.questionDTO = questionDTO;
+        this.userAnswerList = userQuestionDTO.getAnswersList();
+
+
         if (questionDTO.getAnswerType() != AnswerType.TEXT_BOX) {
             resetAnswersMap();
         }
@@ -70,6 +77,15 @@ public class UserQuestionWidget extends Composite {
         final TextBox textBox = new TextBox();
         textBox.setPlaceholder("введите сюда ваш ответ");
         textBox.setWidth("50%");
+
+        if (!userAnswerList.isEmpty()) {
+            textBox.setValue(userAnswerList.get(0).getDescription());
+            answersMap.clear();
+            if (!"".equals(textBox.getText())) {
+                answersMap.put(textBox.getText(), true);
+            }
+        }
+
         textBox.addBlurHandler(new BlurHandler() {
             @Override
             public void onBlur(BlurEvent event) {
@@ -87,6 +103,17 @@ public class UserQuestionWidget extends Composite {
         answerPanel.addStyleName("user-answer-panel-with-line");
         for (AnswerDTO answerDTO : answersList) {
             final CheckBox checkBox = new CheckBox(answerDTO.getDescription());
+
+            if (!userAnswerList.isEmpty()) {
+                for (UserAnswerDTO userAnswerDTO : userAnswerList) {
+                    if (answerDTO.getDescription()
+                            .equals(userAnswerDTO.getDescription())) {
+                        checkBox.setValue(userAnswerDTO.isMarkAsRight());
+                        answersMap.put(checkBox.getText(), checkBox.getValue());
+                    }
+                }
+            }
+
             checkBox.addClickHandler(new ClickHandler() {
                 @Override
                 public void onClick(ClickEvent event) {
@@ -112,9 +139,22 @@ public class UserQuestionWidget extends Composite {
                 }
             }
         });
-        for (AnswerDTO answerDTO : answersList) {
-            listBox.addItem(answerDTO.getDescription());
+
+        for (int i = 0; i < answersList.size(); i++) {
+            listBox.addItem(answersList.get(i).getDescription());
+            if (!userAnswerList.isEmpty()) {
+                for (UserAnswerDTO userAnswerDTO : userAnswerList) {
+                    if (answersList.get(i).getDescription()
+                            .equals(userAnswerDTO.getDescription())) {
+                        if (userAnswerDTO.isMarkAsRight()) {
+                            listBox.setSelectedIndex(i + 1);
+                            answersMap.put(listBox.getSelectedItemText(), true);
+                        }
+                    }
+                }
+            }
         }
+
         addFocusHandler(listBox);
         answerPanel.add(listBox);
     }
@@ -125,6 +165,20 @@ public class UserQuestionWidget extends Composite {
         for (AnswerDTO answerDTO : answersList) {
             final RadioButton radioButton = new RadioButton("radioGroup",
                     answerDTO.getDescription());
+
+            if (!userAnswerList.isEmpty()) {
+                for (UserAnswerDTO userAnswerDTO : userAnswerList) {
+                    if (answerDTO.getDescription()
+                            .equals(userAnswerDTO.getDescription())) {
+                        if (userAnswerDTO.isMarkAsRight()) {
+                            radioButton.setValue(userAnswerDTO.isMarkAsRight());
+                            answersMap.put(radioButton.getText(),
+                                    userAnswerDTO.isMarkAsRight());
+                        }
+                    }
+                }
+            }
+
             radioButton.addClickHandler(new ClickHandler() {
                 @Override
                 public void onClick(ClickEvent event) {

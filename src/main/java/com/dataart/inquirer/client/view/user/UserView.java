@@ -291,7 +291,8 @@ public class UserView extends Composite implements IView {
     }
 
     private void showInquirer(InquirerDTO selectedInquirer) {
-        inquirerPanel.add(new UserInquirerWidget(selectedInquirer));
+        inquirerPanel.add(new UserInquirerWidget(
+                selectedInquirer, presenter.getUserModel().getLoggedInUserDTO()));
     }
 
     public void resetInquirerPanel() {

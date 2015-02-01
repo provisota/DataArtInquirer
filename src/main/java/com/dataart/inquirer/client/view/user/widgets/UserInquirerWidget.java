@@ -2,6 +2,9 @@ package com.dataart.inquirer.client.view.user.widgets;
 
 import com.dataart.inquirer.shared.dto.inquirer.InquirerDTO;
 import com.dataart.inquirer.shared.dto.inquirer.QuestionDTO;
+import com.dataart.inquirer.shared.dto.user.UserDTO;
+import com.dataart.inquirer.shared.dto.user.UserInquirerDTO;
+import com.dataart.inquirer.shared.dto.user.UserQuestionDTO;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiConstructor;
@@ -31,15 +34,34 @@ public class UserInquirerWidget extends Composite {
         initWidget(ourUiBinder.createAndBindUi(this));
     }
 
-    public UserInquirerWidget(InquirerDTO inquirerDTO) {
+    public UserInquirerWidget(InquirerDTO inquirerDTO, UserDTO loggedInUserDTO) {
         this();
         this.inquirerName.setText(inquirerDTO.getName());
         this.inquirerDescription.setText(inquirerDTO.getDescription());
         int questionNumber = 1;
         for (QuestionDTO questionDTO : inquirerDTO.getQuestionsList()){
-            questionPanel.add(new UserQuestionWidget(questionNumber, questionDTO));
+            UserQuestionDTO userQuestionDTO = getUserQuestionDTO(
+                    inquirerDTO, questionDTO, loggedInUserDTO);
+            questionPanel.add(new UserQuestionWidget(questionNumber, questionDTO,
+                    userQuestionDTO));
             questionNumber++;
         }
+    }
+
+    private UserQuestionDTO getUserQuestionDTO( final InquirerDTO inquirerDTO,
+                                                final QuestionDTO questionDTO,
+                                                final UserDTO loggedInUserDTO) {
+        for (UserInquirerDTO userInquirerDTO : inquirerDTO.getUserInquirerList()){
+            if (loggedInUserDTO.equals(userInquirerDTO.getUserDTO())){
+                for (UserQuestionDTO userQuestionDTO : userInquirerDTO.getQuestionsList()){
+                    if (questionDTO.getDescription()
+                            .equals(userQuestionDTO.getDescription())){
+                        return userQuestionDTO;
+                    }
+                }
+            }
+        }
+        return new UserQuestionDTO();
     }
 
     public VerticalPanel getQuestionPanel() {
