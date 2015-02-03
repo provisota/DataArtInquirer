@@ -9,7 +9,6 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.*;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.*;
 import org.gwtbootstrap3.client.ui.ListBox;
 import org.gwtbootstrap3.client.ui.TextBox;
@@ -166,7 +165,6 @@ public class UserQuestionWidget extends Composite {
         for (AnswerDTO answerDTO : answersList) {
             final RadioButton radioButton = new RadioButton("radioGroup" + questionNumber,
                     answerDTO.getDescription());
-            Window.alert(String.valueOf(questionNumber));
             if (!userAnswerList.isEmpty()) {
                 for (UserAnswerDTO userAnswerDTO : userAnswerList) {
                     if (answerDTO.getDescription()
