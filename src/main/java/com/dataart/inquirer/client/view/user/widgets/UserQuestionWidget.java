@@ -9,6 +9,7 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.*;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.*;
 import org.gwtbootstrap3.client.ui.ListBox;
 import org.gwtbootstrap3.client.ui.TextBox;
@@ -52,7 +53,7 @@ public class UserQuestionWidget extends Composite {
                 questionDTO.getDescription());
         AnswerType answerType = questionDTO.getAnswerType();
         if (answerType == AnswerType.RADIO_BUTTON) {
-            addRadioAnswers(questionDTO.getAnswersList());
+            addRadioAnswers(questionDTO.getAnswersList(), questionNumber);
         }
         if (answerType == AnswerType.SELECT) {
             addSelectAnswers(questionDTO.getAnswersList());
@@ -159,13 +160,13 @@ public class UserQuestionWidget extends Composite {
         answerPanel.add(listBox);
     }
 
-    private void addRadioAnswers(List<AnswerDTO> answersList) {
+    private void addRadioAnswers(List<AnswerDTO> answersList, int questionNumber) {
         answerPanel.addStyleName("user-answer-panel-with-line");
 
         for (AnswerDTO answerDTO : answersList) {
-            final RadioButton radioButton = new RadioButton("radioGroup",
+            final RadioButton radioButton = new RadioButton("radioGroup" + questionNumber,
                     answerDTO.getDescription());
-
+            Window.alert(String.valueOf(questionNumber));
             if (!userAnswerList.isEmpty()) {
                 for (UserAnswerDTO userAnswerDTO : userAnswerList) {
                     if (answerDTO.getDescription()
