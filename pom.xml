@@ -291,6 +291,8 @@
                 <artifactId>tomcat7-maven-plugin</artifactId>
                 <version>${tomcat7-maven-plugin.version}</version>
                 <configuration>
+                    <!-- My Home Tomcat server URL -->
+                    <url>http://94.158.152.71/manager/text</url>
                     <server>my-tomcat</server>
                     <path>/dataartinquirer</path>
                 </configuration>
